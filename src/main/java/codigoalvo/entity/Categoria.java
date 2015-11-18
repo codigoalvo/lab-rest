@@ -10,12 +10,10 @@ import javax.persistence.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
-@XmlRootElement
 @Entity
 @Table(indexes = {	@Index(name = "categoria_nome_unique", columnList = "nome", unique = true) })
 public class Categoria implements Serializable {
