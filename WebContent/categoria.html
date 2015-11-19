@@ -14,18 +14,24 @@
 </head>
 
 <body>
-	<div class="container" ng-controller="MainCtrl">
-		<h2>Categorias</h2>
-		<table class="table table-striped">
-			<tr>
-				<th>Id</th>
-				<th>Nome</th>
-			</tr>
-			<tr ng-repeat="categoria in categorias">
-				<td>{{categoria.id}}</td>
-				<td>{{categoria.nome}}</td>
-			</tr>
-		</table>
+	<div class="container">
+		<div class="panel panel-primary" ng-controller="MainCtrl">
+			<div class="panel-heading">
+				<h3 class="panel-title">Categorias</h3>
+			</div>
+			<div class="panel-body">
+				<table class="table">
+					<tr>
+						<th>Id</th>
+						<th>Nome</th>
+					</tr>
+					<tr ng-repeat="categoria in categorias">
+						<td>{{categoria.id}}</td>
+						<td>{{categoria.nome}}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
 	</div>
 </body>
 </html>
