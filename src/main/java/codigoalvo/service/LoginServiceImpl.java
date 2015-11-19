@@ -3,7 +3,6 @@ package codigoalvo.service;
 import java.util.Date;
 
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
 import javax.security.auth.login.LoginException;
 
 import org.apache.log4j.Logger;
@@ -11,6 +10,7 @@ import org.apache.log4j.Logger;
 import codigoalvo.entity.Usuario;
 import codigoalvo.repository.UsuarioDao;
 import codigoalvo.repository.UsuarioDaoJpa;
+import codigoalvo.util.EntityManagerUtil;
 import codigoalvo.util.MsgParamUtil;
 import codigoalvo.util.SegurancaUtil;
 import codigoalvo.util.SegurancaUtilMd5;
@@ -25,7 +25,7 @@ public class LoginServiceImpl implements LoginService {
 
 	public LoginServiceImpl() {
 		LOGGER.debug("####################  construct  ####################");
-		this.usuarioDao = new UsuarioDaoJpa(Persistence.createEntityManagerFactory("default").createEntityManager());
+		this.usuarioDao = new UsuarioDaoJpa(EntityManagerUtil.getEntityManager());
 		this.segurancaUtil = new SegurancaUtilMd5();
 	}
 

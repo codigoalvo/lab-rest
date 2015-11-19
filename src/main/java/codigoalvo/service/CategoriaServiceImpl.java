@@ -4,13 +4,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
-
 import org.apache.log4j.Logger;
 
 import codigoalvo.entity.Categoria;
 import codigoalvo.repository.CategoriaDao;
 import codigoalvo.repository.CategoriaDaoJpa;
+import codigoalvo.util.EntityManagerUtil;
 
 public class CategoriaServiceImpl implements CategoriaService {
 
@@ -18,7 +17,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
 	public CategoriaServiceImpl() {
 		Logger.getLogger(CategoriaServiceImpl.class).debug("####################  construct  ####################");
-		this.dao = new CategoriaDaoJpa(Persistence.createEntityManagerFactory("default").createEntityManager());
+		this.dao = new CategoriaDaoJpa(EntityManagerUtil.getEntityManager());
 	}
 
 	@Override

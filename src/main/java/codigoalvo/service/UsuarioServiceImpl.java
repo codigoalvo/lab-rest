@@ -4,13 +4,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
-
 import org.apache.log4j.Logger;
 
 import codigoalvo.entity.Usuario;
 import codigoalvo.repository.UsuarioDao;
 import codigoalvo.repository.UsuarioDaoJpa;
+import codigoalvo.util.EntityManagerUtil;
 import codigoalvo.util.SegurancaUtil;
 import codigoalvo.util.SegurancaUtilMd5;
 
@@ -21,7 +20,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	public UsuarioServiceImpl() {
 		Logger.getLogger(UsuarioServiceImpl.class).debug("####################  construct  ####################");
-		this.dao = new UsuarioDaoJpa(Persistence.createEntityManagerFactory("default").createEntityManager());
+		this.dao = new UsuarioDaoJpa(EntityManagerUtil.getEntityManager());
 		this.segurancaUtil = new SegurancaUtilMd5();
 	}
 
