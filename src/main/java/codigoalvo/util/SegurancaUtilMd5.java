@@ -1,8 +1,6 @@
 package codigoalvo.util;
 
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
@@ -22,7 +20,7 @@ public class SegurancaUtilMd5 implements SegurancaUtil {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			byte[] bytes = md.digest(conteudo.trim().toUpperCase().getBytes("UTF-8"));
 			return new String(Base64.encodeBase64(bytes));
-		} catch (NoSuchAlgorithmException | UnsupportedEncodingException exc) {
+		} catch (Exception exc) {
 			exc.printStackTrace();
 			throw new RuntimeException("Erro ao criptografar conteúdo. " + exc.getMessage());
 		}

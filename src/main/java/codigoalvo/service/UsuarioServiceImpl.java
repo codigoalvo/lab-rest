@@ -46,7 +46,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 				usuario.setSenha(senhaText);
 			}
 			this.dao.rollback();
-			throw exc;
+			throw new SQLException(exc);
 		}
 
 	}

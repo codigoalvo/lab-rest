@@ -35,7 +35,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 			return categoria;
 		} catch (Throwable exc) {
 			this.dao.rollback();
-			throw exc;
+			throw new SQLException(exc);
 		}
 
 	}
