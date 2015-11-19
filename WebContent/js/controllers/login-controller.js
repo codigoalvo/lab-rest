@@ -16,8 +16,8 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $http) 
 				console.log('idUsuario', resp.data.id);
 				console.log('Success', resp);
 			}, function(err) {
+				$scope.usuarioLogado = err;
 				console.error('Error', err);
-				// err.status will contain the status code
 		})
 	};
 })
