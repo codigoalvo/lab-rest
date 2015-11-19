@@ -29,12 +29,15 @@
 	</build>
 
 	<dependencies>
+
+		<!-- H2 Database -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>1.4.190</version>
 		</dependency>
 
+		<!-- Jersey / JAX-RS -->
 		<dependency>
 			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-client</artifactId>
@@ -56,6 +59,15 @@
 			<version>2.22.1</version>
 		</dependency>
 
+		<!-- Jersey Client (for testing purposes) -->
+		<!--
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>2.22.1</version>
+		</dependency>
+		-->
+
 		<!--
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -64,6 +76,7 @@
 		</dependency>
 		-->
 
+		<!-- Hibernate dependencies -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>

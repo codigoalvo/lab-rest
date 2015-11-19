@@ -5,9 +5,13 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
+import org.apache.log4j.Logger;
 
 import codigoalvo.entity.Categoria;
 import codigoalvo.service.CategoriaService;
@@ -18,13 +22,21 @@ import codigoalvo.service.CategoriaServiceImpl;
 public class CategoriaREST {
 
 	private static final String UTF8 = ";charset=UTF-8";
+	private static final Logger LOG = Logger.getLogger(CategoriaREST.class);
 
 	CategoriaService service = new CategoriaServiceImpl();
+
+	public CategoriaREST() {
+		LOG.debug("####################  construct  ####################");
+	}
 
 	@Path("/list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
-	public Categoria[] list() {
+	public Categoria[] list(@Context HttpHeaders headers) {
+		for(String header : headers.getRequestHeaders().keySet()){
+			LOG.debug("### Header ###   "+header+" = "+headers.getRequestHeaders().get(header));
+		}
 		return this.service.listar().toArray(new Categoria[0]);
 	}
 
