@@ -1,13 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="alvoApp">
 <head>
 <meta charset="UTF-8">
-<title>lab-rest - home</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+
+<link href="css/login.css" rel="stylesheet">
+
+<script src="js/lib/angular.min.js"></script>
+<script src="js/lib/angular-route.min.js"></script>
+<!--
+<script src="js/lib/angular-animate.min.js"></script>
+<script src="js/lib/angular-resource.min.js"></script>
+-->
+
+<script src="js/main.js"></script>
+<script src="js/controllers/categorias-controller.js"></script>
+<script src="js/controllers/login-controller.js"></script>
+
+<title>AngularJS REST - appAlvo</title>
+<style type="text/css">
+.spacing-top {
+	margin-top:20px;
+}
+</style>
+
+<base href="/lab-rest/">
+
 </head>
+
 <body>
-	<h1>Hello World</h1>
-	<a href="ws/categoria/list">Lista de Categorias - REST</a><br/>
-	<a href="categoria.html">Lista de Categorias - Angular</a><br/>
-	<a href="login.html">Login - Angular</a><br/>
+	<div class="container">
+
+		<ng-view></ng-view>
+
+	</div>
 </body>
 </html>

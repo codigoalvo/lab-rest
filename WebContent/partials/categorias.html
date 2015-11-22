@@ -1,0 +1,19 @@
+<div class="panel panel-primary row spacing-top" ng-controller="CategoriasController">
+	<div class="panel-heading">
+		<h3 class="panel-title text-center">Categorias</h3>
+	</div>
+	<table class="table table-striped table-bordered">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Nome</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="categoria in categorias">
+				<td>{{categoria.id}}</td>
+				<td>{{categoria.nome}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
