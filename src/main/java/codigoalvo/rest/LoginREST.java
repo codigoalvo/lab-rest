@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import codigoalvo.entity.Usuario;
 import codigoalvo.service.LoginService;
 import codigoalvo.service.LoginServiceImpl;
+import codigoalvo.util.JasonWebTokenUtil;
 
 
 @Path("/login")
@@ -41,7 +42,9 @@ public class LoginREST {
 			System.out.println("usuarioLoginStr: "+usuarioLoginStr);
 			System.out.println("usuarioLogin: "+usuarioLogin);
 			Usuario usuario = this.service.efetuarLogin(usuarioLogin.getLogin(), usuarioLogin.getSenha());
-			return Response.status(Status.OK).entity(usuario).build();
+			String token = JasonWebTokenUtil.criarJWT(usuario, 30);
+			LOG.debug("TOKEN: "+token);
+			return Response.status(Status.OK).header("auth", token).entity(usuario).build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Usuario()).build();

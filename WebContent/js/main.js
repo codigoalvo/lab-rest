@@ -1,7 +1,9 @@
-angular.module('alvoApp', ['ngRoute'])
-	.config(function($routeProvider, $locationProvider) {
+angular.module('alvoApp', ['ngRoute', 'ngResource'])
+	.config(function($routeProvider, $httpProvider, $locationProvider) {
 
 		//$locationProvider.html5Mode(true);
+
+		//$httpProvider.interceptors.push('authInterceptor');
 
 		$routeProvider.when('/categorias', {
 			templateUrl: 'partials/categorias.html',
