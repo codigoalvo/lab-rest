@@ -1,4 +1,4 @@
-angular.module('alvoApp').controller('LoginController',	function($scope, $http) {
+angular.module('alvoApp').controller('LoginController',	function($scope, $http, $window) {
 	$scope.usuario = {
 		login : 'admin',
 		senha : 'admin',
@@ -15,7 +15,9 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $http) 
 				$scope.usuarioLogado = resp.data;
 				console.log('idUsuario', resp.data.id);
 				console.log('Success', resp);
-				console.log(resp.headers);
+				
+				$window.sessionStorage.token = resp.data.token;
+				console.log('Token in Session: ', $window.sessionStorage.token);
 			}, function(err) {
 				$scope.usuarioLogado = err;
 				console.error('Error', err);

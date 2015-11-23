@@ -1,5 +1,7 @@
 package codigoalvo.rest;
 
+import io.jsonwebtoken.Jwt;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -16,6 +18,7 @@ import org.apache.log4j.Logger;
 import codigoalvo.entity.Categoria;
 import codigoalvo.service.CategoriaService;
 import codigoalvo.service.CategoriaServiceImpl;
+import codigoalvo.util.JasonWebTokenUtil;
 
 
 @Path("/categoria")
@@ -33,11 +36,21 @@ public class CategoriaREST {
 	@Path("/list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
-	public Categoria[] list(@Context HttpHeaders headers) {
-		for(String header : headers.getRequestHeaders().keySet()){
-			LOG.debug("### Header ###   "+header+" = "+headers.getRequestHeaders().get(header));
+	public Response list(@Context HttpHeaders headers) {
+//		for(String header : headers.getRequestHeaders().keySet()){
+//			LOG.debug("### Header ###   "+header+" = "+headers.getRequestHeaders().get(header));
+//		}
+		String token = headers.getRequestHeaders().getFirst("Authorization");
+		LOG.debug("TOKEN: "+token);
+		if (!headers.getRequestHeaders().containsKey("Authorization")) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		} else {
+			Jwt jwt = JasonWebTokenUtil.decodificarJWT(token);
+			LOG.debug("JWT: "+ jwt.toString());
+//			Claims corpoJwt = JasonWebTokenUtil.obterCorpoJWT(token);
+//			LOG.debug("JWt Subject: "+corpoJwt.getSubject());
+			return Response.ok().entity(this.service.listar().toArray(new Categoria[0])).build();
 		}
-		return this.service.listar().toArray(new Categoria[0]);
 	}
 
 	@Path("/save")

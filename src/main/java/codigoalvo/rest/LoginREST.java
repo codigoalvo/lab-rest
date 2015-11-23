@@ -19,6 +19,7 @@ import codigoalvo.entity.Usuario;
 import codigoalvo.service.LoginService;
 import codigoalvo.service.LoginServiceImpl;
 import codigoalvo.util.JasonWebTokenUtil;
+import codigoalvo.util.LoginToken;
 
 
 @Path("/login")
@@ -43,8 +44,9 @@ public class LoginREST {
 			System.out.println("usuarioLogin: "+usuarioLogin);
 			Usuario usuario = this.service.efetuarLogin(usuarioLogin.getLogin(), usuarioLogin.getSenha());
 			String token = JasonWebTokenUtil.criarJWT(usuario, 30);
+			LoginToken login = new LoginToken(usuario.getLogin(), usuario.getNome(), token);
 			LOG.debug("TOKEN: "+token);
-			return Response.status(Status.OK).header("auth", token).entity(usuario).build();
+			return Response.status(Status.OK).header("auth", token).entity(login).build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Usuario()).build();

@@ -1,0 +1,71 @@
+package codigoalvo.util;
+
+import java.io.Serializable;
+
+public class LoginToken implements Serializable {
+
+	private static final long serialVersionUID = -8107572215093548341L;
+
+	private String login;
+	private String nome;
+	private String token;
+
+	public LoginToken() {
+	}
+
+	public LoginToken(String login, String nome, String token) {
+		super();
+		this.login = login;
+		this.nome = nome;
+		this.token = token;
+	}
+	public String getLogin() {
+		return this.login;
+	}
+	public void setLogin(String login) {
+		this.login = login;
+	}
+	public String getNome() {
+		return this.nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	public String getToken() {
+		return this.token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	@Override
+	public String toString() {
+		return "LoginToken [login=" + this.login + ", nome=" + this.nome + ", token=" + this.token + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((this.login == null) ? 0 : this.login.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LoginToken other = (LoginToken) obj;
+		if (this.login == null) {
+			if (other.login != null)
+				return false;
+		} else if (!this.login.equals(other.login))
+			return false;
+		return true;
+	}
+
+}
