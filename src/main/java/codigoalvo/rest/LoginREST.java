@@ -44,7 +44,7 @@ public class LoginREST {
 			System.out.println("usuarioLogin: "+usuarioLogin);
 			Usuario usuario = this.service.efetuarLogin(usuarioLogin.getLogin(), usuarioLogin.getSenha());
 			String token = JasonWebTokenUtil.criarJWT(usuario, 30);
-			LoginToken login = new LoginToken(usuario.getLogin(), usuario.getNome(), token);
+			LoginToken login = new LoginToken(usuario.getLogin(), usuario.getNome(), usuario.getEmail(), usuario.getTipo(), token);
 			LOG.debug("TOKEN: "+token);
 			return Response.status(Status.OK).header("auth", token).entity(login).build();
 		} catch (Exception e) {

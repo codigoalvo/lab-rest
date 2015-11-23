@@ -1,5 +1,7 @@
 package codigoalvo.rest;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwt;
 
 import javax.ws.rs.Consumes;
@@ -19,6 +21,7 @@ import codigoalvo.entity.Categoria;
 import codigoalvo.service.CategoriaService;
 import codigoalvo.service.CategoriaServiceImpl;
 import codigoalvo.util.JasonWebTokenUtil;
+import codigoalvo.util.Message;
 
 
 @Path("/categoria")
@@ -37,19 +40,28 @@ public class CategoriaREST {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	public Response list(@Context HttpHeaders headers) {
-//		for(String header : headers.getRequestHeaders().keySet()){
-//			LOG.debug("### Header ###   "+header+" = "+headers.getRequestHeaders().get(header));
-//		}
+		for(String header : headers.getRequestHeaders().keySet()){
+			LOG.debug("### Header ###   "+header+" = "+headers.getRequestHeaders().get(header));
+		}
 		String token = headers.getRequestHeaders().getFirst("Authorization");
 		LOG.debug("TOKEN: "+token);
 		if (!headers.getRequestHeaders().containsKey("Authorization")) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			LOG.debug("Token does not exists. Returning 401");
+			return Response.status(Status.UNAUTHORIZED).entity(new Message("Authorization token is missing!")).build();
 		} else {
-			Jwt jwt = JasonWebTokenUtil.decodificarJWT(token);
-			LOG.debug("JWT: "+ jwt.toString());
-//			Claims corpoJwt = JasonWebTokenUtil.obterCorpoJWT(token);
-//			LOG.debug("JWt Subject: "+corpoJwt.getSubject());
-			return Response.ok().entity(this.service.listar().toArray(new Categoria[0])).build();
+			try {
+				Jwt jwt = JasonWebTokenUtil.decodificarJWT(token);
+				LOG.debug("JWT: "+ jwt.toString());
+				Claims corpoJwt = JasonWebTokenUtil.obterCorpoJWT(token);
+				String issuer = corpoJwt.getIssuer();
+				if (!JasonWebTokenUtil.ISSUER.equals(issuer)) {
+					return Response.status(Status.UNAUTHORIZED).entity(new Message("Invalid authorization token!")).build();
+				}
+				LOG.debug("JWt Subject: "+corpoJwt.getSubject());
+				return Response.ok().entity(this.service.listar().toArray(new Categoria[0])).build();
+			} catch (ExpiredJwtException exc) {
+				return Response.status(Status.UNAUTHORIZED).entity(new Message("Authorization token is expired!")).build();
+			}
 		}
 	}
 
