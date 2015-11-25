@@ -1,4 +1,4 @@
-package codigoalvo.util;
+package codigoalvo.security;
 
 import java.math.BigInteger;
 import java.security.Key;
@@ -39,7 +39,7 @@ public class JasonWebTokenUtil {
 		return signingKey;
 	}
 
-	public static String criarJWT(Usuario usuario, int segundosExpiracao) {
+	public static String criarJWT(Usuario usuario, int minutosExpiracao) {
 		//The JWT signature algorithm we will be using to sign the token
 
 		long nowMillis = System.currentTimeMillis();
@@ -57,8 +57,8 @@ public class JasonWebTokenUtil {
 		                                .claim("usuario", usuarioJson)
 		                                .signWith(algoritmo, obterChaveAssinatura(algoritmo));
 
-		if (segundosExpiracao > 0) {
-			long expDataMilisegundos = nowMillis + (segundosExpiracao * 1000);
+		if (minutosExpiracao > 0) {
+			long expDataMilisegundos = nowMillis + ((minutosExpiracao * 1000) * 60);
 			token.setExpiration(new Date(expDataMilisegundos));
 		}
 

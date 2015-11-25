@@ -15,8 +15,7 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $http, 
 				$scope.usuarioLogado = resp.data;
 				console.log('idUsuario', resp.data.id);
 				console.log('Success', resp);
-				
-				$window.sessionStorage.token = resp.data.token;
+				$window.sessionStorage.token = resp.headers('Authorization');
 				console.log('Token in Session: ', $window.sessionStorage.token);
 			}, function(err) {
 				$scope.usuarioLogado = err;

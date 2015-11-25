@@ -1,4 +1,4 @@
-package codigoalvo.util;
+package codigoalvo.security;
 
 public interface SegurancaUtil {
 

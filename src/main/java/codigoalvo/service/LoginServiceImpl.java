@@ -10,10 +10,10 @@ import org.apache.log4j.Logger;
 import codigoalvo.entity.Usuario;
 import codigoalvo.repository.UsuarioDao;
 import codigoalvo.repository.UsuarioDaoJpa;
+import codigoalvo.security.SegurancaUtil;
+import codigoalvo.security.SegurancaUtilMd5;
 import codigoalvo.util.EntityManagerUtil;
 import codigoalvo.util.MsgParamUtil;
-import codigoalvo.util.SegurancaUtil;
-import codigoalvo.util.SegurancaUtilMd5;
 
 public class LoginServiceImpl implements LoginService {
 

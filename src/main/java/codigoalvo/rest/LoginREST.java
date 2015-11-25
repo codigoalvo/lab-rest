@@ -16,10 +16,10 @@ import org.apache.log4j.Logger;
 import com.google.gson.Gson;
 
 import codigoalvo.entity.Usuario;
+import codigoalvo.security.JasonWebTokenUtil;
+import codigoalvo.security.LoginToken;
 import codigoalvo.service.LoginService;
 import codigoalvo.service.LoginServiceImpl;
-import codigoalvo.util.JasonWebTokenUtil;
-import codigoalvo.util.LoginToken;
 
 
 @Path("/login")
@@ -35,20 +35,20 @@ public class LoginREST {
 	}
 
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + UTF8)
+	@Consumes(MediaType.APPLICATION_JSON + UTF8)
 	public Response login(String usuarioLoginStr) {
 		try {
 			UsuarioLogin usuarioLogin = new Gson().fromJson(usuarioLoginStr, UsuarioLogin.class);
 			System.out.println("usuarioLoginStr: "+usuarioLoginStr);
 			System.out.println("usuarioLogin: "+usuarioLogin);
 			Usuario usuario = this.service.efetuarLogin(usuarioLogin.getLogin(), usuarioLogin.getSenha());
-			String token = JasonWebTokenUtil.criarJWT(usuario, 30);
-			LoginToken login = new LoginToken(usuario.getLogin(), usuario.getNome(), usuario.getEmail(), usuario.getTipo(), token);
+			String token = JasonWebTokenUtil.criarJWT(usuario, 5);
+			LoginToken login = new LoginToken(usuario.getLogin(), usuario.getNome(), usuario.getEmail(), usuario.getTipo());
 			LOG.debug("TOKEN: "+token);
-			return Response.status(Status.OK).header("auth", token).entity(login).build();
-		} catch (Exception e) {
-			e.printStackTrace();
+			return Response.status(Status.OK).header("Authorization", token).entity(login).build();
+		} catch (Exception exc) {
+			exc.printStackTrace();
 			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Usuario()).build();
 		}
 	}

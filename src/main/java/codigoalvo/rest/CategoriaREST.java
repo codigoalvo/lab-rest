@@ -23,9 +23,9 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.log4j.Logger;
 
 import codigoalvo.entity.Categoria;
+import codigoalvo.security.JasonWebTokenUtil;
 import codigoalvo.service.CategoriaService;
 import codigoalvo.service.CategoriaServiceImpl;
-import codigoalvo.util.JasonWebTokenUtil;
 import codigoalvo.util.Message;
 
 
@@ -97,7 +97,7 @@ public class CategoriaREST {
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON + UTF8)
 	public Response insert(@Context HttpHeaders headers, Categoria categoria) {
 		Response resposta = checkAuthentication(headers);
 		if (resposta == null) {
@@ -116,7 +116,7 @@ public class CategoriaREST {
 	@Path("{id}")
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON + UTF8)
 	public Response update(@Context HttpHeaders headers, Categoria categoria, @PathParam("id") int id) {
 		Response resposta = checkAuthentication(headers);
 		if (resposta == null) {

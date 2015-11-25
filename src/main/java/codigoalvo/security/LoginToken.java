@@ -1,4 +1,4 @@
-package codigoalvo.util;
+package codigoalvo.security;
 
 import java.io.Serializable;
 
@@ -12,18 +12,16 @@ public class LoginToken implements Serializable {
 	private String nome;
 	private String email;
 	private UsuarioTipo tipo;
-	private String token;
 
 	public LoginToken() {
 	}
 
-	public LoginToken(String login, String nome, String email, UsuarioTipo tipo, String token) {
+	public LoginToken(String login, String nome, String email, UsuarioTipo tipo) {
 		super();
 		this.login = login;
 		this.nome = nome;
 		this.setEmail(email);
 		this.setTipo(tipo);
-		this.token = token;
 	}
 	public String getLogin() {
 		return this.login;
@@ -53,17 +51,10 @@ public class LoginToken implements Serializable {
 		this.tipo = tipo;
 	}
 
-	public String getToken() {
-		return this.token;
-	}
-	public void setToken(String token) {
-		this.token = token;
-	}
-
 	@Override
 	public String toString() {
 		return "LoginToken [login=" + this.login + ", nome=" + this.nome + ", email=" + this.email + ", tipo=" + this.tipo + ", token="
-				+ this.token + "]";
+				+ "]";
 	}
 
 	@Override
