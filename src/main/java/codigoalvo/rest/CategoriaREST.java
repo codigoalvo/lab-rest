@@ -1,12 +1,16 @@
 package codigoalvo.rest;
 
+import java.sql.SQLException;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwt;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -52,6 +56,7 @@ public class CategoriaREST {
 			return Response.status(Status.UNAUTHORIZED).entity(new Message("Authorization token is missing!")).build();
 		} else {
 			try {
+				@SuppressWarnings("rawtypes")
 				Jwt jwt = JasonWebTokenUtil.decodificarJWT(token);
 				LOG.debug("JWT: "+ jwt.toString());
 				Claims corpoJwt = JasonWebTokenUtil.obterCorpoJWT(token);
@@ -91,16 +96,57 @@ public class CategoriaREST {
 	}
 
 	@POST
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Object save(Categoria categoria) {
-		try {
-			this.service.gravar(categoria);
-			return Response.ok().build();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return Response.status(Status.INTERNAL_SERVER_ERROR)
-					.entity("Ocorreu um erro ao salvar. Consulte o log do servidor para averiguar a causa.").build();
+	public Response insert(@Context HttpHeaders headers, Categoria categoria) {
+		Response resposta = checkAuthentication(headers);
+		if (resposta == null) {
+			try {
+				Categoria entidade = this.service.gravar(categoria);
+				resposta = Response.ok().entity(entidade).build();
+			} catch (Exception e) {
+				e.printStackTrace();
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR)
+						.entity(new Message("Ocorreu um erro ao salvar!")).build();
+			}
 		}
+		return resposta;
+	}
+
+	@Path("{id}")
+	@PUT
+	@Produces(MediaType.APPLICATION_JSON + UTF8)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response update(@Context HttpHeaders headers, Categoria categoria, @PathParam("id") int id) {
+		Response resposta = checkAuthentication(headers);
+		if (resposta == null) {
+			try {
+				Categoria entidade = this.service.gravar(categoria);
+				resposta = Response.ok().entity(entidade).build();
+			} catch (Exception e) {
+				e.printStackTrace();
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR)
+						.entity(new Message("Ocorreu um erro ao salvar!")).build();
+			}
+		}
+		return resposta;
+	}
+
+	@Path("{id}")
+	@DELETE
+	@Produces(MediaType.APPLICATION_JSON + UTF8)
+	public Response remove(@Context HttpHeaders headers, @PathParam("id") int id) {
+		Response resposta = checkAuthentication(headers);
+		if (resposta == null) {
+			try {
+				this.service.removerPorId(id);
+				resposta = Response.ok().entity(new Message("Removido com sucesso!")).build();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR)
+						.entity(new Message("Ocorreu um erro ao remover!")).build();
+			}
+		}
+		return resposta;
 	}
 }
