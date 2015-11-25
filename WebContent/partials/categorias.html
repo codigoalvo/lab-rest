@@ -7,12 +7,17 @@
 			<tr>
 				<th>Id</th>
 				<th>Nome</th>
+				<th>Ações</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat="categoria in categorias">
 				<td>{{categoria.id}}</td>
 				<td>{{categoria.nome}}</td>
+				<td>
+					<a class="btn btn-primary" href="#/categorias/editar/{{categoria.id}}">Editar</a>
+					<a class="btn btn-danger"  ng-click="removerCategoria(categoria)">Remover</a>
+				</td>
 			</tr>
 		</tbody>
 	</table>
