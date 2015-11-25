@@ -3,7 +3,9 @@ package codigoalvo.security;
 import java.math.BigInteger;
 import java.security.Key;
 import java.security.SecureRandom;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
@@ -71,6 +73,26 @@ public class JasonWebTokenUtil {
 
 	public static Jwt decodificarJWT(String token) { //TODO: Tratar ExpiredJwtException
 		return Jwts.parser().setSigningKey(obterChaveAssinatura(obterAlgoritmo())).parse(token);
+	}
+
+	public static boolean precisaRenovar(Claims corpoToken, int minutos) {
+		Calendar cincoMinutos = GregorianCalendar.getInstance();
+		cincoMinutos.add(Calendar.MINUTE, minutos);
+		Date expiration = corpoToken.getExpiration();
+		if (expiration.before(cincoMinutos.getTime())) {
+			return true;
+		}
+		return false;
+	}
+
+	public static String renovaToken(Claims corpoToken, int minutosExpiracao) {
+		SignatureAlgorithm algoritmo = obterAlgoritmo();
+		JwtBuilder novoToken = Jwts.builder().setClaims(corpoToken).signWith(algoritmo, obterChaveAssinatura(algoritmo));
+		Calendar expires = GregorianCalendar.getInstance();
+		expires.add(Calendar.MINUTE, minutosExpiracao);
+		novoToken.setExpiration(expires.getTime());
+		novoToken.claim("refreshed", new Date());
+		return novoToken.compact();
 	}
 
 }
