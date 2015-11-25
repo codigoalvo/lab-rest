@@ -8,6 +8,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -24,11 +25,12 @@ import codigoalvo.util.JasonWebTokenUtil;
 import codigoalvo.util.Message;
 
 
-@Path("/categoria")
+@Path("/categorias")
 public class CategoriaREST {
 
 	private static final String UTF8 = ";charset=UTF-8";
 	private static final Logger LOG = Logger.getLogger(CategoriaREST.class);
+	private static final boolean AUTHENTICATION_ENABLED = true;
 
 	CategoriaService service = new CategoriaServiceImpl();
 
@@ -36,10 +38,10 @@ public class CategoriaREST {
 		LOG.debug("####################  construct  ####################");
 	}
 
-	@Path("/list")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON + UTF8)
-	public Response list(@Context HttpHeaders headers) {
+	private Response checkAuthentication(HttpHeaders headers) {
+		if (!AUTHENTICATION_ENABLED) {
+			return null;
+		}
 		for(String header : headers.getRequestHeaders().keySet()){
 			LOG.debug("### Header ###   "+header+" = "+headers.getRequestHeaders().get(header));
 		}
@@ -58,14 +60,36 @@ public class CategoriaREST {
 					return Response.status(Status.UNAUTHORIZED).entity(new Message("Invalid authorization token!")).build();
 				}
 				LOG.debug("JWt Subject: "+corpoJwt.getSubject());
-				return Response.ok().entity(this.service.listar().toArray(new Categoria[0])).build();
+				return null;
 			} catch (ExpiredJwtException exc) {
 				return Response.status(Status.UNAUTHORIZED).entity(new Message("Authorization token is expired!")).build();
 			}
 		}
 	}
 
-	@Path("/save")
+	@Path("{id}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON + UTF8)
+	public Response find(@Context HttpHeaders headers, @PathParam("id") int id) {
+		Response resposta = checkAuthentication(headers);
+		if (resposta == null) {
+			Categoria entidade = this.service.buscar(id);
+			resposta = Response.ok().entity(entidade).build();
+		}
+		return resposta;
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON + UTF8)
+	public Response list(@Context HttpHeaders headers) {
+		Response resposta = checkAuthentication(headers);
+		if (resposta == null) {
+			Categoria[] entidades = this.service.listar().toArray(new Categoria[0]);
+			resposta = Response.ok().entity(entidades).build();
+		}
+		return resposta;
+	}
+
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)

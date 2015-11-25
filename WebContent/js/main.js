@@ -1,4 +1,4 @@
-angular.module('alvoApp', ['ngRoute', 'ngResource'])
+angular.module('alvoApp', ['ngRoute', 'ngResource', 'categoriaService'])
 	.config(function($routeProvider, $httpProvider, $locationProvider) {
 
 		//$locationProvider.html5Mode(true);
@@ -42,7 +42,7 @@ angular.module('alvoApp', ['ngRoute', 'ngResource'])
 
 		$routeProvider.when('/categorias', {
 			templateUrl: 'partials/categorias.html',
-			controller: 'CategoriasController'
+			controller: 'CategoriaController'
 		});
 		
 		$routeProvider.when('/login', {
