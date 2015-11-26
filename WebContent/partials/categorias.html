@@ -1,14 +1,16 @@
-<div header user="usuarioLogado"></div>
+<div header user="usuarioLogado" />
+<div class="row">
+<div class="col-md-8 col-md-offset-2">
 <div class="panel panel-primary row spacing-top" ng-controller="CategoriaController" data-ng-init="listarCategorias()">
 	<div class="panel-heading">
 		<h3 class="panel-title text-center">Categorias</h3>
 	</div>
-	<table class="table table-striped table-bordered">
+	<table class="table table-striped table-bordered" >
 		<thead>
 			<tr>
 				<th class="text-right">Id</th>
 				<th>Nome</th>
-				<th class="text-center"><a class="btn btn-success" href="#/categorias/nova">Nova Categoria</a></th>
+				<th class="text-center"><a class="btn-sm btn-success" href="#/categorias/nova" title="Incluir"><span class="glyphicon glyphicon-file" /></a></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -16,10 +18,12 @@
 				<td class="col-md-1 text-right">{{categoria.id}}</td>
 				<td class="col-md-9">{{categoria.nome}}</td>
 				<td class="col-md-2 text-center">
-					<a class="btn btn-primary" href="#/categorias/editar/{{categoria.id}}">Editar</a>
-					<a class="btn btn-danger"  ng-click="removerCategoria(categoria)">Remover</a>
+					<a class="btn-sm btn-primary" href="#/categorias/editar/{{categoria.id}}" title="Editar"><span class="glyphicon glyphicon-pencil" /></a>
+					<a class="btn-sm btn-danger"  ng-click="removerCategoria(categoria)" title="Excluir"><span class="glyphicon glyphicon-trash" /></a>
 				</td>
 			</tr>
 		</tbody>
 	</table>
+	</div>
+</div>
 </div>
