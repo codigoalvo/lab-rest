@@ -23,7 +23,7 @@ public class ResponseBuilderHelper {
 		LOG.debug("####################  construct  ####################");
 	}
 
-	public static String getTokenFromHttpHeaders(HttpHeaders headers) {
+	public static String obterTokenDoCabecalhoHttp(HttpHeaders headers) {
 		/*/
 		for(String header : headers.getRequestHeaders().keySet()){
 			LOG.debug("### Header ###   "+header+" = "+headers.getRequestHeaders().get(header));
@@ -40,15 +40,15 @@ public class ResponseBuilderHelper {
 	}
 
 	/**
-	 * @param token (String raw jwt token)
-	 * @return null if token is OK or a bad Response otherwise
+	 * @param token (token jwt em texto)
+	 * @return null se o token estiver OK ou uma Response "ruim" caso contrário
 	 */
-	public static ResponseBuilder checkAuthentication(String token) {
+	public static ResponseBuilder verificarAutenticacao(String token) {
 		if (!AUTHENTICATION_ENABLED) {
 			return null;
 		}
 		if (token == null || token.isEmpty()) {
-			return Response.status(Status.UNAUTHORIZED).entity(new Message("Authorization token is missing!"));
+			return Response.status(Status.UNAUTHORIZED).entity(new Message("Token de autorização não encontrado!"));
 		} else {
 			try {
 				//*/
@@ -61,19 +61,27 @@ public class ResponseBuilderHelper {
 				String issuer = corpoJwt.getIssuer();
 				LOG.debug("Token Issuer: "+issuer);
 				if (!JasonWebTokenUtil.ISSUER.equals(issuer)) {
-					return Response.status(Status.UNAUTHORIZED).entity(new Message("Invalid authorization token!"));
+					return Response.status(Status.UNAUTHORIZED).entity(new Message("Token de autorização inválido!"));
 				}
 
 				return null;
 			} catch (ExpiredJwtException exc) {
-				return Response.status(Status.UNAUTHORIZED).entity(new Message("Authorization token is expired!"));
+				return Response.status(Status.UNAUTHORIZED).entity(new Message("Token de autorização expirado!"));
 			}
 		}
 	}
 
-	public static ResponseBuilder validateHeaderToken(HttpHeaders headers) {
-		String token = getTokenFromHttpHeaders(headers);
-		ResponseBuilder resposta = checkAuthentication(token);
+	public static ResponseBuilder validarTokenCabecalhoHttp(HttpHeaders headers) {
+		String token = obterTokenDoCabecalhoHttp(headers);
+		ResponseBuilder resposta = verificarAutenticacao(token);
 		return resposta;
+	}
+
+	public static void atualizarTokenNaRespostaSeNecessario(ResponseBuilder resposta, String token) {
+		Claims corpoJwt = JasonWebTokenUtil.obterCorpoJWT(token);
+		if (JasonWebTokenUtil.precisaRenovar(corpoJwt)) {
+			String tokenAtualizado = JasonWebTokenUtil.renovaToken(corpoJwt);
+			resposta.header("Authorization", tokenAtualizado);
+		}
 	}
 }

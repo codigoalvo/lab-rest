@@ -13,6 +13,7 @@ import javax.xml.bind.DatatypeConverter;
 import com.google.gson.Gson;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -22,6 +23,8 @@ public class JasonWebTokenUtil {
 
 	private static final String SECRET = "Pr3ç15ÃoEmT3cn010Gi@DA1NF0RMAÇ@0"; // TODO: Alterar!
 	public static final String ISSUER = "www.codigoalvo.com.br";
+	public static final int MINUTOS_DURACAO_TOKEN = 5;
+	public static final int MINUTOS_MINIMOS_TOKEN = 3;
 	private static SecureRandom random = new SecureRandom();
 
 	private static String criarIdentificadorSessao() {
@@ -37,6 +40,10 @@ public class JasonWebTokenUtil {
 		byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(DatatypeConverter.printBase64Binary(SECRET.getBytes()));
 		Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 		return signingKey;
+	}
+
+	public static String criarJWT(LoginToken usuario) {
+		return criarJWT(usuario, System.currentTimeMillis(), MINUTOS_DURACAO_TOKEN);
 	}
 
 	public static String criarJWT(LoginToken usuario, long agora, int minutosExpiracao) {
@@ -64,8 +71,12 @@ public class JasonWebTokenUtil {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public static Jwt decodificarJWT(String token) { // TODO: Tratar ExpiredJwtException
+	public static Jwt decodificarJWT(String token) throws ExpiredJwtException {
 		return Jwts.parser().setSigningKey(obterChaveAssinatura(obterAlgoritmo())).parse(token);
+	}
+
+	public static boolean precisaRenovar(Claims corpoToken) {
+		return precisaRenovar(corpoToken, MINUTOS_MINIMOS_TOKEN);
 	}
 
 	public static boolean precisaRenovar(Claims corpoToken, int minutos) {
@@ -76,6 +87,10 @@ public class JasonWebTokenUtil {
 			return true;
 		}
 		return false;
+	}
+
+	public static String renovaToken(Claims corpoToken) {
+		return renovaToken(corpoToken, MINUTOS_DURACAO_TOKEN);
 	}
 
 	public static String renovaToken(Claims corpoToken, int minutosExpiracao) {

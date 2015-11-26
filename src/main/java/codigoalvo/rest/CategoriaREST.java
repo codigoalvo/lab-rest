@@ -43,11 +43,12 @@ public class CategoriaREST {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	public Response find(@Context HttpHeaders headers, @PathParam("id") int id) {
-		String token = ResponseBuilderHelper.getTokenFromHttpHeaders(headers);
-		ResponseBuilder resposta = ResponseBuilderHelper.checkAuthentication(token);
+		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
+		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
 		if (resposta == null) {
 			Categoria entidade = this.service.buscar(id);
 			resposta = Response.ok().entity(entidade);
+			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 		}
 		return resposta.build();
 	}
@@ -55,11 +56,12 @@ public class CategoriaREST {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	public Response list(@Context HttpHeaders headers) {
-		String token = ResponseBuilderHelper.getTokenFromHttpHeaders(headers);
-		ResponseBuilder resposta = ResponseBuilderHelper.checkAuthentication(token);
+		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
+		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
 		if (resposta == null) {
 			Categoria[] entidades = this.service.listar().toArray(new Categoria[0]);
 			resposta = Response.ok().entity(entidades);
+			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 		}
 		return resposta.build();
 	}
@@ -68,16 +70,16 @@ public class CategoriaREST {
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	@Consumes(MediaType.APPLICATION_JSON + UTF8)
 	public Response insert(@Context HttpHeaders headers, Categoria categoria) {
-		String token = ResponseBuilderHelper.getTokenFromHttpHeaders(headers);
-		ResponseBuilder resposta = ResponseBuilderHelper.checkAuthentication(token);
+		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
+		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
 		if (resposta == null) {
 			try {
 				Categoria entidade = this.service.gravar(categoria);
 				resposta = Response.ok().entity(entidade);
+				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (Exception e) {
 				e.printStackTrace();
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR)
-						.entity(new Message("Ocorreu um erro ao salvar!"));
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message("Ocorreu um erro ao salvar!"));
 			}
 		}
 		return resposta.build();
@@ -88,16 +90,16 @@ public class CategoriaREST {
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	@Consumes(MediaType.APPLICATION_JSON + UTF8)
 	public Response update(@Context HttpHeaders headers, Categoria categoria, @PathParam("id") int id) {
-		String token = ResponseBuilderHelper.getTokenFromHttpHeaders(headers);
-		ResponseBuilder resposta = ResponseBuilderHelper.checkAuthentication(token);
+		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
+		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
 		if (resposta == null) {
 			try {
 				Categoria entidade = this.service.gravar(categoria);
 				resposta = Response.ok().entity(entidade);
+				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (Exception e) {
 				e.printStackTrace();
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR)
-						.entity(new Message("Ocorreu um erro ao salvar!"));
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message("Ocorreu um erro ao salvar!"));
 			}
 		}
 		return resposta.build();
@@ -107,16 +109,16 @@ public class CategoriaREST {
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	public Response remove(@Context HttpHeaders headers, @PathParam("id") int id) {
-		String token = ResponseBuilderHelper.getTokenFromHttpHeaders(headers);
-		ResponseBuilder resposta = ResponseBuilderHelper.checkAuthentication(token);
+		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
+		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
 		if (resposta == null) {
 			try {
 				this.service.removerPorId(id);
 				resposta = Response.ok().entity(new Message("Categoria removida com sucesso!!!"));
+				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (SQLException e) {
 				e.printStackTrace();
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR)
-						.entity(new Message("Ocorreu um erro ao remover!"));
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message("Ocorreu um erro ao remover!"));
 			}
 		}
 		return resposta.build();
