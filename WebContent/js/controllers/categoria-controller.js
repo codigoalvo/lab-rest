@@ -1,11 +1,13 @@
-angular.module('alvoApp').controller('CategoriaController',	function($scope, $routeParams, recursoCategoria, cadastroCategoria) {
+angular.module('alvoApp').controller('CategoriaController',	function($scope, $routeParams, $location, recursoCategoria, cadastroCategoria) {
 	$scope.categorias = [];
 
-	recursoCategoria.query(function(categorias) {
-		$scope.categorias = categorias;
-	}, function(erro) {
-		console.log(erro);
-	});
+	$scope.listarCategorias = function(categorias) {
+		recursoCategoria.query(function(categorias) {
+			$scope.categorias = categorias;
+		}, function(erro) {
+			console.log(erro);
+		});
+	};
 	
 	$scope.removerCategoria = function(categoria) {
 		recursoCategoria.remove({categoriaId: categoria.id}, function(resp) {
@@ -33,6 +35,7 @@ angular.module('alvoApp').controller('CategoriaController',	function($scope, $ro
 		.then(function(dados) {
 			$scope.mensagem = dados.mensagem;
 			if (dados.inclusao) $scope.categoria = {};
+			$location.path("/categorias");
 		})
 		.catch(function(erro) {
 			$scope.mensagem = erro.mensagem;

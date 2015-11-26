@@ -14,9 +14,10 @@ import codigoalvo.util.EntityManagerUtil;
 public class CategoriaServiceImpl implements CategoriaService {
 
 	private CategoriaDao dao;
+	private static final Logger LOG = Logger.getLogger(CategoriaServiceImpl.class);
 
 	public CategoriaServiceImpl() {
-		Logger.getLogger(CategoriaServiceImpl.class).debug("####################  construct  ####################");
+		LOG.debug("####################  construct  ####################");
 		this.dao = new CategoriaDaoJpa(EntityManagerUtil.getEntityManager());
 	}
 
@@ -33,6 +34,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 			this.dao.commit();
 			return categoria;
 		} catch (Throwable exc) {
+			LOG.error(exc);
 			this.dao.rollback();
 			throw new SQLException(exc);
 		}
@@ -80,7 +82,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 		try {
 			categoria = this.dao.buscarPorNome(nome);
 		} catch (NoResultException nre) {
-			Logger.getLogger(CategoriaServiceImpl.class).debug("Categoria não encontrada (nome): " + nome);
+			LOG.debug("Categoria não encontrada (nome): " + nome);
 		}
 		return categoria;
 	}

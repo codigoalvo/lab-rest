@@ -19,6 +19,13 @@ angular.module('alvoApp', ['ngRoute', 'ngResource', 'categoriaService'])
 				},
 
 				response: function (response) {
+					var token = response.headers('Authorization');
+					if (token != null) {
+						console.log('Old token in Session: ', $window.sessionStorage.token);
+						console.log('New token from Header', token);
+						$window.sessionStorage.token = token;
+						console.log('*** Token in Session ***  ', $window.sessionStorage.token);
+					} 
 					return response || $q.when(response);
 				},
 

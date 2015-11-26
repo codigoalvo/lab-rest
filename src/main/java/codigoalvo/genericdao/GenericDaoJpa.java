@@ -85,6 +85,7 @@ public abstract class GenericDaoJpa<T> implements GenericDao<T> {
 
 	@Override
 	public void beginTransaction() {
+		rollback();
 		this.entityManager.getTransaction().begin();
 	}
 
@@ -95,7 +96,9 @@ public abstract class GenericDaoJpa<T> implements GenericDao<T> {
 
 	@Override
 	public void rollback() {
-		this.entityManager.getTransaction().rollback();
+		try {
+			this.entityManager.getTransaction().rollback();
+		} catch (Exception exc) {}
 	}
 
 	@Override

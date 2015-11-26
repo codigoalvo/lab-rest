@@ -13,10 +13,8 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $http, 
 		}).then(
 			function(resp) {
 				$scope.usuarioLogado = resp.data;
-				console.log('idUsuario', resp.data.id);
-				console.log('Success', resp);
-				$window.sessionStorage.token = resp.headers('Authorization');
-				console.log('Token in Session: ', $window.sessionStorage.token);
+				console.log('usuarioLogado', resp.data);
+				$window.sessionStorage.usuarioLogado = resp.data;
 			}, function(err) {
 				$scope.usuarioLogado = err;
 				console.error('Error', err);
