@@ -12,7 +12,6 @@ import javax.xml.bind.DatatypeConverter;
 
 import com.google.gson.Gson;
 
-import codigoalvo.entity.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.JwtBuilder;
@@ -35,32 +34,25 @@ public class JasonWebTokenUtil {
 	}
 
 	private static Key obterChaveAssinatura(SignatureAlgorithm signatureAlgorithm) {
-		//We will sign our JWT with our ApiKey secret
 		byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(DatatypeConverter.printBase64Binary(SECRET.getBytes()));
 		Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 		return signingKey;
 	}
 
-	public static String criarJWT(Usuario usuario, int minutosExpiracao) {
-		//The JWT signature algorithm we will be using to sign the token
-
-		long nowMillis = System.currentTimeMillis();
-		Date now = new Date(nowMillis);
-
+	public static String criarJWT(LoginToken usuario, long agora, int minutosExpiracao) {
 		String usuarioJson = new Gson().toJson(usuario);
 		SignatureAlgorithm algoritmo = obterAlgoritmo();
-
-		  //Let's set the JWT Claims
+		Date dataAgora = new Date(agora);
 		JwtBuilder token = Jwts.builder()
-		                                .setIssuedAt(now)
-		                                .setSubject(usuario.getLogin())
-		                                .setIssuer(ISSUER)
-		                                .setId(criarIdentificadorSessao())
-		                                .claim("usuario", usuarioJson)
-		                                .signWith(algoritmo, obterChaveAssinatura(algoritmo));
+				.setIssuer(ISSUER)
+				.setId(criarIdentificadorSessao())
+				.setIssuedAt(dataAgora)
+				.setSubject(usuario.getLogin())
+				.claim("usuario", usuarioJson)
+				.signWith(algoritmo, obterChaveAssinatura(algoritmo));
 
 		if (minutosExpiracao > 0) {
-			long expDataMilisegundos = nowMillis + ((minutosExpiracao * 1000) * 60);
+			long expDataMilisegundos = agora + ((minutosExpiracao * 1000) * 60);
 			token.setExpiration(new Date(expDataMilisegundos));
 		}
 
@@ -71,7 +63,8 @@ public class JasonWebTokenUtil {
 		return Jwts.parser().setSigningKey(obterChaveAssinatura(obterAlgoritmo())).parseClaimsJws(token).getBody();
 	}
 
-	public static Jwt decodificarJWT(String token) { //TODO: Tratar ExpiredJwtException
+	@SuppressWarnings("rawtypes")
+	public static Jwt decodificarJWT(String token) { // TODO: Tratar ExpiredJwtException
 		return Jwts.parser().setSigningKey(obterChaveAssinatura(obterAlgoritmo())).parse(token);
 	}
 

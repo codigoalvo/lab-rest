@@ -23,18 +23,23 @@ public class LoginToken implements Serializable {
 		this.setEmail(email);
 		this.setTipo(tipo);
 	}
+
 	public String getLogin() {
 		return this.login;
 	}
+
 	public void setLogin(String login) {
 		this.login = login;
 	}
+
 	public String getNome() {
 		return this.nome;
 	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
 	public String getEmail() {
 		return this.email;
 	}
@@ -53,8 +58,8 @@ public class LoginToken implements Serializable {
 
 	@Override
 	public String toString() {
-		return "LoginToken [login=" + this.login + ", nome=" + this.nome + ", email=" + this.email + ", tipo=" + this.tipo + ", token="
-				+ "]";
+		return "LoginToken [login=" + this.login + ", nome=" + this.nome + ", email=" + this.email + ", tipo="
+				+ this.tipo + "]";
 	}
 
 	@Override
