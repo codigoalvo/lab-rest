@@ -1,4 +1,4 @@
-angular.module('alvoApp', ['ngRoute', 'ngResource', 'categoriaService'])
+angular.module('alvoApp', ['ngRoute', 'ngResource', 'minhasDiretivas', 'categoriaService'])
 	.config(function($routeProvider, $httpProvider, $locationProvider) {
 
 		//$locationProvider.html5Mode(true);
