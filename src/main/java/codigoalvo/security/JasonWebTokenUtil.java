@@ -23,8 +23,8 @@ public class JasonWebTokenUtil {
 
 	private static final String SECRET = "Pr3ç15ÃoEmT3cn010Gi@DA1NF0RMAÇ@0"; // TODO: Alterar!
 	public static final String ISSUER = "www.codigoalvo.com.br";
-	public static final int MINUTOS_DURACAO_TOKEN = 5;
-	public static final int MINUTOS_MINIMOS_TOKEN = 3;
+	public static final int MINUTOS_DURACAO_TOKEN = 10;
+	public static final int MINUTOS_MINIMOS_TOKEN = 5;
 	private static SecureRandom random = new SecureRandom();
 
 	private static String criarIdentificadorSessao() {
