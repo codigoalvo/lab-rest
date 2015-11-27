@@ -4,7 +4,8 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $http, 
 		senha : 'admin',
 	};
 	$scope.usuarioLogado = '';
-	$scope.submit = function() {
+
+	$scope.efetuarLogin = function() {
 		$http({
 			  method: 'POST',
 			  data: $scope.usuario,
@@ -17,8 +18,16 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $http, 
 				$window.sessionStorage.usuarioLogado = resp.data;
 				$location.path("/home");
 			}, function(err) {
-				$scope.usuarioLogado = err;
+				$scope.usuarioLogado = '';
 				console.error('Error', err);
 		})
+	};
+	
+	$scope.efetuarLogout = function() {
+		console.log('Removendo usuarioLogado da sessão!')
+		$scope.usuarioLogado = '';
+		delete $window.sessionStorage.usuarioLogado;
+		console.log('Removendo token da sessão!')
+		delete $window.sessionStorage.token;
 	};
 })
