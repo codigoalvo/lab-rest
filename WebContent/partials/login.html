@@ -2,10 +2,15 @@
 <div ng-controller="LoginController">
 	<form class="form-signin">
 		<h2 class="form-signin-heading text-center">Dados de login</h2>
-		<label for="login" class="sr-only">Login</label> <input type="text" id="login" class="form-control"
-			ng-model="usuario.login" placeholder="Login do usuário" required autofocus> <label for="senha"
-			class="sr-only">Senha</label> <input type="password" id="senha" class="form-control" ng-model="usuario.senha"
+
+		<label for="login" class="sr-only">Login</label>
+		<input type="text" id="login" class="form-control" ng-model="usuario.login"
+			placeholder="Login do usuário" required autofocus>
+
+		<label for="senha" class="sr-only">Senha</label>
+		<input type="password" id="senha" class="form-control" ng-model="usuario.senha"
 			placeholder="Senha" required>
+
 		<button class="btn btn-lg btn-primary btn-block" ng-click="efetuarLogin()" id="submit" type="submit">Enviar</button>
 	</form>
 </div>

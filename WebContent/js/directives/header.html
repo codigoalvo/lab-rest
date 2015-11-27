@@ -18,8 +18,8 @@
 				<li><a href="#categorias">Categorias - Angular</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li ui-if="!user"><a href="#login">login</a></li>
-				<li ui-if="user"><a href="#logout" ng-click="efetuarLogout()">logout ({{user.login}})</a></li>
+				<li ui-if="!login"><a href="#login">login</a></li>
+				<li ui-if="login"><a href="#logout" ng-click="efetuarLogout()">logout ({{login}})[<span ng-model="login"/>]-<span ng-model="user.login"/>-T<span ng-model="usuarioLogado.login"/>T</a></li>
 			</ul>
 		</div>
 	</div>
