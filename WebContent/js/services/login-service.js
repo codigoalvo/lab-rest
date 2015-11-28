@@ -1,8 +1,9 @@
 angular.module('loginService', [])
-	.factory('servicosLogin', function($http, $window) {
+	.factory('servicosLogin', function($http, $window, $q) {
 		var service = {};
 		var usuarioLogado = null;
 		service.efetuarLogin = function(usuario) {
+			return $q(function(resolve, reject) {
 			$http({
 				  method: 'POST',
 				  data: usuario,
@@ -11,12 +12,17 @@ angular.module('loginService', [])
 			}).then(
 				function(resp) {
 					usuarioLogado = resp.data;
-					console.log('usuarioLogado', resp.data);
+					console.log('servicosLogin.usuarioLogado', resp.data);
 					$window.sessionStorage.usuarioLogado = resp.data;
-				}, function(err) {
+					resolve(usuarioLogado);
+				}, function(erro) {
 					usuarioLogado = null;
-					console.error('Error', err);
+					console.error('Error', erro);
+					reject({
+						mensagem: 'Não foi possivel realizar o login!'
+					});
 				})
+			});
 		};
 
 		service.efetuarLogout = function() {
@@ -32,5 +38,4 @@ angular.module('loginService', [])
 		};
 
 		return service; 
-		
 	});

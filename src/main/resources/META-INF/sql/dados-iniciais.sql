@@ -1,5 +1,6 @@
 insert into usuario (id, login, senha, nome, email, tipo, tentativas_login_invalido) values (1, 'admin','c6zZpZchMLdQZsgllaH64w==', 'Administrador', 'admin@email.com', 'ADMIN', 0);
-alter sequence SEQ_USUARIO_ID restart with 2;
+insert into usuario (id, login, senha, nome, email, tipo, tentativas_login_invalido) values (2, 'usuario','QiVgyySWSwSDtwOkK811AA==', 'Usuario Teste', 'usuario@email.com', 'USER', 0);
+alter sequence SEQ_USUARIO_ID restart with 3;
 insert into categoria(id, nome) values (1, 'Moradia');
 insert into categoria(id, nome) values (2, 'Alimentação');
 insert into categoria(id, nome) values (3, 'Transporte');
