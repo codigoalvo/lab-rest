@@ -18,8 +18,17 @@
 				<li><a href="#categorias">Categorias - Angular</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li ui-if="!login"><a href="#login">login</a></li>
-				<li ui-if="login"><a href="#logout" ng-click="efetuarLogout()">logout ({{login}})[<span ng-model="login"/>]-<span ng-model="user.login"/>-T<span ng-model="usuarioLogado.login"/>T</a></li>
+				<li ng-show="!login"><a href="#login"><span class="glyphicon glyphicon-log-in"></span> login </a></li>
+				<li ng-show="login" class="dropdown">
+					<a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						<span class="glyphicon glyphicon-user"></span> {{login}} <span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="#perfil"><span class="glyphicon glyphicon-edit"></span> perfil </a></li>
+                		<li role="separator" class="divider"></li>
+						<li><a href="#logout" ng-click="efetuarLogout()"><span class="glyphicon glyphicon-log-out"></span> logout </a></li>
+					</ul>
+				</li>
 			</ul>
 		</div>
 	</div>
