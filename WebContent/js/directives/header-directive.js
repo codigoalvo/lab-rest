@@ -1,5 +1,5 @@
-angular.module('minhasDiretivas', [])
-	.directive('header', function (servicosLogin, $compile) {
+angular.module('headerDirective', [])
+	.directive('navheader', function (servicosLogin, $compile) {
 
 		var templateDeslogado = "<li ng-show='!usuarioLogado'><a href='#login'><span class='glyphicon glyphicon-log-in'></span> login </a></li>";
 		var templateLogado =	"<li ng-show='usuarioLogado' class='dropdown'>" +
