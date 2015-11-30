@@ -17,7 +17,7 @@ import codigoalvo.util.UsuarioTipoUtil;
 
 public class JasonWebTokenUtilTest {
 
-	private static final LoginToken LOGIN_TOKEN = new LoginToken("admin", "Administrador", "admin@email.com", UsuarioTipoUtil.encodeTipo(UsuarioTipo.ADMIN));
+	private static final LoginToken LOGIN_TOKEN = new LoginToken("admin", "Administrador", "admin@email.com", UsuarioTipo.ADMIN, UsuarioTipoUtil.encodeTipo(UsuarioTipo.ADMIN));
 	private static final long AGORA = System.currentTimeMillis();
 	private static String token;
 
@@ -44,12 +44,12 @@ public class JasonWebTokenUtilTest {
 		Claims corpoJWT = JasonWebTokenUtil.obterCorpoJWT(token);
 		String usuarioJson = corpoJWT.get("usuario").toString();
 		LoginToken usuario = new Gson().fromJson(usuarioJson, LoginToken.class);
-		UsuarioTipo usuarioTipo = UsuarioTipoUtil.decodeTipo(usuario.getTipo());
+		UsuarioTipo usuarioTipo = UsuarioTipoUtil.decodeTipo(usuario.getExtp());
 		System.out.println("[testObterUsuarioJWT] usuarioJson: "+usuarioJson);
 		System.out.println("[testObterUsuarioJWT] usuario: "+usuario);
 		System.out.println("[testObterUsuarioJWT] usuario.tipo: "+usuarioTipo);
 		assertTrue("Login do usuario deveria ser admin", "admin".equals(usuario.getLogin()));
-		assertTrue("Tipo do usuario deveria ser ADMIN", UsuarioTipo.ADMIN == usuarioTipo);
+		assertTrue("Tipo do usuario deveria ser ADMIN", UsuarioTipo.ADMIN == usuarioTipo  &&  usuario.getTipo() == usuarioTipo);
 	}
 
 	@Test

@@ -2,6 +2,8 @@ package codigoalvo.security;
 
 import java.io.Serializable;
 
+import codigoalvo.entity.UsuarioTipo;
+
 public class LoginToken implements Serializable {
 
 	private static final long serialVersionUID = -8107572215093548341L;
@@ -9,17 +11,19 @@ public class LoginToken implements Serializable {
 	private String login;
 	private String nome;
 	private String email;
-	private String tipo;
+	private UsuarioTipo tipo;
+	private String extp;
 
 	public LoginToken() {
 	}
 
-	public LoginToken(String login, String nome, String email, String tipo) {
+	public LoginToken(String login, String nome, String email, UsuarioTipo tipo, String extp) {
 		super();
 		this.login = login;
 		this.nome = nome;
 		this.email = email;
 		this.tipo = tipo;
+		this.setExtp(extp);
 	}
 
 	public String getLogin() {
@@ -46,18 +50,26 @@ public class LoginToken implements Serializable {
 		this.email = email;
 	}
 
-	public String getTipo() {
+	public UsuarioTipo getTipo() {
 		return this.tipo;
 	}
 
-	public void setTipo(String tipo) {
+	public void setTipo(UsuarioTipo tipo) {
 		this.tipo = tipo;
+	}
+
+	public String getExtp() {
+		return this.extp;
+	}
+
+	public void setExtp(String extp) {
+		this.extp = extp;
 	}
 
 	@Override
 	public String toString() {
-		return "LoginToken [login=" + this.login + ", nome=" + this.nome + ", email=" + this.email + ", tipo="
-				+ this.tipo + "]";
+		return "LoginToken [login=" + this.login + ", nome=" + this.nome + ", email=" + this.email + ", tipo=" + this.tipo + ", extp="
+				+ this.extp + "]";
 	}
 
 	@Override

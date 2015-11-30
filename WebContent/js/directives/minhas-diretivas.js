@@ -1,6 +1,6 @@
 angular.module('minhasDiretivas', [])
 	.directive('header', function (servicosLogin, $compile) {
-		
+
 		var templateDeslogado = "<li ng-show='!usuarioLogado'><a href='#login'><span class='glyphicon glyphicon-log-in'></span> login </a></li>";
 		var templateLogado =	"<li ng-show='usuarioLogado' class='dropdown'>" +
 									"<a href='' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>" +
@@ -12,6 +12,7 @@ angular.module('minhasDiretivas', [])
 										"<li><a href='#logout' ng-click='efetuarLogout()'><span class='glyphicon glyphicon-log-out'></span> logout </a></li>" +
 									"</ul>" +
 								"</li>";
+
 		var templateAbre =	"<nav class='navbar navbar-default navbar-fixed-top'>" +
 								"<div class='container'>" +
 									"<div class='navbar-header'>" +
@@ -19,19 +20,29 @@ angular.module('minhasDiretivas', [])
 											"<img src='images/codigoalvo.svg' alt='codigoalvo' height='23px'/>" +
 										"</a>" +
 									"</div>";
+
 		var templateFecha =	"</ul>" +
 						"</div>" +
 					"</div>" +
 				"</nav>";
-		
+
 		var templateOpcoes =	"<div id='navbar' class='navbar-collapse collapse'>" +
 									"<ul class='nav navbar-nav'>" +
 										"<li><a href='#home'><span class='glyphicon glyphicon-home' /></a></li>" +
 										"<li><a href='ws/categorias/1'>Categoria (1) - REST</a></li>" +
 										"<li><a href='ws/categorias'>Categorias - REST</a></li>" +
-										"<li><a href='#categorias'>Categorias - Angular</a></li>" +
-									"</ul>" +
-									"<ul class='nav navbar-nav navbar-right'>";
+										"<li><a href='#categorias'>Categorias - Angular</a></li>";
+
+		var opcoesAdmin =	"<li ng-show='usuarioLogado' class='dropdown'>" +
+								"<a href='' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>" +
+									"</span> Administração <span class='caret'></span>" +
+								"</a>" +
+								"<ul class='dropdown-menu'>" +
+									"<li><a href='#usuarios'></span> Usuários </a></li>" +
+								"</ul>" +
+							"</li>";
+
+		var opcoesFecha = "</ul>" +"<ul class='nav navbar-nav navbar-right'>";
 
 		var templateHtml = "";
 
@@ -43,6 +54,7 @@ angular.module('minhasDiretivas', [])
 			ddo.scope = {
 				templateMenuLogin: '=templateMenuLogin',
 				usuarioLogado: '=usuarioLogado',
+				usuarioAdmin: '=usuarioAdmin',
 			}
 
 			ddo.compile = function(element, attr) {
@@ -50,6 +62,10 @@ angular.module('minhasDiretivas', [])
 					templateHtml = "";
 					templateHtml += templateAbre;
 					templateHtml += templateOpcoes;
+					if ($scope.usuarioAdmin) {
+						templateHtml += opcoesAdmin;
+					}
+					templateHtml += opcoesFecha;
 					if ($scope.usuarioLogado) {
 						templateHtml +=	templateLogado;
 					} else {
@@ -67,18 +83,17 @@ angular.module('minhasDiretivas', [])
 				console.log('header.token', token);
 				var decodedToken = servicosLogin.pegarUsuarioDoToken();
 				console.log('header.decodedToken', decodedToken);
-				$scope.templateMenuLogin = "";
 				if (decodedToken  &&  decodedToken.usuario) {
-					isLogado = true;
 					$scope.usuarioLogado = angular.fromJson(decodedToken.usuario);
-					$scope.myUser = $scope.usuarioLogado.login;
+					if ($scope.usuarioLogado.tipo === 'ADMIN') {
+						$scope.usuarioAdmin = true;
+					} else {
+						$scope.usuarioAdmin = false;
+					}
 					console.log('header.usuarioLogado', $scope.usuarioLogado);
-					$scope.templateMenuLogin = templateLogado;
 				} else {
-					isLogado = false;
 					$scope.usuarioLogado = undefined;
-					$scope.myUser = '';
-					$scope.templateMenuLogin = templateDeslogado;
+					$scope.usuarioAdmin = false;
 				}
 				$scope.efetuarLogout = function() {
 					servicosLogin.efetuarLogout();
