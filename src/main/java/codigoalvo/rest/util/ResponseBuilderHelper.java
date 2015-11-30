@@ -11,8 +11,13 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
 
+import com.google.gson.Gson;
+
+import codigoalvo.entity.UsuarioTipo;
 import codigoalvo.security.JasonWebTokenUtil;
+import codigoalvo.security.LoginToken;
 import codigoalvo.util.Message;
+import codigoalvo.util.UsuarioTipoUtil;
 
 public class ResponseBuilderHelper {
 
@@ -39,11 +44,15 @@ public class ResponseBuilderHelper {
 		}
 	}
 
+	public static ResponseBuilder verificarAutenticacao(String token) {
+		return verificarAutenticacao(token, false);
+	}
+
 	/**
 	 * @param token (token jwt em texto)
 	 * @return null se o token estiver OK ou uma Response "ruim" caso contrário
 	 */
-	public static ResponseBuilder verificarAutenticacao(String token) {
+	public static ResponseBuilder verificarAutenticacao(String token, boolean admin) {
 		if (!AUTHENTICATION_ENABLED) {
 			return null;
 		}
@@ -62,6 +71,15 @@ public class ResponseBuilderHelper {
 				LOG.debug("Token Issuer: "+issuer);
 				if (!JasonWebTokenUtil.ISSUER.equals(issuer)) {
 					return Response.status(Status.UNAUTHORIZED).entity(new Message("Token de autorização inválido!"));
+				}
+
+				if (admin) {
+					String usuarioJson = ""+corpoJwt.get("usuario");
+					LoginToken usuario = new Gson().fromJson(usuarioJson, LoginToken.class);
+					UsuarioTipo usuarioTipo = UsuarioTipoUtil.decodeTipo(usuario.getTipo());
+					if (UsuarioTipo.ADMIN != usuarioTipo) {
+						return Response.status(Status.FORBIDDEN).entity(new Message("Usuário não é administrador!"));
+					}
 				}
 
 				return null;

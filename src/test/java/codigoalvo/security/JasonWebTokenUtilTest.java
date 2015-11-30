@@ -8,13 +8,16 @@ import java.util.Date;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.google.gson.Gson;
+
 import static org.junit.Assert.*;
 import codigoalvo.entity.UsuarioTipo;
 import codigoalvo.util.DateUtil;
+import codigoalvo.util.UsuarioTipoUtil;
 
 public class JasonWebTokenUtilTest {
 
-	private static final LoginToken LOGIN_TOKEN = new LoginToken("admin", "Administrador", "admin@email.com", UsuarioTipo.ADMIN);
+	private static final LoginToken LOGIN_TOKEN = new LoginToken("admin", "Administrador", "admin@email.com", UsuarioTipoUtil.encodeTipo(UsuarioTipo.ADMIN));
 	private static final long AGORA = System.currentTimeMillis();
 	private static String token;
 
@@ -34,6 +37,19 @@ public class JasonWebTokenUtilTest {
 		String decodedToken = jwtToken.toString();
 		System.out.println("[testDecodificarJWT] decodedToken: "+decodedToken);
 		assertTrue("Issuer deveria ser www.codigoalvo.com.br", decodedToken.contains("iss=www.codigoalvo.com.br"));
+	}
+
+	@Test
+	public void testObterUsuarioJWT() {
+		Claims corpoJWT = JasonWebTokenUtil.obterCorpoJWT(token);
+		String usuarioJson = corpoJWT.get("usuario").toString();
+		LoginToken usuario = new Gson().fromJson(usuarioJson, LoginToken.class);
+		UsuarioTipo usuarioTipo = UsuarioTipoUtil.decodeTipo(usuario.getTipo());
+		System.out.println("[testObterUsuarioJWT] usuarioJson: "+usuarioJson);
+		System.out.println("[testObterUsuarioJWT] usuario: "+usuario);
+		System.out.println("[testObterUsuarioJWT] usuario.tipo: "+usuarioTipo);
+		assertTrue("Login do usuario deveria ser admin", "admin".equals(usuario.getLogin()));
+		assertTrue("Tipo do usuario deveria ser ADMIN", UsuarioTipo.ADMIN == usuarioTipo);
 	}
 
 	@Test

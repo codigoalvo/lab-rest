@@ -110,7 +110,7 @@ public class CategoriaREST {
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	public Response remove(@Context HttpHeaders headers, @PathParam("id") int id) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
-		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
+		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token, true);
 		if (resposta == null) {
 			try {
 				this.service.removerPorId(id);

@@ -39,6 +39,9 @@ angular.module('alvoApp', ['ngRoute', 'ngResource', 'minhasDiretivas', 'categori
 						}
 						console.log('Redirecionando para login!')
 						$location.path("/login");
+					} else if (rejection != null && rejection.status === 403) {
+						console.log('Acesso negado! Redirecionando...')
+						$location.path("/negado");
 					}
 					return $q.reject(rejection);
 				}
@@ -61,7 +64,11 @@ angular.module('alvoApp', ['ngRoute', 'ngResource', 'minhasDiretivas', 'categori
 			templateUrl: 'partials/categoria.html',
 			controller: 'CategoriaController'
 		});
-		
+
+		$routeProvider.when('/negado', {
+			templateUrl: 'partials/negado.html'
+		});
+
 		$routeProvider.when('/login', {
 			templateUrl: 'partials/login.html',
 			controller: 'LoginController'

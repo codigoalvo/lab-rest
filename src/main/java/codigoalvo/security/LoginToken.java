@@ -2,8 +2,6 @@ package codigoalvo.security;
 
 import java.io.Serializable;
 
-import codigoalvo.entity.UsuarioTipo;
-
 public class LoginToken implements Serializable {
 
 	private static final long serialVersionUID = -8107572215093548341L;
@@ -11,17 +9,17 @@ public class LoginToken implements Serializable {
 	private String login;
 	private String nome;
 	private String email;
-	private UsuarioTipo tipo;
+	private String tipo;
 
 	public LoginToken() {
 	}
 
-	public LoginToken(String login, String nome, String email, UsuarioTipo tipo) {
+	public LoginToken(String login, String nome, String email, String tipo) {
 		super();
 		this.login = login;
 		this.nome = nome;
-		this.setEmail(email);
-		this.setTipo(tipo);
+		this.email = email;
+		this.tipo = tipo;
 	}
 
 	public String getLogin() {
@@ -48,11 +46,11 @@ public class LoginToken implements Serializable {
 		this.email = email;
 	}
 
-	public UsuarioTipo getTipo() {
+	public String getTipo() {
 		return this.tipo;
 	}
 
-	public void setTipo(UsuarioTipo tipo) {
+	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
 
