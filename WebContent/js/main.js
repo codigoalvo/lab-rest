@@ -2,4 +2,5 @@ angular.module('alvoApp', ['ngRoute', 'ngResource', 'alvoRotas', 'authIntercepto
 	.config(function($httpProvider, $locationProvider) {
 		//$locationProvider.html5Mode(true);
 		//$httpProvider.interceptors.push('AuthInterceptor');
-	});
+	}
+);
