@@ -37,5 +37,32 @@ angular.module('loginService', [])
 			return angular.copy(usuarioLogado);
 		};
 
+		service.decode = function urlBase64Decode(str) {
+			var output = str.replace('-', '+').replace('_', '/');
+			switch (output.length % 4) {
+			case 0:
+				break;
+			case 2:
+				output += '==';
+				break;
+			case 3:
+				output += '=';
+				break;
+			default:
+				throw 'Cadeia de caracteres base64url inválida!';
+			}
+			return window.atob(output);
+		}
+
+		service.pegarUsuarioDoToken = function getUserFromToken() {
+			var token = $window.sessionStorage.token;
+			var user = {};
+			if (typeof token !== 'undefined') {
+				var encoded = token.split('.')[1];
+				user = JSON.parse(service.decode(encoded));
+			}
+			return user;
+		}
+
 		return service; 
 	});

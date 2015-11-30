@@ -12,11 +12,8 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $locati
 			$location.path("/home");
 		}).catch(function(erro) {
 			console.log(erro);
+			servicosLogin.efetuarLogout();
 		});
 	};
 
-	$scope.efetuarLogout = function() {
-		servicosLogin.efetuarLogout();
-	};
-	
 })
