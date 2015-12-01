@@ -70,4 +70,43 @@ public class LoginServiceImpl implements LoginService {
 		}
 	}
 
+	@Override
+	public Usuario buscarUsuarioPorLoginSenha(String login, String senha) throws LoginException {
+		try {
+			Usuario usuario = null;
+			usuario = this.usuarioDao.buscarPorLogin(login);
+			if (usuario == null || usuario.getId() == null || !usuario.getSenha().equals(this.segurancaUtil.criptografar(senha))) {
+				throw new LoginException("login.usuarioOuSenhaInvalidos");
+			}
+			return usuario;
+		} catch (NoResultException nre) {
+			LOGGER.debug("Usuario não encontrado (login): " + login);
+			throw new LoginException("login.usuarioOuSenhaInvalidos");
+		}
+	}
+
+	@Override
+	public Usuario alterarSenha(Usuario usuario, String senhaNova) throws LoginException {
+		String senhaAtual = usuario.getSenha();
+		usuario.setSenha(this.segurancaUtil.criptografar(senhaNova));
+		try {
+			this.usuarioDao.beginTransaction();
+			this.usuarioDao.atualizar(usuario);
+			this.usuarioDao.commit();
+		} catch (Throwable exc) {
+			usuario.setSenha(senhaAtual);
+			this.usuarioDao.rollback();
+			LOGGER.debug("Erro ao gravar atualização de senha de usuario!", exc);
+			throw new LoginException("login.erroAoGravarNovaSenha");
+		}
+		return usuario;
+	}
+
+	@Override
+	public Usuario alterarSenha(String login, String senhaAtual, String senhaNova) throws LoginException {
+		Usuario usuario = null;
+		usuario = buscarUsuarioPorLoginSenha(login, senhaAtual);
+		return alterarSenha(usuario, senhaNova);
+	}
+
 }

@@ -1,0 +1,20 @@
+<header navheader></header>
+<div ng-controller="LoginController">
+	<form class="form-signin">
+		<h2 class="form-signin-heading text-center">Alterar senha</h2>
+
+		<label for="login" class="sr-only">Login</label>
+		<input type="text" id="login" class="form-control" focus="true" ng-model="usuario.login"
+			placeholder="Login do usuário" required autofocus>
+
+		<label for="senha" class="sr-only">Senha Atual</label>
+		<input type="password" id="senha" class="form-control" ng-model="usuario.senha"
+			placeholder="Senha atual" required>
+			
+		<label for="senhaNova" class="sr-only">Senha nova</label>
+		<input type="password" id="senha" class="form-control" ng-model="usuario.senhaNova"
+			placeholder="Senha nova" required>
+
+		<button class="btn btn-lg btn-primary btn-block" ng-click="alterarSenha()" id="submit" type="submit">Enviar</button>
+	</form>
+</div>

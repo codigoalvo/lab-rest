@@ -1,7 +1,6 @@
 package codigoalvo.service;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -9,13 +8,11 @@ import javax.persistence.NoResultException;
 import org.apache.log4j.Logger;
 
 import codigoalvo.entity.Usuario;
-import codigoalvo.entity.UsuarioTipo;
 import codigoalvo.repository.UsuarioDao;
 import codigoalvo.repository.UsuarioDaoJpa;
 import codigoalvo.security.SegurancaUtil;
 import codigoalvo.security.SegurancaUtilMd5;
 import codigoalvo.util.EntityManagerUtil;
-import codigoalvo.util.JsonUtil;
 
 public class UsuarioServiceImpl implements UsuarioService {
 

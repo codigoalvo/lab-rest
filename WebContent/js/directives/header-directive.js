@@ -7,7 +7,7 @@ angular.module('headerDirective', [])
 										"<span class='glyphicon glyphicon-user'></span> {{usuarioLogado.login}} <span class='caret'></span>" +
 									"</a>" +
 									"<ul class='dropdown-menu'>" +
-										"<li><a href='#perfil'><span class='glyphicon glyphicon-edit'></span> perfil </a></li>" +
+										"<li><a href='#senha'><span class='glyphicon glyphicon-edit'></span> senha </a></li>" +
 										"<li role='separator' class='divider'></li>" +
 										"<li><a href='#logout' ng-click='efetuarLogout()'><span class='glyphicon glyphicon-log-out'></span> logout </a></li>" +
 									"</ul>" +

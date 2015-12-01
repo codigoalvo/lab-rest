@@ -38,6 +38,11 @@ angular.module('alvoRotas', []).config(function($routeProvider){
 		controller: 'LoginController'
 	});
 
+	$routeProvider.when('/senha', {
+		templateUrl: 'partials/senha.html',
+		controller: 'LoginController'
+	});
+
 	$routeProvider.when('/home', {
 		templateUrl: 'partials/home.html'
 	});

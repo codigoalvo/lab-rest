@@ -7,7 +7,7 @@ angular.module('loginService', [])
 			$http({
 				  method: 'POST',
 				  data: usuario,
-				  url:'ws/login',
+				  url:'ws/auth/login',
 				  headers: {'Content-Type':'application/json'}
 			}).then(
 				function(resp) {
@@ -20,6 +20,29 @@ angular.module('loginService', [])
 					console.error('Error', erro);
 					reject({
 						mensagem: 'Não foi possivel realizar o login!'
+					});
+				})
+			});
+		};
+
+		service.alterarSenha = function(usuario) {
+			return $q(function(resolve, reject) {
+			$http({
+				  method: 'POST',
+				  data: usuario,
+				  url:'ws/auth/senha',
+				  headers: {'Content-Type':'application/json'}
+			}).then(
+				function(resp) {
+					usuarioLogado = resp.data;
+					console.log('servicosLogin.usuarioLogado', resp.data);
+					$window.sessionStorage.usuarioLogado = resp.data;
+					resolve(usuarioLogado);
+				}, function(erro) {
+					usuarioLogado = null;
+					console.error('Error', erro);
+					reject({
+						mensagem: 'Não foi possivel alterar a senha!'
 					});
 				})
 			});
