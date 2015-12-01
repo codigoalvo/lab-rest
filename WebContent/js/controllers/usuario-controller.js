@@ -5,15 +5,17 @@ angular.module('alvoApp').controller('UsuarioController',	function($scope, $rout
 		recursoUsuario.query(function(usuarios) {
 			$scope.usuarios = usuarios;
 		}, function(erro) {
+			$scope.usuarios = [];
 			console.log(erro);
 		});
 	};
-	
+
 	$scope.removerUsuario = function(usuario) {
 		recursoUsuario.remove({usuarioId: usuario.id}, function(resp) {
 			console.log(resp);
 			$scope.usuarios = recursoUsuario.query();
 		}, function(erro) {
+			$scope.usuarios = [];
 			console.log(erro);
 		});
 	};
@@ -26,6 +28,7 @@ angular.module('alvoApp').controller('UsuarioController',	function($scope, $rout
 			$scope.usuario = usuario; 
 		}, function(erro) {
 			console.log(erro);
+			$scope.usuario = {};
 			$scope.mensagem = 'Não foi possível obter o usuario'
 		});
 	}
@@ -34,10 +37,14 @@ angular.module('alvoApp').controller('UsuarioController',	function($scope, $rout
 		cadastroUsuario.gravar($scope.usuario)
 		.then(function(dados) {
 			$scope.mensagem = dados.mensagem;
+			$scope.usuarios = [];
+			$scope.usuario = {};
 			if (dados.inclusao) $scope.usuario = {};
 			$location.path("/usuarios");
 		})
 		.catch(function(erro) {
+			$scope.usuarios = [];
+			$scope.usuario = {};
 			$scope.mensagem = erro.mensagem;
 		});
 	};

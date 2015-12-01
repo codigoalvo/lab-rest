@@ -54,8 +54,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public void remover(Usuario usuario) throws SQLException {
 		try {
+			this.dao.beginTransaction();
 			this.dao.remover(usuario.getId());
+			this.dao.commit();
 		} catch (Throwable exc) {
+			this.dao.rollback();
 			throw new SQLException(exc);
 		}
 
@@ -64,8 +67,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public void removerPorId(Integer id) throws SQLException {
 		try {
+			this.dao.beginTransaction();
 			this.dao.remover(id);
+			this.dao.commit();
 		} catch (Throwable exc) {
+			this.dao.rollback();
 			throw new SQLException(exc);
 		}
 	}
