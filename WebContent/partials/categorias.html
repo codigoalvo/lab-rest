@@ -10,7 +10,11 @@
 			<tr>
 				<th class="text-right">Id</th>
 				<th>Nome</th>
-				<th class="text-center"><a class="btn-sm btn-success" href="#/categorias/nova" title="Incluir"><span class="glyphicon glyphicon-file" /></a></th>
+				<th class="text-center">
+					<a class="btn-sm btn-success" href="#/categorias/incluir" title="Incluir">
+						<span class="glyphicon glyphicon-file" />
+					</a>
+				</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -18,8 +22,12 @@
 				<td class="col-md-1 text-right">{{categoria.id}}</td>
 				<td class="col-md-9">{{categoria.nome}}</td>
 				<td class="col-md-2 text-center">
-					<a class="btn-sm btn-primary" href="#/categorias/editar/{{categoria.id}}" title="Editar"><span class="glyphicon glyphicon-pencil" /></a>
-					<a class="btn-sm btn-danger"  ng-click="removerCategoria(categoria)" title="Excluir"><span class="glyphicon glyphicon-trash" /></a>
+					<a class="btn-sm btn-primary" href="#/categorias/editar/{{categoria.id}}" title="Editar">
+						<span class="glyphicon glyphicon-pencil" />
+					</a>
+					<a class="btn-sm btn-danger"  ng-click="removerCategoria(categoria)" title="Excluir">
+						<span class="glyphicon glyphicon-trash" />
+					</a>
 				</td>
 			</tr>
 		</tbody>

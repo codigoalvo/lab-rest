@@ -1,0 +1,47 @@
+<header navheader></header>
+<div class="row">
+<div class="col-md-10 col-md-offset-1">
+<div class="panel panel-primary row spacing-top" ng-controller="UsuarioController" data-ng-init="listarUsuarios()">
+	<div class="panel-heading">
+		<h3 class="panel-title text-center">Usuarios</h3>
+	</div>
+	<table class="table table-striped table-bordered" >
+		<thead>
+			<tr>
+				<th class="text-right">Id</th>
+				<th>Login</th>
+				<th>Nome</th>
+				<th>Email</th>
+				<th>Tipo</th>
+				<!--
+				<th class="text-center">
+					<a class="btn-sm btn-success" href="#/usuarios/incluir" title="Incluir">
+						<span class="glyphicon glyphicon-file" />
+					</a>
+				</th>
+				-->
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="usuario in usuarios">
+				<td class="col-md-1 text-right">{{usuario.id}}</td>
+				<td >{{usuario.login}}</td>
+				<td >{{usuario.nome}}</td>
+				<td >{{usuario.email}}</td>
+				<td >{{usuario.tipo}}</td>
+				<!--
+				<td class="col-md-2 text-center">
+					<a class="btn-sm btn-primary" href="#/usuarios/editar/{{usuario.id}}" title="Editar">
+						<span class="glyphicon glyphicon-pencil" />
+					</a>
+					<a class="btn-sm btn-danger"  ng-click="removerUsuario(usuario)" title="Excluir">
+						<span class="glyphicon glyphicon-trash" />
+					</a>
+				</td>
+				-->
+			</tr>
+		</tbody>
+	</table>
+	</div>
+</div>
+</div>

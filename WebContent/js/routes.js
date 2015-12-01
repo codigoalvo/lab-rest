@@ -1,10 +1,25 @@
 angular.module('alvoRotas', []).config(function($routeProvider){
+	$routeProvider.when('/usuarios', {
+		templateUrl: 'partials/usuarios.html',
+		controller: 'UsuarioController'
+	});
+
+	$routeProvider.when('/usuarios/incluir', {
+		templateUrl: 'partials/usuario.html',
+		controller: 'UsuarioController'
+	});
+
+	$routeProvider.when('/usuarios/editar/:usuarioId', {
+		templateUrl: 'partials/usuario.html',
+		controller: 'UsuarioController'
+	});
+	
 	$routeProvider.when('/categorias', {
 		templateUrl: 'partials/categorias.html',
 		controller: 'CategoriaController'
 	});
 
-	$routeProvider.when('/categorias/nova', {
+	$routeProvider.when('/categorias/incluir', {
 		templateUrl: 'partials/categoria.html',
 		controller: 'CategoriaController'
 	});
