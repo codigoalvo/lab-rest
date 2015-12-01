@@ -11,7 +11,6 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
 import codigoalvo.util.JsonUtil;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwt;
@@ -27,6 +26,7 @@ public class JasonWebTokenUtil {
 	public static final int MINUTOS_MINIMOS_TOKEN = 5;
 	private static SecureRandom random = new SecureRandom();
 
+	@SuppressWarnings("unused")
 	private static String criarIdentificadorSessao() {
 		return new BigInteger(130, random).toString(32);
 	}
@@ -52,7 +52,7 @@ public class JasonWebTokenUtil {
 		Date dataAgora = new Date(agora);
 		JwtBuilder token = Jwts.builder()
 				.setIssuer(ISSUER)
-				.setId(criarIdentificadorSessao())
+				.setId(usuario.getId().toString())
 				.setIssuedAt(dataAgora)
 				.setSubject(usuario.getLogin())
 				.claim("usuario", usuarioJson)

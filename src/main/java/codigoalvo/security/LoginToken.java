@@ -8,6 +8,7 @@ public class LoginToken implements Serializable {
 
 	private static final long serialVersionUID = -8107572215093548341L;
 
+	private Integer id;
 	private String login;
 	private String nome;
 	private String email;
@@ -17,13 +18,22 @@ public class LoginToken implements Serializable {
 	public LoginToken() {
 	}
 
-	public LoginToken(String login, String nome, String email, UsuarioTipo tipo, String extp) {
+	public LoginToken(Integer id, String login, String nome, String email, UsuarioTipo tipo, String extp) {
 		super();
+		this.id = id;
 		this.login = login;
 		this.nome = nome;
 		this.email = email;
 		this.tipo = tipo;
 		this.setExtp(extp);
+	}
+
+	public Integer getId() {
+		return this.id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getLogin() {

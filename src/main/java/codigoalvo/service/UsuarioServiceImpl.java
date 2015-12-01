@@ -111,13 +111,4 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return usuario;
 	}
 
-	@Override
-	public String tiposUsuario() {
-		List<String> tipos = new ArrayList<String>();
-		for (UsuarioTipo usuarioTipo : UsuarioTipo.values()) {
-			tipos.add(usuarioTipo.name());
-		}
-		return JsonUtil.toJson(tipos.toArray(new String[0]));
-	}
-
 }
