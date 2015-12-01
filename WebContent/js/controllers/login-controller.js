@@ -16,7 +16,22 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $locati
 			servicosLogin.efetuarLogout();
 		});
 	};
-	
+
+	$scope.initLogin = function() {
+		servicosLogin.efetuarLogout();
+		$scope.usuario.login = 'admin';
+		$scope.usuario.senha = 'admin';
+		$scope.usuario.senhaNova = '';
+	}
+
+	$scope.initSenha = function() {
+		var logado = servicosLogin.getUsuarioLogado();
+		$scope.usuario.login = '';
+		$scope.usuario.login = logado.login;
+		$scope.usuario.senha = '';
+		$scope.usuario.senhaNova = '';
+	};
+
 	$scope.alterarSenha = function() {
 		servicosLogin.alterarSenha($scope.usuario)
 		.then( function(resp) {
