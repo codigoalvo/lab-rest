@@ -13,5 +13,6 @@ public interface UsuarioService {
 	List<Usuario> listar();
 	public Usuario buscarPorLogin(String login);
 	public Usuario buscarPorEmail(String email);
+	public String tiposUsuario();
 
 }

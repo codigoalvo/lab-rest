@@ -10,7 +10,7 @@ angular.module('usuarioService', ['ngResource'])
 				}
 			})
 	})
-	.factory("cadastroUsuario", function(recursoUsuario, $q) {
+	.factory("cadastroUsuario", function(recursoUsuario, $http, $q) {
 		var service = {};
 		service.gravar = function(usuario) {
 			return $q(function(resolve, reject) {
@@ -45,5 +45,24 @@ angular.module('usuarioService', ['ngResource'])
 			    stripTrailingSlashes: false
 			});
 		};
+		service.tipos = function() {
+			return $q(function(resolve, reject) {
+				$http({
+					  method: 'GET',
+					  url:'ws/usuarios/tipos',
+					  headers: {'Content-Type':'application/json'}
+				}).then(
+					function(resp) {
+						var tipos = resp.data;
+						console.log('servicosUsuario.tipos', resp.data);
+						resolve(tipos);
+					}, function(erro) {
+						console.error('Error', erro);
+						reject({
+							mensagem: 'Não foi possivel obter os tipos de usuário!'
+						});
+					})
+				});
+			};
 		return service;
 	});

@@ -1,11 +1,23 @@
 angular.module('alvoApp').controller('UsuarioController',	function($scope, $routeParams, $location, recursoUsuario, cadastroUsuario) {
 	$scope.usuarios = [];
+	$scope.tiposUsuario = [];
 
 	$scope.listarUsuarios = function(usuarios) {
 		recursoUsuario.query(function(usuarios) {
 			$scope.usuarios = usuarios;
 		}, function(erro) {
 			$scope.usuarios = [];
+			console.log(erro);
+		});
+	};
+	
+	$scope.tiposUsuario = function() {
+		cadastroUsuario.tipos()
+		.then(function(dados) {
+			console.log('UsuarioController.tiposUsuario', dados);
+			$scope.tiposUsuario = dados;
+		}).catch(function(erro) {
+			$scope.tiposUsuario = [];
 			console.log(erro);
 		});
 	};
@@ -19,7 +31,7 @@ angular.module('alvoApp').controller('UsuarioController',	function($scope, $rout
 			console.log(erro);
 		});
 	};
-	
+
 	$scope.usuario = {};
 	$scope.mensagem = '';
 

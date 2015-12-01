@@ -1,13 +1,17 @@
 package codigoalvo.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.NoResultException;
 
 import org.apache.log4j.Logger;
 
+import com.google.gson.Gson;
+
 import codigoalvo.entity.Usuario;
+import codigoalvo.entity.UsuarioTipo;
 import codigoalvo.repository.UsuarioDao;
 import codigoalvo.repository.UsuarioDaoJpa;
 import codigoalvo.security.SegurancaUtil;
@@ -106,6 +110,15 @@ public class UsuarioServiceImpl implements UsuarioService {
 			Logger.getLogger(UsuarioServiceImpl.class).debug("Usuario não encontrado (email): " + email);
 		}
 		return usuario;
+	}
+
+	@Override
+	public String tiposUsuario() {
+		List<String> tipos = new ArrayList<String>();
+		for (UsuarioTipo usuarioTipo : UsuarioTipo.values()) {
+			tipos.add(usuarioTipo.name());
+		}
+		return new Gson().toJson(tipos.toArray(new String[0]));
 	}
 
 }

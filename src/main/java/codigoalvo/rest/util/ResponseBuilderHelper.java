@@ -96,6 +96,9 @@ public class ResponseBuilderHelper {
 	}
 
 	public static void atualizarTokenNaRespostaSeNecessario(ResponseBuilder resposta, String token) {
+		if (!AUTHENTICATION_ENABLED) {
+			return;
+		}
 		Claims corpoJwt = JasonWebTokenUtil.obterCorpoJWT(token);
 		if (JasonWebTokenUtil.precisaRenovar(corpoJwt)) {
 			String tokenAtualizado = JasonWebTokenUtil.renovaToken(corpoJwt);

@@ -123,4 +123,18 @@ public class UsuarioREST {
 		}
 		return resposta.build();
 	}
+
+	@GET
+	@Path("/tipos")
+	@Produces(MediaType.APPLICATION_JSON + UTF8)
+	public Response tipos(@Context HttpHeaders headers) {
+		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
+		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
+		if (resposta == null) {
+			String tipos = this.service.tiposUsuario();
+			resposta = Response.ok().entity(tipos);
+			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
+		}
+		return resposta.build();
+	}
 }
