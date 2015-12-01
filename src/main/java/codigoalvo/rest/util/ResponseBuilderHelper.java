@@ -11,11 +11,10 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
 
-import com.google.gson.Gson;
-
 import codigoalvo.entity.UsuarioTipo;
 import codigoalvo.security.JasonWebTokenUtil;
 import codigoalvo.security.LoginToken;
+import codigoalvo.util.JsonUtil;
 import codigoalvo.util.Message;
 import codigoalvo.util.UsuarioTipoUtil;
 
@@ -75,7 +74,7 @@ public class ResponseBuilderHelper {
 
 				if (admin) {
 					String usuarioJson = ""+corpoJwt.get("usuario");
-					LoginToken usuario = new Gson().fromJson(usuarioJson, LoginToken.class);
+					LoginToken usuario = JsonUtil.fromJson(usuarioJson, LoginToken.class);
 					UsuarioTipo usuarioTipo = UsuarioTipoUtil.decodeTipo(usuario.getExtp());
 					if (UsuarioTipo.ADMIN != usuarioTipo) {
 						return Response.status(Status.FORBIDDEN).entity(new Message("Usuário não é administrador!"));

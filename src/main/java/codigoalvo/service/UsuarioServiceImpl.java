@@ -8,8 +8,6 @@ import javax.persistence.NoResultException;
 
 import org.apache.log4j.Logger;
 
-import com.google.gson.Gson;
-
 import codigoalvo.entity.Usuario;
 import codigoalvo.entity.UsuarioTipo;
 import codigoalvo.repository.UsuarioDao;
@@ -17,6 +15,7 @@ import codigoalvo.repository.UsuarioDaoJpa;
 import codigoalvo.security.SegurancaUtil;
 import codigoalvo.security.SegurancaUtilMd5;
 import codigoalvo.util.EntityManagerUtil;
+import codigoalvo.util.JsonUtil;
 
 public class UsuarioServiceImpl implements UsuarioService {
 
@@ -118,7 +117,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		for (UsuarioTipo usuarioTipo : UsuarioTipo.values()) {
 			tipos.add(usuarioTipo.name());
 		}
-		return new Gson().toJson(tipos.toArray(new String[0]));
+		return JsonUtil.toJson(tipos.toArray(new String[0]));
 	}
 
 }

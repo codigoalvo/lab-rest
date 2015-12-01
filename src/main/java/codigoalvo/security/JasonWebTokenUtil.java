@@ -10,7 +10,7 @@ import java.util.GregorianCalendar;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
-import com.google.gson.Gson;
+import codigoalvo.util.JsonUtil;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -47,7 +47,7 @@ public class JasonWebTokenUtil {
 	}
 
 	public static String criarJWT(LoginToken usuario, long agora, int minutosExpiracao) {
-		String usuarioJson = new Gson().toJson(usuario);
+		String usuarioJson = JsonUtil.toJson(usuario);
 		SignatureAlgorithm algoritmo = obterAlgoritmo();
 		Date dataAgora = new Date(agora);
 		JwtBuilder token = Jwts.builder()

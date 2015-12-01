@@ -8,11 +8,10 @@ import java.util.Date;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.google.gson.Gson;
-
 import static org.junit.Assert.*;
 import codigoalvo.entity.UsuarioTipo;
 import codigoalvo.util.DateUtil;
+import codigoalvo.util.JsonUtil;
 import codigoalvo.util.UsuarioTipoUtil;
 
 public class JasonWebTokenUtilTest {
@@ -43,7 +42,7 @@ public class JasonWebTokenUtilTest {
 	public void testObterUsuarioJWT() {
 		Claims corpoJWT = JasonWebTokenUtil.obterCorpoJWT(token);
 		String usuarioJson = corpoJWT.get("usuario").toString();
-		LoginToken usuario = new Gson().fromJson(usuarioJson, LoginToken.class);
+		LoginToken usuario = JsonUtil.fromJson(usuarioJson, LoginToken.class);
 		UsuarioTipo usuarioTipo = UsuarioTipoUtil.decodeTipo(usuario.getExtp());
 		System.out.println("[testObterUsuarioJWT] usuarioJson: "+usuarioJson);
 		System.out.println("[testObterUsuarioJWT] usuario: "+usuario);

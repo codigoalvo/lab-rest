@@ -13,13 +13,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.log4j.Logger;
 
-import com.google.gson.Gson;
-
 import codigoalvo.entity.Usuario;
 import codigoalvo.security.JasonWebTokenUtil;
 import codigoalvo.security.LoginToken;
 import codigoalvo.service.LoginService;
 import codigoalvo.service.LoginServiceImpl;
+import codigoalvo.util.JsonUtil;
 import codigoalvo.util.UsuarioTipoUtil;
 
 
@@ -40,7 +39,7 @@ public class LoginREST {
 	@Consumes(MediaType.APPLICATION_JSON + UTF8)
 	public Response login(String usuarioLoginStr) {
 		try {
-			UsuarioLogin usuarioLogin = new Gson().fromJson(usuarioLoginStr, UsuarioLogin.class);
+			UsuarioLogin usuarioLogin = JsonUtil.fromJson(usuarioLoginStr, UsuarioLogin.class);
 			System.out.println("usuarioLoginStr: "+usuarioLoginStr);
 			System.out.println("usuarioLogin: "+usuarioLogin);
 			Usuario usuario = this.service.efetuarLogin(usuarioLogin.getLogin(), usuarioLogin.getSenha());
