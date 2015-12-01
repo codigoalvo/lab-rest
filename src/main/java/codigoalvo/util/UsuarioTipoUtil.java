@@ -11,14 +11,14 @@ public class UsuarioTipoUtil {
 	private static final SegurancaUtil segurancaUtil = new SegurancaUtilMd5();
 	private static final String TIPOS_USUARIO_JSON = buildTiposUsuarioJson();
 
-	public static String encodeTipo(UsuarioTipo tipo) {
-		return segurancaUtil.criptografar(tipo.name());
+	public static String encodeTipo(UsuarioTipo tipo, int usuarioId) {
+		return segurancaUtil.criptografar(tipo.name()+usuarioId);
 	}
 
-	public static UsuarioTipo decodeTipo(String encoded) {
+	public static UsuarioTipo decodeTipo(String encoded, int usuarioId) {
 		UsuarioTipo decoded = null;
 		for (UsuarioTipo usuarioTipo : UsuarioTipo.values()) {
-			if (encodeTipo(usuarioTipo).equals(encoded)) {
+			if (encodeTipo(usuarioTipo, usuarioId).equals(encoded)) {
 				return usuarioTipo;
 			}
 		}

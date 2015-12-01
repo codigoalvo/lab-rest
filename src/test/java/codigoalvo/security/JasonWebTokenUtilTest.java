@@ -16,7 +16,7 @@ import codigoalvo.util.UsuarioTipoUtil;
 
 public class JasonWebTokenUtilTest {
 
-	private static final LoginToken LOGIN_TOKEN = new LoginToken(1, "admin", "Administrador", "admin@email.com", UsuarioTipo.ADMIN, UsuarioTipoUtil.encodeTipo(UsuarioTipo.ADMIN));
+	private static final LoginToken LOGIN_TOKEN = new LoginToken(1, "admin", "Administrador", "admin@email.com", UsuarioTipo.ADMIN, UsuarioTipoUtil.encodeTipo(UsuarioTipo.ADMIN, 1));
 	private static final long AGORA = System.currentTimeMillis();
 	private static String token;
 
@@ -43,7 +43,7 @@ public class JasonWebTokenUtilTest {
 		Claims corpoJWT = JasonWebTokenUtil.obterCorpoJWT(token);
 		String usuarioJson = corpoJWT.get("usuario").toString();
 		LoginToken usuario = JsonUtil.fromJson(usuarioJson, LoginToken.class);
-		UsuarioTipo usuarioTipo = UsuarioTipoUtil.decodeTipo(usuario.getExtp());
+		UsuarioTipo usuarioTipo = UsuarioTipoUtil.decodeTipo(usuario.getExtp(), usuario.getId());
 		System.out.println("[testObterUsuarioJWT] usuarioJson: "+usuarioJson);
 		System.out.println("[testObterUsuarioJWT] usuario: "+usuario);
 		System.out.println("[testObterUsuarioJWT] usuario.tipo: "+usuarioTipo);

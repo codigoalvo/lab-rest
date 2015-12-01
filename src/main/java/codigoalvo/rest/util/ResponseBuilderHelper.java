@@ -75,7 +75,7 @@ public class ResponseBuilderHelper {
 				if (admin) {
 					String usuarioJson = ""+corpoJwt.get("usuario");
 					LoginToken usuario = JsonUtil.fromJson(usuarioJson, LoginToken.class);
-					UsuarioTipo usuarioTipo = UsuarioTipoUtil.decodeTipo(usuario.getExtp());
+					UsuarioTipo usuarioTipo = UsuarioTipoUtil.decodeTipo(usuario.getExtp(), usuario.getId());
 					if (UsuarioTipo.ADMIN != usuarioTipo) {
 						return Response.status(Status.FORBIDDEN).entity(new Message("Usuário não é administrador!"));
 					}
