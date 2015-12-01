@@ -26,7 +26,7 @@ import codigoalvo.security.LoginToken;
 import codigoalvo.service.LoginService;
 import codigoalvo.service.LoginServiceImpl;
 import codigoalvo.util.JsonUtil;
-import codigoalvo.util.UsuarioTipoUtil;
+import codigoalvo.util.UsuarioUtil;
 
 
 @Path("/auth")
@@ -51,7 +51,7 @@ public class LoginREST {
 			System.out.println("usuarioLoginStr: "+usuarioLoginStr);
 			System.out.println("usuarioLogin: "+usuarioLogin);
 			Usuario usuario = this.service.efetuarLogin(usuarioLogin.getLogin(), usuarioLogin.getSenha());
-			LoginToken login = new LoginToken(usuario.getId(), usuario.getLogin(), usuario.getNome(), usuario.getEmail(), usuario.getTipo(), UsuarioTipoUtil.encodeTipo(usuario.getTipo(), usuario.getId()));
+			LoginToken login = UsuarioUtil.usuarioToToken(usuario);
 			String token = JasonWebTokenUtil.criarJWT(login);
 			LOG.debug("TOKEN: "+token);
 			return Response.status(Status.OK).header("Authorization", token).entity(login).build();
@@ -79,7 +79,7 @@ public class LoginREST {
 				if (usuario == null  || usuario.getId() == null) {
 					throw new LoginException("login.erroAlterarSenha");
 				}
-				LoginToken login = new LoginToken(usuario.getId(), usuario.getLogin(), usuario.getNome(), usuario.getEmail(), usuario.getTipo(), UsuarioTipoUtil.encodeTipo(usuario.getTipo(), usuario.getId()));
+				LoginToken login = UsuarioUtil.usuarioToToken(usuario);
 				String novoToken = JasonWebTokenUtil.criarJWT(login);
 				LOG.debug("NOVO TOKEN: "+novoToken);
 				resposta =  Response.status(Status.OK).header("Authorization", novoToken).entity(login);
@@ -107,7 +107,7 @@ public class LoginREST {
 			if (!usuario.getId().equals(id) || !usuario.getId().equals(login.getId())) {
 				throw new LoginException("Dados invalidos no token! id");
 			}
-			if (usuario.getTipo() != UsuarioTipoUtil.decodeTipo(login.getExtp(), login.getId())) {
+			if (usuario.getTipo() != UsuarioUtil.decodeTipoFromHash(login)) {
 				throw new LoginException("Dados invalidos no token! tipo");
 			}
 		} catch (Throwable exc) {

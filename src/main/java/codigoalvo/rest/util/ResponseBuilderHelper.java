@@ -16,7 +16,7 @@ import codigoalvo.security.JasonWebTokenUtil;
 import codigoalvo.security.LoginToken;
 import codigoalvo.util.JsonUtil;
 import codigoalvo.util.Message;
-import codigoalvo.util.UsuarioTipoUtil;
+import codigoalvo.util.UsuarioUtil;
 
 public class ResponseBuilderHelper {
 
@@ -75,7 +75,7 @@ public class ResponseBuilderHelper {
 				if (admin) {
 					String usuarioJson = ""+corpoJwt.get("usuario");
 					LoginToken usuario = JsonUtil.fromJson(usuarioJson, LoginToken.class);
-					UsuarioTipo usuarioTipo = UsuarioTipoUtil.decodeTipo(usuario.getExtp(), usuario.getId());
+					UsuarioTipo usuarioTipo = UsuarioUtil.decodeTipoFromHash(usuario);
 					if (UsuarioTipo.ADMIN != usuarioTipo) {
 						return Response.status(Status.FORBIDDEN).entity(new Message("Usuário não é administrador!"));
 					}

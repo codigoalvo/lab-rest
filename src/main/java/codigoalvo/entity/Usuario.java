@@ -68,6 +68,15 @@ public class Usuario implements Serializable {
 	public Usuario() {
 	}
 
+	public Usuario(Integer id, String login, String nome, String email, UsuarioTipo tipo) {
+		super();
+		this.id = id;
+		this.login = login;
+		this.nome = nome;
+		this.email = email;
+		this.tipo = tipo;
+	}
+
 	@Override
 	public String toString() {
 		return this.login;

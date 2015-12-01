@@ -24,7 +24,7 @@ import codigoalvo.rest.util.ResponseBuilderHelper;
 import codigoalvo.service.UsuarioService;
 import codigoalvo.service.UsuarioServiceImpl;
 import codigoalvo.util.Message;
-import codigoalvo.util.UsuarioTipoUtil;
+import codigoalvo.util.UsuarioUtil;
 
 
 @Path("/usuarios")
@@ -132,7 +132,7 @@ public class UsuarioREST {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
 		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
 		if (resposta == null) {
-			String tipos = UsuarioTipoUtil.getTiposUsuarioJson();
+			String tipos = UsuarioUtil.getTiposUsuarioJson();
 			resposta = Response.ok().entity(tipos);
 			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 		}

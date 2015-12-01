@@ -9,14 +9,15 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+import codigoalvo.entity.Usuario;
 import codigoalvo.entity.UsuarioTipo;
 import codigoalvo.util.DateUtil;
 import codigoalvo.util.JsonUtil;
-import codigoalvo.util.UsuarioTipoUtil;
+import codigoalvo.util.UsuarioUtil;
 
 public class JasonWebTokenUtilTest {
 
-	private static final LoginToken LOGIN_TOKEN = new LoginToken(1, "admin", "Administrador", "admin@email.com", UsuarioTipo.ADMIN, UsuarioTipoUtil.encodeTipo(UsuarioTipo.ADMIN, 1));
+	private static final LoginToken LOGIN_TOKEN = UsuarioUtil.usuarioToToken(new Usuario(1, "admin", "Administrador", "admin@email.com", UsuarioTipo.ADMIN));
 	private static final long AGORA = System.currentTimeMillis();
 	private static String token;
 
@@ -43,7 +44,7 @@ public class JasonWebTokenUtilTest {
 		Claims corpoJWT = JasonWebTokenUtil.obterCorpoJWT(token);
 		String usuarioJson = corpoJWT.get("usuario").toString();
 		LoginToken usuario = JsonUtil.fromJson(usuarioJson, LoginToken.class);
-		UsuarioTipo usuarioTipo = UsuarioTipoUtil.decodeTipo(usuario.getExtp(), usuario.getId());
+		UsuarioTipo usuarioTipo = UsuarioUtil.decodeTipoFromHash(usuario);
 		System.out.println("[testObterUsuarioJWT] usuarioJson: "+usuarioJson);
 		System.out.println("[testObterUsuarioJWT] usuario: "+usuario);
 		System.out.println("[testObterUsuarioJWT] usuario.tipo: "+usuarioTipo);
