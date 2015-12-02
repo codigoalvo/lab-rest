@@ -1,4 +1,4 @@
-angular.module('alvoApp').controller('LoginController',	function($scope, $location, servicosLogin) {
+angular.module('alvoApp').controller('LoginController',	function($scope, $location, growl, servicosLogin) {
 	$scope.usuario = {
 		login : 'admin',
 		senha : 'admin',
@@ -14,6 +14,7 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $locati
 		}).catch(function(erro) {
 			console.log(erro);
 			servicosLogin.efetuarLogout();
+			growl.error(erro.mensagem, {title: 'Atenção!'});
 		});
 	};
 
