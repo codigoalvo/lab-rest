@@ -1,4 +1,4 @@
-angular.module('alvoApp').controller('UsuarioController',	function($scope, $routeParams, $location, growl, recursoUsuario, cadastroUsuario) {
+angular.module('alvoApp').controller('UsuarioController',	function($scope, $routeParams, $location, $window, growl, recursoUsuario, cadastroUsuario) {
 	$scope.usuarios = [];
 	$scope.tiposUsuario = [];
 
@@ -24,15 +24,18 @@ angular.module('alvoApp').controller('UsuarioController',	function($scope, $rout
 	};
 
 	$scope.removerUsuario = function(usuario) {
-		recursoUsuario.remove({usuarioId: usuario.id}, function(resp) {
-			console.log(resp);
-			$scope.usuarios = recursoUsuario.query();
-			growl.success(resp.mensagem);
-		}, function(erro) {
-			$scope.usuarios = [];
-			console.log(erro);
-			growl.error(erro.mensagem, {title: 'Atenção!'});
-		});
+		confirmado = $window.confirm('Confirma a exclusão?');
+		if(confirmado){
+			recursoUsuario.remove({usuarioId: usuario.id}, function(resp) {
+				console.log(resp);
+				$scope.usuarios = recursoUsuario.query();
+				growl.success(resp.mensagem);
+			}, function(erro) {
+				$scope.usuarios = [];
+				console.log(erro);
+				growl.error(erro.mensagem, {title: 'Atenção!'});
+			});
+		}
 	};
 
 	$scope.usuario = {};
