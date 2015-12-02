@@ -25,7 +25,9 @@ import codigoalvo.security.JasonWebTokenUtil;
 import codigoalvo.security.LoginToken;
 import codigoalvo.service.LoginService;
 import codigoalvo.service.LoginServiceImpl;
+import codigoalvo.util.ErrosUtil;
 import codigoalvo.util.JsonUtil;
+import codigoalvo.util.Message;
 import codigoalvo.util.UsuarioUtil;
 
 
@@ -56,8 +58,8 @@ public class LoginREST {
 			LOG.debug("TOKEN: "+token);
 			return Response.status(Status.OK).header("Authorization", token).entity(login).build();
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Usuario()).build();
+			LOG.error(ErrosUtil.getMensagemErro(exc), exc);
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message(ErrosUtil.getMensagemErro(exc))).build();
 		}
 	}
 
@@ -77,7 +79,7 @@ public class LoginREST {
 				validarUsuario(usuario, token);
 				usuario = this.service.alterarSenha(usuario, usuarioLogin.getSenhaNova());
 				if (usuario == null  || usuario.getId() == null) {
-					throw new LoginException("login.erroAlterarSenha");
+					throw new LoginException("login.invalido");
 				}
 				LoginToken login = UsuarioUtil.usuarioToToken(usuario);
 				String novoToken = JasonWebTokenUtil.criarJWT(login);
@@ -85,7 +87,7 @@ public class LoginREST {
 				resposta =  Response.status(Status.OK).header("Authorization", novoToken).entity(login);
 			} catch (Exception exc) {
 				LOG.error(exc);
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Usuario());
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message(ErrosUtil.getMensagemErro(exc)));
 			}
 		}
 		return resposta.build();

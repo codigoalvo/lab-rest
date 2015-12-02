@@ -17,9 +17,9 @@ angular.module('loginService', [])
 					resolve(usuarioLogado);
 				}, function(erro) {
 					usuarioLogado = null;
-					console.error('Error', erro);
+					console.error('Error', erro.data.msg);
 					reject({
-						mensagem: 'Não foi possivel realizar o login!'
+						mensagem: erro.data.msg,
 					});
 				})
 			});
@@ -40,9 +40,9 @@ angular.module('loginService', [])
 					resolve(usuarioLogado);
 				}, function(erro) {
 					usuarioLogado = null;
-					console.error('Error', erro);
+					console.error('Error', erro.data.msg);
 					reject({
-						mensagem: 'Não foi possivel alterar a senha!'
+						mensagem: erro.data.msg,
 					});
 				})
 			});

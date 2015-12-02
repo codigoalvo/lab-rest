@@ -11,6 +11,7 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $locati
 		.then( function(resp) {
 			$scope.usuarioLogado = resp;
 			$location.path("/home");
+			growl.success('Login realizado com sucesso!');
 		}).catch(function(erro) {
 			console.log(erro);
 			servicosLogin.efetuarLogout();
@@ -38,9 +39,11 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $locati
 		.then( function(resp) {
 			$scope.usuarioLogado = resp;
 			$location.path("/home");
+			growl.success('Senha alterada com sucesso!');
 		}).catch(function(erro) {
 			console.log(erro);
 			servicosLogin.efetuarLogout();
+			growl.error(erro.mensagem, {title: 'Atenção!'});
 		});
 	};
 

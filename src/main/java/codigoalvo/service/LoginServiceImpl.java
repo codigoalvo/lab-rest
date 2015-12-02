@@ -75,13 +75,15 @@ public class LoginServiceImpl implements LoginService {
 		try {
 			Usuario usuario = null;
 			usuario = this.usuarioDao.buscarPorLogin(login);
-			if (usuario == null || usuario.getId() == null || !usuario.getSenha().equals(this.segurancaUtil.criptografar(senha))) {
-				throw new LoginException("login.usuarioOuSenhaInvalidos");
+			if (usuario == null || usuario.getId() == null) {
+				throw new LoginException("login.invalido");
+			} else if (!usuario.getSenha().equals(this.segurancaUtil.criptografar(senha))) {
+				throw new LoginException("senha.atualInvalida");
 			}
 			return usuario;
 		} catch (NoResultException nre) {
-			LOGGER.debug("Usuario não encontrado (login): " + login);
-			throw new LoginException("login.usuarioOuSenhaInvalidos");
+			LOGGER.debug("login.invalido" + login);
+			throw new LoginException("login.invalido");
 		}
 	}
 
@@ -96,8 +98,8 @@ public class LoginServiceImpl implements LoginService {
 		} catch (Throwable exc) {
 			usuario.setSenha(senhaAtual);
 			this.usuarioDao.rollback();
-			LOGGER.debug("Erro ao gravar atualização de senha de usuario!", exc);
-			throw new LoginException("login.erroAoGravarNovaSenha");
+			LOGGER.debug("senha.erroGravar", exc);
+			throw new LoginException("senha.erroGravar");
 		}
 		return usuario;
 	}
