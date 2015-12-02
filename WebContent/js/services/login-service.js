@@ -19,7 +19,7 @@ angular.module('loginService', [])
 					usuarioLogado = null;
 					console.error('Error', erro.data.msg);
 					reject({
-						mensagem: erro.data.msg,
+						msg: erro.data.msg,
 					});
 				})
 			});
@@ -42,7 +42,7 @@ angular.module('loginService', [])
 					usuarioLogado = null;
 					console.error('Error', erro.data.msg);
 					reject({
-						mensagem: erro.data.msg,
+						msg: erro.data.msg,
 					});
 				})
 			});

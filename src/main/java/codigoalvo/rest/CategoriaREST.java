@@ -23,6 +23,7 @@ import codigoalvo.entity.Categoria;
 import codigoalvo.rest.util.ResponseBuilderHelper;
 import codigoalvo.service.CategoriaService;
 import codigoalvo.service.CategoriaServiceImpl;
+import codigoalvo.util.I18NUtil;
 import codigoalvo.util.Message;
 
 
@@ -37,7 +38,6 @@ public class CategoriaREST {
 	public CategoriaREST() {
 		LOG.debug("####################  construct  ####################");
 	}
-
 
 	@Path("{id}")
 	@GET
@@ -79,7 +79,7 @@ public class CategoriaREST {
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (Exception e) {
 				e.printStackTrace();
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message("Ocorreu um erro ao salvar!"));
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message(I18NUtil.getMessage("gravar.erro")));
 			}
 		}
 		return resposta.build();
@@ -99,7 +99,7 @@ public class CategoriaREST {
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (Exception e) {
 				e.printStackTrace();
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message("Ocorreu um erro ao salvar!"));
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message(I18NUtil.getMessage("gravar.erro")));
 			}
 		}
 		return resposta.build();
@@ -114,11 +114,11 @@ public class CategoriaREST {
 		if (resposta == null) {
 			try {
 				this.service.removerPorId(id);
-				resposta = Response.ok().entity(new Message("Categoria removida com sucesso!!!"));
+				resposta = Response.ok().entity(new Message(I18NUtil.getMessage("remover.sucesso")));
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (SQLException e) {
 				e.printStackTrace();
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message("Ocorreu um erro ao remover!"));
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message(I18NUtil.getMessage("remover.erro")));
 			}
 		}
 		return resposta.build();

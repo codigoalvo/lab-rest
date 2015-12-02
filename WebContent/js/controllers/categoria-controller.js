@@ -1,4 +1,4 @@
-angular.module('alvoApp').controller('CategoriaController',	function($scope, $routeParams, $location, recursoCategoria, cadastroCategoria) {
+angular.module('alvoApp').controller('CategoriaController',	function($scope, $routeParams, $location, growl, recursoCategoria, cadastroCategoria) {
 	$scope.categorias = [];
 
 	$scope.listarCategorias = function(categorias) {
@@ -9,19 +9,20 @@ angular.module('alvoApp').controller('CategoriaController',	function($scope, $ro
 			console.log(erro);
 		});
 	};
-	
+
 	$scope.removerCategoria = function(categoria) {
 		recursoCategoria.remove({categoriaId: categoria.id}, function(resp) {
 			console.log(resp);
 			$scope.categorias = recursoCategoria.query();
+			growl.success(resp.msg);
 		}, function(erro) {
 			$scope.categorias = [];
 			console.log(erro);
+			growl.error(erro.msg, {title: 'Atenção!'});
 		});
 	};
 	
 	$scope.categoria = {};
-	$scope.mensagem = '';
 
 	if($routeParams.categoriaId) {
 		recursoCategoria.get({categoriaId: $routeParams.categoriaId}, function(categoria) {
@@ -29,23 +30,21 @@ angular.module('alvoApp').controller('CategoriaController',	function($scope, $ro
 		}, function(erro) {
 			$scope.categoria = {};
 			console.log(erro);
-			$scope.mensagem = 'Não foi possível obter a categoria'
+			growl.error('Não foi possível obter a categoria', {title: 'Atenção!'});
 		});
 	}
 
 	$scope.submeter = function() {
 		cadastroCategoria.gravar($scope.categoria)
-		.then(function(dados) {
+		.then(function(resp) {
 			$scope.categorias = [];
-			$scope.categoria = categoria;
-			$scope.mensagem = dados.mensagem;
-			if (dados.inclusao) $scope.categoria = {};
+			if (resp.inclusao) $scope.categoria = {};
 			$location.path("/categorias");
+			growl.success(resp.msg);
 		})
 		.catch(function(erro) {
 			$scope.categorias = [];
-			$scope.categoria = categoria;
-			$scope.mensagem = erro.mensagem;
+			growl.error(erro.msg, {title: 'Atenção!'});
 		});
 	};
 	

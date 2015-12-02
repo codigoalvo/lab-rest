@@ -15,7 +15,7 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $locati
 		}).catch(function(erro) {
 			console.log(erro);
 			servicosLogin.efetuarLogout();
-			growl.error(erro.mensagem, {title: 'Atenção!'});
+			growl.error(erro.msg, {title: 'Atenção!'});
 		});
 	};
 
@@ -43,7 +43,7 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $locati
 		}).catch(function(erro) {
 			console.log(erro);
 			servicosLogin.efetuarLogout();
-			growl.error(erro.mensagem, {title: 'Atenção!'});
+			growl.error(erro.msg, {title: 'Atenção!'});
 		});
 	};
 

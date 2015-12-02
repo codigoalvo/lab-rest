@@ -23,6 +23,8 @@ import codigoalvo.entity.Usuario;
 import codigoalvo.rest.util.ResponseBuilderHelper;
 import codigoalvo.service.UsuarioService;
 import codigoalvo.service.UsuarioServiceImpl;
+import codigoalvo.util.ErrosUtil;
+import codigoalvo.util.I18NUtil;
 import codigoalvo.util.Message;
 import codigoalvo.util.UsuarioUtil;
 
@@ -38,7 +40,6 @@ public class UsuarioREST {
 	public UsuarioREST() {
 		LOG.debug("####################  construct  ####################");
 	}
-
 
 	@Path("{id}")
 	@GET
@@ -78,9 +79,9 @@ public class UsuarioREST {
 				Usuario entidade = this.service.gravar(usuario);
 				resposta = Response.ok().entity(entidade);
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
-			} catch (Exception e) {
-				e.printStackTrace();
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message("Ocorreu um erro ao salvar!"));
+			} catch (Exception exc) {
+				LOG.error(exc);
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message(I18NUtil.getMessage("gravar.erro")));
 			}
 		}
 		return resposta.build();
@@ -98,9 +99,9 @@ public class UsuarioREST {
 				Usuario entidade = this.service.gravar(usuario);
 				resposta = Response.ok().entity(entidade);
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
-			} catch (Exception e) {
-				e.printStackTrace();
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message("Ocorreu um erro ao salvar!"));
+			} catch (Exception exc) {
+				LOG.error(exc);
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message(I18NUtil.getMessage("gravar.erro")));
 			}
 		}
 		return resposta.build();
@@ -115,11 +116,11 @@ public class UsuarioREST {
 		if (resposta == null) {
 			try {
 				this.service.removerPorId(id);
-				resposta = Response.ok().entity(new Message("Usuario removido com sucesso!!!"));
+				resposta = Response.ok().entity(new Message(I18NUtil.getMessage("remover.sucesso")));
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
-			} catch (SQLException e) {
-				e.printStackTrace();
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message("Ocorreu um erro ao remover!"));
+			} catch (SQLException exc) {
+				LOG.error(exc);
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message(I18NUtil.getMessage("remover.erro")));
 			}
 		}
 		return resposta.build();
@@ -132,9 +133,14 @@ public class UsuarioREST {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
 		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
 		if (resposta == null) {
-			String tipos = UsuarioUtil.getTiposUsuarioJson();
-			resposta = Response.ok().entity(tipos);
+			try {
+				String tipos = UsuarioUtil.getTiposUsuarioJson();
+				resposta = Response.ok().entity(tipos);
 			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
+			} catch (Exception exc) {
+				LOG.error(exc);
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message(I18NUtil.getMessage(ErrosUtil.getMensagemErro(exc))));
+			}
 		}
 		return resposta.build();
 	}

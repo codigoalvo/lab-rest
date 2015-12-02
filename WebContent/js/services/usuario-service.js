@@ -17,26 +17,26 @@ angular.module('usuarioService', ['ngResource'])
 				if(usuario.id) {
 					recursoUsuario.update({usuarioId: usuario.id}, usuario, function() {
 						resolve({
-							mensagem: 'Usuario ' + usuario.nome + ' atualizado com sucesso',
+							msg: 'Usuario ' + usuario.nome + ' atualizado com sucesso',
 							inclusao: false
 						});
 					}, function(erro) {
 						console.log(erro);
 						reject({
-							mensagem: 'Não foi possível atualizar o usuario ' + usuario.nome
+							msg: erro.data.msg,
 						});
 					});
 
 				} else {
 					recursoUsuario.save(usuario, function() {
 						resolve({
-							mensagem: 'Usuario ' + usuario.nome + ' incluído com sucesso',
+							msg: 'Usuario ' + usuario.nome + ' incluído com sucesso',
 							inclusao: true
 						});
 					}, function(erro) {
 						console.log(erro);
 						reject({
-							mensagem: 'Não foi possível incluir o usuario ' + usuario.nome
+							msg: erro.data.msg,
 						});
 					});
 				}
@@ -59,7 +59,7 @@ angular.module('usuarioService', ['ngResource'])
 					}, function(erro) {
 						console.error('Error', erro);
 						reject({
-							mensagem: 'Não foi possivel obter os tipos de usuário!'
+							msg: erro.data.msg,
 						});
 					})
 				});
