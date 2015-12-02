@@ -15,7 +15,7 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $locati
 		}).catch(function(erro) {
 			console.log(erro);
 			servicosLogin.efetuarLogout();
-			growl.error(erro.msg, {title: 'Atenção!'});
+			growl.error(erro.mensagem, {title: 'Atenção!'});
 		});
 	};
 
@@ -44,7 +44,7 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $locati
 			growl.success('Senha alterada com sucesso!');
 		}).catch(function(erro) {
 			console.log(erro);
-			growl.error(erro.msg, {title: 'Atenção!'});
+			growl.error(erro.mensagem, {title: 'Atenção!'});
 		});
 	};
 

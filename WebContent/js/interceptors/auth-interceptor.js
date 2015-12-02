@@ -16,8 +16,8 @@ angular.module('authInterceptor', []).config(function($httpProvider){
 			response: function (response) {
 				var token = response.headers('Authorization');
 				if (token != null) {
-					console.log('Old token in Session: ', $window.sessionStorage.token);
-					console.log('New token from Header', token);
+					//console.log('Old token in Session: ', $window.sessionStorage.token);
+					//console.log('New token from Header', token);
 					$window.sessionStorage.token = token;
 					console.log('*** Token in Session ***  ', $window.sessionStorage.token);
 				} 
