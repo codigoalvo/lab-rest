@@ -2,8 +2,8 @@ angular.module('alvoApp').controller('CategoriaController',	function($scope, $ro
 	$scope.categorias = [];
 
 	$scope.listarCategorias = function(categorias) {
-		recursoCategoria.query(function(categorias) {
-			$scope.categorias = categorias;
+		recursoCategoria.query(function(resp) {
+			$scope.categorias = resp;
 		}, function(erro) {
 			$scope.categorias = [];
 			console.log(erro);
@@ -14,11 +14,11 @@ angular.module('alvoApp').controller('CategoriaController',	function($scope, $ro
 		recursoCategoria.remove({categoriaId: categoria.id}, function(resp) {
 			console.log(resp);
 			$scope.categorias = recursoCategoria.query();
-			growl.success(resp.msg);
+			growl.success(resp.mensagem);
 		}, function(erro) {
 			$scope.categorias = [];
 			console.log(erro);
-			growl.error(erro.msg, {title: 'Atenção!'});
+			growl.error(erro.mensagem, {title: 'Atenção!'});
 		});
 	};
 	
@@ -40,11 +40,11 @@ angular.module('alvoApp').controller('CategoriaController',	function($scope, $ro
 			$scope.categorias = [];
 			if (resp.inclusao) $scope.categoria = {};
 			$location.path("/categorias");
-			growl.success(resp.msg);
+			growl.success(resp.mensagem);
 		})
 		.catch(function(erro) {
 			$scope.categorias = [];
-			growl.error(erro.msg, {title: 'Atenção!'});
+			growl.error(erro.mensagem, {title: 'Atenção!'});
 		});
 	};
 	

@@ -27,9 +27,11 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $locati
 	}
 
 	$scope.initSenha = function() {
-		var logado = servicosLogin.getUsuarioLogado();
+		var logado = servicosLogin.pegarUsuarioDoToken();
+		console.log('LoginController.initSenha.logado', logado);
 		$scope.usuario.login = '';
 		$scope.usuario.login = logado.login;
+		console.log('LoginController.initSenha.logado.login', logado.login);
 		$scope.usuario.senha = '';
 		$scope.usuario.senhaNova = '';
 	};
@@ -42,7 +44,6 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $locati
 			growl.success('Senha alterada com sucesso!');
 		}).catch(function(erro) {
 			console.log(erro);
-			servicosLogin.efetuarLogout();
 			growl.error(erro.msg, {title: 'Atenção!'});
 		});
 	};

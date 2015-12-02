@@ -1,6 +1,7 @@
 package codigoalvo.rest.util;
 
 import io.jsonwebtoken.ExpiredJwtException;
+
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -11,7 +12,6 @@ import org.apache.log4j.Logger;
 import codigoalvo.entity.UsuarioTipo;
 import codigoalvo.security.JsonWebTokenUtil;
 import codigoalvo.security.LoginToken;
-import codigoalvo.util.Message;
 import codigoalvo.util.UsuarioUtil;
 
 public class ResponseBuilderHelper {
@@ -52,24 +52,24 @@ public class ResponseBuilderHelper {
 			return null;
 		}
 		if (token == null || token.isEmpty()) {
-			return Response.status(Status.UNAUTHORIZED).entity(new Message("Token de autorização não encontrado!"));
+			return Response.status(Status.UNAUTHORIZED).entity(new Resposta("Token de autorização não encontrado!"));
 		} else {
 			try {
 				if (!JsonWebTokenUtil.isValidToken(token)) {
-					return Response.status(Status.UNAUTHORIZED).entity(new Message("Token de autorização inválido!"));
+					return Response.status(Status.UNAUTHORIZED).entity(new Resposta("Token de autorização inválido!"));
 				}
 
 				if (admin) {
 					LoginToken loginToken = JsonWebTokenUtil.obterLoginToken(token);
 					UsuarioTipo usuarioTipo = UsuarioUtil.decodeTipoFromHash(loginToken);
 					if (UsuarioTipo.ADMIN != usuarioTipo) {
-						return Response.status(Status.FORBIDDEN).entity(new Message("Usuário não é administrador!"));
+						return Response.status(Status.FORBIDDEN).entity(new Resposta("Usuário não é administrador!"));
 					}
 				}
 
 				return null;
 			} catch (ExpiredJwtException exc) {
-				return Response.status(Status.UNAUTHORIZED).entity(new Message("Token de autorização expirado!"));
+				return Response.status(Status.UNAUTHORIZED).entity(new Resposta("Token de autorização expirado!"));
 			}
 		}
 	}
@@ -80,13 +80,13 @@ public class ResponseBuilderHelper {
 		return resposta;
 	}
 
-	public static void atualizarTokenNaRespostaSeNecessario(ResponseBuilder resposta, String token) {
+	public static void atualizarTokenNaRespostaSeNecessario(ResponseBuilder response, String token) {
 		if (!AUTHENTICATION_ENABLED) {
 			return;
 		}
 		String tokenAtualizado = JsonWebTokenUtil.renovaTokenSeNecessario(token);
 		if (!token.equals(tokenAtualizado)) {
-			resposta.header("Authorization", tokenAtualizado);
+			response.header("Authorization", tokenAtualizado);
 		}
 	}
 }

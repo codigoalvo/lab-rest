@@ -18,14 +18,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.log4j.Logger;
 
 import codigoalvo.entity.Usuario;
+import codigoalvo.rest.util.Resposta;
 import codigoalvo.rest.util.ResponseBuilderHelper;
 import codigoalvo.security.JsonWebTokenUtil;
 import codigoalvo.security.LoginToken;
 import codigoalvo.service.LoginService;
 import codigoalvo.service.LoginServiceImpl;
 import codigoalvo.util.ErrosUtil;
+import codigoalvo.util.I18NUtil;
 import codigoalvo.util.JsonUtil;
-import codigoalvo.util.Message;
 import codigoalvo.util.UsuarioUtil;
 
 
@@ -54,10 +55,10 @@ public class LoginREST {
 			LoginToken login = UsuarioUtil.usuarioToToken(usuario);
 			String token = JsonWebTokenUtil.criarJWT(login);
 			LOG.debug("TOKEN: "+token);
-			return Response.status(Status.OK).header("Authorization", token).entity(login).build();
+			return Response.status(Status.OK).header("Authorization", token).entity(new Resposta(I18NUtil.getMessage("login.sucesso"))).build();
 		} catch (Exception exc) {
 			LOG.error(ErrosUtil.getMensagemErro(exc), exc);
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message(ErrosUtil.getMensagemErro(exc))).build();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(ErrosUtil.getMensagemErro(exc))).build();
 		}
 	}
 
@@ -82,10 +83,10 @@ public class LoginREST {
 				LoginToken login = UsuarioUtil.usuarioToToken(usuario);
 				String novoToken = JsonWebTokenUtil.criarJWT(login);
 				LOG.debug("NOVO TOKEN: "+novoToken);
-				resposta =  Response.status(Status.OK).header("Authorization", novoToken).entity(login);
+				resposta =  Response.status(Status.OK).header("Authorization", novoToken).entity(new Resposta(I18NUtil.getMessage("senha.alterarSucesso")));
 			} catch (Exception exc) {
 				LOG.error(exc);
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message(ErrosUtil.getMensagemErro(exc)));
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(ErrosUtil.getMensagemErro(exc)));
 			}
 		}
 		return resposta.build();

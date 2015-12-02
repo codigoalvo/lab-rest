@@ -20,12 +20,12 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.log4j.Logger;
 
 import codigoalvo.entity.Usuario;
+import codigoalvo.rest.util.Resposta;
 import codigoalvo.rest.util.ResponseBuilderHelper;
 import codigoalvo.service.UsuarioService;
 import codigoalvo.service.UsuarioServiceImpl;
 import codigoalvo.util.ErrosUtil;
 import codigoalvo.util.I18NUtil;
-import codigoalvo.util.Message;
 import codigoalvo.util.UsuarioUtil;
 
 
@@ -77,11 +77,11 @@ public class UsuarioREST {
 		if (resposta == null) {
 			try {
 				Usuario entidade = this.service.gravar(usuario);
-				resposta = Response.ok().entity(entidade);
+				resposta = Response.ok().entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (Exception exc) {
 				LOG.error(exc);
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message(I18NUtil.getMessage("gravar.erro")));
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("gravar.erro")));
 			}
 		}
 		return resposta.build();
@@ -97,11 +97,11 @@ public class UsuarioREST {
 		if (resposta == null) {
 			try {
 				Usuario entidade = this.service.gravar(usuario);
-				resposta = Response.ok().entity(entidade);
+				resposta = Response.ok().entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (Exception exc) {
 				LOG.error(exc);
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message(I18NUtil.getMessage("gravar.erro")));
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("gravar.erro")));
 			}
 		}
 		return resposta.build();
@@ -116,11 +116,11 @@ public class UsuarioREST {
 		if (resposta == null) {
 			try {
 				this.service.removerPorId(id);
-				resposta = Response.ok().entity(new Message(I18NUtil.getMessage("remover.sucesso")));
+				resposta = Response.ok().entity(new Resposta(I18NUtil.getMessage("remover.sucesso")));
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (SQLException exc) {
 				LOG.error(exc);
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message(I18NUtil.getMessage("remover.erro")));
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("remover.erro")));
 			}
 		}
 		return resposta.build();
@@ -139,7 +139,7 @@ public class UsuarioREST {
 			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (Exception exc) {
 				LOG.error(exc);
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message(I18NUtil.getMessage(ErrosUtil.getMensagemErro(exc))));
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage(ErrosUtil.getMensagemErro(exc))));
 			}
 		}
 		return resposta.build();

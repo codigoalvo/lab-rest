@@ -19,7 +19,7 @@ angular.module('alvoApp').controller('UsuarioController',	function($scope, $rout
 		}).catch(function(erro) {
 			$scope.tiposUsuario = [];
 			console.log(erro);
-			growl.error(erro.msg, {title: 'Atenção!'});
+			growl.error(erro.mensagem, {title: 'Atenção!'});
 		});
 	};
 
@@ -27,11 +27,11 @@ angular.module('alvoApp').controller('UsuarioController',	function($scope, $rout
 		recursoUsuario.remove({usuarioId: usuario.id}, function(resp) {
 			console.log(resp);
 			$scope.usuarios = recursoUsuario.query();
-			growl.success(resp.msg);
+			growl.success(resp.mensagem);
 		}, function(erro) {
 			$scope.usuarios = [];
 			console.log(erro);
-			growl.error(erro.msg, {title: 'Atenção!'});
+			growl.error(erro.mensagem, {title: 'Atenção!'});
 		});
 	};
 
@@ -54,12 +54,12 @@ angular.module('alvoApp').controller('UsuarioController',	function($scope, $rout
 			$scope.usuario = {};
 			if (resp.inclusao) $scope.usuario = {};
 			$location.path("/usuarios");
-			growl.success(resp.msg);
+			growl.success(resp.mensagem);
 		})
 		.catch(function(erro) {
 			$scope.usuarios = [];
 			$scope.usuario = {};
-			growl.error(erro.msg, {title: 'Atenção!'});
+			growl.error(erro.mensagem, {title: 'Atenção!'});
 		});
 	};
 	

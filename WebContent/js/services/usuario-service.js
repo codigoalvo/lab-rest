@@ -17,26 +17,26 @@ angular.module('usuarioService', ['ngResource'])
 				if(usuario.id) {
 					recursoUsuario.update({usuarioId: usuario.id}, usuario, function() {
 						resolve({
-							msg: 'Usuario ' + usuario.nome + ' atualizado com sucesso',
+							mensagem: 'Usuario ' + usuario.nome + ' atualizado com sucesso',
 							inclusao: false
 						});
 					}, function(erro) {
 						console.log(erro);
 						reject({
-							msg: erro.data.msg,
+							mensagem: erro.data.mensagem,
 						});
 					});
 
 				} else {
 					recursoUsuario.save(usuario, function() {
 						resolve({
-							msg: 'Usuario ' + usuario.nome + ' incluído com sucesso',
+							mensagem: 'Usuario ' + usuario.nome + ' incluído com sucesso',
 							inclusao: true
 						});
 					}, function(erro) {
 						console.log(erro);
 						reject({
-							msg: erro.data.msg,
+							mensagem: erro.data.mensagem,
 						});
 					});
 				}
@@ -59,7 +59,7 @@ angular.module('usuarioService', ['ngResource'])
 					}, function(erro) {
 						console.error('Error', erro);
 						reject({
-							msg: erro.data.msg,
+							mensagem: erro.data.mensagem,
 						});
 					})
 				});

@@ -20,11 +20,11 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.log4j.Logger;
 
 import codigoalvo.entity.Categoria;
+import codigoalvo.rest.util.Resposta;
 import codigoalvo.rest.util.ResponseBuilderHelper;
 import codigoalvo.service.CategoriaService;
 import codigoalvo.service.CategoriaServiceImpl;
 import codigoalvo.util.I18NUtil;
-import codigoalvo.util.Message;
 
 
 @Path("/categorias")
@@ -75,11 +75,11 @@ public class CategoriaREST {
 		if (resposta == null) {
 			try {
 				Categoria entidade = this.service.gravar(categoria);
-				resposta = Response.ok().entity(entidade);
+				resposta = Response.ok().entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (Exception e) {
 				e.printStackTrace();
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message(I18NUtil.getMessage("gravar.erro")));
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("gravar.erro")));
 			}
 		}
 		return resposta.build();
@@ -95,11 +95,11 @@ public class CategoriaREST {
 		if (resposta == null) {
 			try {
 				Categoria entidade = this.service.gravar(categoria);
-				resposta = Response.ok().entity(entidade);
+				resposta = Response.ok().entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (Exception e) {
 				e.printStackTrace();
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message(I18NUtil.getMessage("gravar.erro")));
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("gravar.erro")));
 			}
 		}
 		return resposta.build();
@@ -114,11 +114,11 @@ public class CategoriaREST {
 		if (resposta == null) {
 			try {
 				this.service.removerPorId(id);
-				resposta = Response.ok().entity(new Message(I18NUtil.getMessage("remover.sucesso")));
+				resposta = Response.ok().entity(new Resposta(I18NUtil.getMessage("remover.sucesso")));
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (SQLException e) {
 				e.printStackTrace();
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Message(I18NUtil.getMessage("remover.erro")));
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("remover.erro")));
 			}
 		}
 		return resposta.build();

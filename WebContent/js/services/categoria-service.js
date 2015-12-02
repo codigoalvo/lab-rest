@@ -17,26 +17,26 @@ angular.module('categoriaService', ['ngResource'])
 				if(categoria.id) {
 					recursoCategoria.update({categoriaId: categoria.id}, categoria, function() {
 						resolve({
-							msg: 'Categoria ' + categoria.nome + ' atualizada com sucesso',
+							mensagem: 'Categoria ' + categoria.nome + ' atualizada com sucesso',
 							inclusao: false
 						});
 					}, function(erro) {
 						console.log(erro);
 						reject({
-							msg: erro.data.msg,
+							mensagem: erro.data.mensagem,
 						});
 					});
 
 				} else {
 					recursoCategoria.save(categoria, function() {
 						resolve({
-							msg: 'Categoria ' + categoria.nome + ' incluída com sucesso',
+							mensagem: 'Categoria ' + categoria.nome + ' incluída com sucesso',
 							inclusao: true
 						});
 					}, function(erro) {
 						console.log(erro);
 						reject({
-							msg: erro.data.msg,
+							mensagem: erro.data.mensagem,
 						});
 					});
 				}

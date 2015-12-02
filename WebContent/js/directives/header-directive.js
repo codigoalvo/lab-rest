@@ -50,7 +50,7 @@ angular.module('headerDirective', [])
 			ddo.restrict = 'A';
 
 			ddo.replace = true;
-			ddo.template = "";//templateHtml;
+			ddo.template = "";
 			ddo.scope = {
 				templateMenuLogin: '=templateMenuLogin',
 				usuarioLogado: '=usuarioLogado',
@@ -79,18 +79,15 @@ angular.module('headerDirective', [])
 			};
 
 			ddo.controller = ['$scope', '$window', function ($scope, $window) {
-				var token = $window.sessionStorage.token;
-				console.log('header.token', token);
-				var decodedToken = servicosLogin.pegarUsuarioDoToken();
-				console.log('header.decodedToken', decodedToken);
-				if (decodedToken  &&  decodedToken.usuario) {
-					$scope.usuarioLogado = angular.fromJson(decodedToken.usuario);
+				var usuarioLogado = servicosLogin.pegarUsuarioDoToken();
+				if (usuarioLogado) {
+					$scope.usuarioLogado = usuarioLogado;
 					if ($scope.usuarioLogado.tipo === 'ADMIN') {
 						$scope.usuarioAdmin = true;
 					} else {
 						$scope.usuarioAdmin = false;
 					}
-					console.log('header.usuarioLogado', $scope.usuarioLogado);
+					//console.log('header.usuarioLogado', $scope.usuarioLogado);
 				} else {
 					$scope.usuarioLogado = undefined;
 					$scope.usuarioAdmin = false;
