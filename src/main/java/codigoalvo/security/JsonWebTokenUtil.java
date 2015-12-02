@@ -8,17 +8,18 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.crypto.spec.SecretKeySpec;
+import javax.security.auth.login.LoginException;
 import javax.xml.bind.DatatypeConverter;
 
+import codigoalvo.entity.Usuario;
 import codigoalvo.util.JsonUtil;
+import codigoalvo.util.UsuarioUtil;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
-public class JasonWebTokenUtil {
+public class JsonWebTokenUtil {
 
 	private static final String SECRET = "Pr3ç15ÃoEmT3cn010Gi@DA1NF0RMAÇ@0"; // TODO: Alterar!
 	public static final String ISSUER = "www.codigoalvo.com.br";
@@ -66,13 +67,8 @@ public class JasonWebTokenUtil {
 		return token.compact();
 	}
 
-	public static Claims obterCorpoJWT(String token) {
+	protected static Claims obterCorpoJWT(String token) {
 		return Jwts.parser().setSigningKey(obterChaveAssinatura(obterAlgoritmo())).parseClaimsJws(token).getBody();
-	}
-
-	@SuppressWarnings("rawtypes")
-	public static Jwt decodificarJWT(String token) throws ExpiredJwtException {
-		return Jwts.parser().setSigningKey(obterChaveAssinatura(obterAlgoritmo())).parse(token);
 	}
 
 	public static boolean precisaRenovar(Claims corpoToken) {
@@ -89,6 +85,15 @@ public class JasonWebTokenUtil {
 		return false;
 	}
 
+	public static String renovaTokenSeNecessario(String token) {
+		Claims corpoJwt = JsonWebTokenUtil.obterCorpoJWT(token);
+		if (JsonWebTokenUtil.precisaRenovar(corpoJwt)) {
+			String tokenAtualizado = JsonWebTokenUtil.renovaToken(corpoJwt);
+			return tokenAtualizado;
+		}
+		return token;
+	}
+
 	public static String renovaToken(Claims corpoToken) {
 		return renovaToken(corpoToken, MINUTOS_DURACAO_TOKEN);
 	}
@@ -101,6 +106,50 @@ public class JasonWebTokenUtil {
 		novoToken.setExpiration(expires.getTime());
 		novoToken.claim("refreshed", new Date());
 		return novoToken.compact();
+	}
+
+	public static void validarUsuario(Usuario usuario, String token) throws LoginException {
+		try {
+			Claims corpoJWT = JsonWebTokenUtil.obterCorpoJWT(token);
+			String subject = corpoJWT.getSubject();
+			Integer id = Integer.parseInt(corpoJWT.getId());
+			String loginJson = ""+corpoJWT.get("usuario");
+			LoginToken login = JsonUtil.fromJson(loginJson, LoginToken.class);
+			if (subject == null || id == null  ||  login == null) {
+				throw new LoginException("Dados invalidos no token! null");
+			}
+			if (!usuario.getLogin().equalsIgnoreCase(subject)  || !usuario.getLogin().equalsIgnoreCase(login.getLogin())) {
+				throw new LoginException("Dados invalidos no token! login");
+			}
+			if (!usuario.getId().equals(id) || !usuario.getId().equals(login.getId())) {
+				throw new LoginException("Dados invalidos no token! id");
+			}
+			if (usuario.getTipo() != UsuarioUtil.decodeTipoFromHash(login)) {
+				throw new LoginException("Dados invalidos no token! tipo");
+			}
+		} catch (Throwable exc) {
+			if (exc instanceof LoginException) {
+				throw (LoginException)exc;
+			} else {
+				throw new LoginException(exc.getMessage());
+			}
+		}
+	}
+
+	public static LoginToken obterLoginToken(String token) {
+		Claims corpoJwt = JsonWebTokenUtil.obterCorpoJWT(token);
+		String usuarioJson = ""+corpoJwt.get("usuario");
+		LoginToken loginToken = JsonUtil.fromJson(usuarioJson, LoginToken.class);
+		return loginToken;
+	}
+
+	public static boolean isValidToken(String token) {
+		Claims corpoJwt = obterCorpoJWT(token);
+		String issuer = corpoJwt.getIssuer();
+		if (!ISSUER.equals(issuer)) {
+			return false;
+		}
+		return true;
 	}
 
 }

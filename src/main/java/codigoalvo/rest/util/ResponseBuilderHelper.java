@@ -1,9 +1,6 @@
 package codigoalvo.rest.util;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwt;
-
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -12,9 +9,8 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.log4j.Logger;
 
 import codigoalvo.entity.UsuarioTipo;
-import codigoalvo.security.JasonWebTokenUtil;
+import codigoalvo.security.JsonWebTokenUtil;
 import codigoalvo.security.LoginToken;
-import codigoalvo.util.JsonUtil;
 import codigoalvo.util.Message;
 import codigoalvo.util.UsuarioUtil;
 
@@ -59,23 +55,13 @@ public class ResponseBuilderHelper {
 			return Response.status(Status.UNAUTHORIZED).entity(new Message("Token de autorização não encontrado!"));
 		} else {
 			try {
-				//*/
-				@SuppressWarnings("rawtypes")
-				Jwt jwt = JasonWebTokenUtil.decodificarJWT(token);
-				LOG.debug("Decoded Token: "+ jwt.toString());
-				//*/
-
-				Claims corpoJwt = JasonWebTokenUtil.obterCorpoJWT(token);
-				String issuer = corpoJwt.getIssuer();
-				LOG.debug("Token Issuer: "+issuer);
-				if (!JasonWebTokenUtil.ISSUER.equals(issuer)) {
+				if (!JsonWebTokenUtil.isValidToken(token)) {
 					return Response.status(Status.UNAUTHORIZED).entity(new Message("Token de autorização inválido!"));
 				}
 
 				if (admin) {
-					String usuarioJson = ""+corpoJwt.get("usuario");
-					LoginToken usuario = JsonUtil.fromJson(usuarioJson, LoginToken.class);
-					UsuarioTipo usuarioTipo = UsuarioUtil.decodeTipoFromHash(usuario);
+					LoginToken loginToken = JsonWebTokenUtil.obterLoginToken(token);
+					UsuarioTipo usuarioTipo = UsuarioUtil.decodeTipoFromHash(loginToken);
 					if (UsuarioTipo.ADMIN != usuarioTipo) {
 						return Response.status(Status.FORBIDDEN).entity(new Message("Usuário não é administrador!"));
 					}
@@ -98,9 +84,8 @@ public class ResponseBuilderHelper {
 		if (!AUTHENTICATION_ENABLED) {
 			return;
 		}
-		Claims corpoJwt = JasonWebTokenUtil.obterCorpoJWT(token);
-		if (JasonWebTokenUtil.precisaRenovar(corpoJwt)) {
-			String tokenAtualizado = JasonWebTokenUtil.renovaToken(corpoJwt);
+		String tokenAtualizado = JsonWebTokenUtil.renovaTokenSeNecessario(token);
+		if (!token.equals(tokenAtualizado)) {
 			resposta.header("Authorization", tokenAtualizado);
 		}
 	}

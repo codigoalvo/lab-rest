@@ -1,7 +1,5 @@
 package codigoalvo.rest;
 
-import io.jsonwebtoken.Claims;
-
 import java.io.Serializable;
 
 import javax.security.auth.login.LoginException;
@@ -21,7 +19,7 @@ import org.apache.log4j.Logger;
 
 import codigoalvo.entity.Usuario;
 import codigoalvo.rest.util.ResponseBuilderHelper;
-import codigoalvo.security.JasonWebTokenUtil;
+import codigoalvo.security.JsonWebTokenUtil;
 import codigoalvo.security.LoginToken;
 import codigoalvo.service.LoginService;
 import codigoalvo.service.LoginServiceImpl;
@@ -54,7 +52,7 @@ public class LoginREST {
 			System.out.println("usuarioLogin: "+usuarioLogin);
 			Usuario usuario = this.service.efetuarLogin(usuarioLogin.getLogin(), usuarioLogin.getSenha());
 			LoginToken login = UsuarioUtil.usuarioToToken(usuario);
-			String token = JasonWebTokenUtil.criarJWT(login);
+			String token = JsonWebTokenUtil.criarJWT(login);
 			LOG.debug("TOKEN: "+token);
 			return Response.status(Status.OK).header("Authorization", token).entity(login).build();
 		} catch (Exception exc) {
@@ -76,13 +74,13 @@ public class LoginREST {
 				System.out.println("usuarioLoginStr: "+usuarioLoginStr);
 				System.out.println("usuarioLogin: "+usuarioLogin);
 				Usuario usuario = this.service.buscarUsuarioPorLoginSenha(usuarioLogin.getLogin(), usuarioLogin.getSenha());
-				validarUsuario(usuario, token);
+				JsonWebTokenUtil.validarUsuario(usuario, token);
 				usuario = this.service.alterarSenha(usuario, usuarioLogin.getSenhaNova());
 				if (usuario == null  || usuario.getId() == null) {
 					throw new LoginException("login.invalido");
 				}
 				LoginToken login = UsuarioUtil.usuarioToToken(usuario);
-				String novoToken = JasonWebTokenUtil.criarJWT(login);
+				String novoToken = JsonWebTokenUtil.criarJWT(login);
 				LOG.debug("NOVO TOKEN: "+novoToken);
 				resposta =  Response.status(Status.OK).header("Authorization", novoToken).entity(login);
 			} catch (Exception exc) {
@@ -91,35 +89,6 @@ public class LoginREST {
 			}
 		}
 		return resposta.build();
-	}
-
-	private void validarUsuario(Usuario usuario, String token) throws LoginException {
-		try {
-			Claims corpoJWT = JasonWebTokenUtil.obterCorpoJWT(token);
-			String subject = corpoJWT.getSubject();
-			Integer id = Integer.parseInt(corpoJWT.getId());
-			String loginJson = ""+corpoJWT.get("usuario");
-			LoginToken login = JsonUtil.fromJson(loginJson, LoginToken.class);
-			if (subject == null || id == null  ||  login == null) {
-				throw new LoginException("Dados invalidos no token! null");
-			}
-			if (!usuario.getLogin().equalsIgnoreCase(subject)  || !usuario.getLogin().equalsIgnoreCase(login.getLogin())) {
-				throw new LoginException("Dados invalidos no token! login");
-			}
-			if (!usuario.getId().equals(id) || !usuario.getId().equals(login.getId())) {
-				throw new LoginException("Dados invalidos no token! id");
-			}
-			if (usuario.getTipo() != UsuarioUtil.decodeTipoFromHash(login)) {
-				throw new LoginException("Dados invalidos no token! tipo");
-			}
-		} catch (Throwable exc) {
-			if (exc instanceof LoginException) {
-				throw (LoginException)exc;
-			} else {
-				LOG.error(exc);
-				throw new LoginException(exc.getMessage());
-			}
-		}
 	}
 
 	@XmlRootElement
