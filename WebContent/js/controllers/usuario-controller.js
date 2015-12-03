@@ -1,4 +1,6 @@
-angular.module('alvoApp').controller('UsuarioController',	function($scope, $routeParams, $location, $window, growl, recursoUsuario, cadastroUsuario) {
+angular.module('alvoApp').controller('UsuarioController',
+		function($scope, $routeParams, $location, $window, growl, dialogs, recursoUsuario, cadastroUsuario) {
+
 	$scope.usuarios = [];
 	$scope.tiposUsuario = [];
 
@@ -24,8 +26,8 @@ angular.module('alvoApp').controller('UsuarioController',	function($scope, $rout
 	};
 
 	$scope.removerUsuario = function(usuario) {
-		confirmado = $window.confirm('Confirma a exclusão?');
-		if(confirmado){
+		var dlg = dialogs.confirm();
+		dlg.result.then(function(btn){
 			recursoUsuario.remove({usuarioId: usuario.id}, function(resp) {
 				console.log(resp);
 				$scope.usuarios = recursoUsuario.query();
@@ -35,7 +37,7 @@ angular.module('alvoApp').controller('UsuarioController',	function($scope, $rout
 				console.log(erro);
 				growl.error(erro.mensagem, {title: 'Atenção!'});
 			});
-		}
+		});
 	};
 
 	$scope.usuario = {};
