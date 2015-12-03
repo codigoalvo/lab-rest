@@ -2,3 +2,6 @@
 	background-image: linear-gradient(to bottom, #337AB7 0px, #2E6DA4 100%);
 	background-repeat: repeat-x;
 }
+.bigGraph {width:500px;height:500px;float:left;}
+.mediumGraph {width:400px;height:400px;float:left;}
+.smallGraph {width:200px;height:200px;float:left;}

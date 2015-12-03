@@ -1,4 +1,5 @@
-angular.module('alvoApp',	['ngRoute', 'ngResource', 'ngAnimate', 'angular-growl', 'dialogs.main',
+google.load('visualization', '1', {packages: ['corechart']});
+angular.module('alvoApp',	['ngRoute', 'ngResource', 'ngAnimate', 'angular-growl', 'dialogs.main', 'google-chart',
 							'ui.bootstrap', 'pascalprecht.translate','dialogs.default-translations',
 							'alvoRotas', 'authInterceptor', 'miscDirectives', 'headerDirective', 
 							'loginService', 'usuarioService', 'categoriaService'])

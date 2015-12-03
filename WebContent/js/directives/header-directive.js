@@ -29,6 +29,7 @@ angular.module('headerDirective', [])
 		var templateOpcoes =	"<div id='navbar' class='navbar-collapse collapse'>" +
 									"<ul class='nav navbar-nav'>" +
 										"<li><a href='#home'><span class='glyphicon glyphicon-home' /></a></li>" +
+										"<li><a href='#resumo'>Resumo</a></li>" +
 										"<li><a href='ws/categorias/1'>Categoria (1) - REST</a></li>" +
 										"<li><a href='ws/categorias'>Categorias - REST</a></li>" +
 										"<li><a href='#categorias'>Categorias - Angular</a></li>";
