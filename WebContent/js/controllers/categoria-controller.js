@@ -1,4 +1,6 @@
-angular.module('alvoApp').controller('CategoriaController',	function($scope, $routeParams, $location, $window, growl, recursoCategoria, cadastroCategoria) {
+angular.module('alvoApp').controller('CategoriaController',
+		function($scope, $routeParams, $location, $window, growl, dialogs, recursoCategoria, cadastroCategoria) {
+
 	$scope.categorias = [];
 
 	$scope.listarCategorias = function(categorias) {
@@ -11,8 +13,8 @@ angular.module('alvoApp').controller('CategoriaController',	function($scope, $ro
 	};
 
 	$scope.removerCategoria = function(categoria) {
-		confirmado = $window.confirm('Confirma a exclusão?');
-		if(confirmado){
+		var dlg = dialogs.confirm();
+		dlg.result.then(function(btn){
 			recursoCategoria.remove({categoriaId: categoria.id}, function(resp) {
 				console.log(resp);
 				$scope.categorias = recursoCategoria.query();
@@ -22,9 +24,9 @@ angular.module('alvoApp').controller('CategoriaController',	function($scope, $ro
 				console.log(erro);
 				growl.error(erro.mensagem, {title: 'Atenção!'});
 			});
-		}
+		});
 	};
-	
+
 	$scope.categoria = {};
 
 	if($routeParams.categoriaId) {
