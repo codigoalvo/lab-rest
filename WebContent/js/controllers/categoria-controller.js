@@ -13,7 +13,7 @@ angular.module('alvoApp').controller('CategoriaController',
 	};
 
 	$scope.removerCategoria = function(categoria) {
-		var dlg = dialogs.confirm('Atenção!', 'Confirma a exclusão da categoria?', {});
+		var dlg = dialogs.confirm('Atenção!', 'Confirma a exclusão da categoria: <br>"'+categoria.nome+'" ?', {'size':'sm'});
 		dlg.result.then(function(btn){
 			recursoCategoria.remove({categoriaId: categoria.id}, function(resp) {
 				console.log(resp);
