@@ -26,7 +26,7 @@ angular.module('alvoApp').controller('UsuarioController',
 	};
 
 	$scope.removerUsuario = function(usuario) {
-		var dlg = dialogs.confirm();
+		var dlg = dialogs.confirm('Atenção!', 'Confirma a exclusão do usuário?', {});
 		dlg.result.then(function(btn){
 			recursoUsuario.remove({usuarioId: usuario.id}, function(resp) {
 				console.log(resp);
