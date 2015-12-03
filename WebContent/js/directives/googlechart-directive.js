@@ -1,16 +1,29 @@
 angular.module("google-chart",[])
-	.directive("googleChart",function(){  
+	.directive("googleChart",function($window){  
 		return{
 			restrict : "A",
-			link: function($scope, $elem, $attr){
-				var dt = $scope[$attr.ngModel].dataTable;
+			link: function postlink(scope, elem, attr){
+				scope.desenha = function() {
+					var dt = scope[attr.ngModel].dataTable;
 
-				var options = {};
-				if($scope[$attr.ngModel].title)
-					options.title = $scope[$attr.ngModel].title;
+					var options = {};
+					if(scope[attr.ngModel].title)
+						options.title = scope[attr.ngModel].title;
+					if (scope[attr.ngModel].isStacked)
+						options.isStacked = scope[attr.ngModel].isStacked;
 
-				var googleChart = new google.visualization[$attr.googleChart]($elem[0]);
-				googleChart.draw(dt,options)
+					elem.width($window.innerWidth*0.7);
+					//elem.height($window.innerHeight*0.6);
+
+					var googleChart = new google.visualization[attr.googleChart](elem[0]);
+					googleChart.draw(dt,options);
+					console.log('resizing');	
+				}
+				scope.desenha();
+				angular.element($window).bind('resize', function() {
+					scope.desenha();
+					scope.$apply();
+				});
 			}
 		}
 });
