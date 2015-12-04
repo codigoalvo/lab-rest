@@ -4,9 +4,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.persistence.NoResultException;
+
 import org.apache.log4j.Logger;
 
 import codigoalvo.entity.Pagamento;
+import codigoalvo.entity.PagamentoTipo;
 import codigoalvo.repository.PagamentoDao;
 import codigoalvo.repository.PagamentoDaoJpa;
 import codigoalvo.util.EntityManagerUtil;
@@ -26,6 +28,10 @@ public class PagamentoServiceImpl implements PagamentoService {
 
 		try {
 			this.dao.beginTransaction();
+			if (pagamento.getTipo() != PagamentoTipo.CARTAO) {
+				pagamento.setDiaFechamento(null);
+				pagamento.setDiaPagamento(null);
+			}
 			if (pagamento.getId() == null) {
 				this.dao.criar(pagamento);
 			} else {
