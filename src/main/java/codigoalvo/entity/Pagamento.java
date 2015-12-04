@@ -9,36 +9,41 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-@Table(indexes = {	@Index(name = "categoria_nome_unique", columnList = "nome", unique = true) })
-public class Categoria implements Serializable {
+@Table(indexes = {	@Index(name = "pagamento_nome_unique", columnList = "nome", unique = true) })
+public class Pagamento implements Serializable {
 
-	private static final long serialVersionUID = -4407612096913713967L;
+	private static final long serialVersionUID = 919312467078802157L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer id;
+	private	Integer id;
 
 	@NotNull
 	@NotBlank
 	@Length(max = 100)
-	String nome;
+	private	String nome;
 
-	public Categoria() {
-	}
+	private Character tipo;
 
-	public Categoria(String nome) {
-		this();
+	private Integer diaFechamento;
+
+	private Integer diaPagamento;
+
+	public Pagamento() {}
+
+	public Pagamento(String nome, PagamentoTipo tipo) {
+		super();
 		this.nome = nome;
+		setTipo(tipo);
 	}
 
 	@Override
 	public String toString() {
-		return this.nome;
+		return "Pagamento [nome=" + this.nome + "]";
 	}
 
 	@Override
@@ -57,7 +62,7 @@ public class Categoria implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Categoria other = (Categoria) obj;
+		Pagamento other = (Pagamento) obj;
 		if (this.id == null) {
 			if (other.id != null)
 				return false;
@@ -80,6 +85,34 @@ public class Categoria implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public PagamentoTipo getTipo() {
+		return PagamentoTipo.getTipo(this.tipo);
+	}
+
+	public void setTipo(PagamentoTipo tipo) {
+		if (tipo == null) {
+			this.tipo = null;
+		} else {
+			this.tipo = tipo.getId();
+		}
+	}
+
+	public Integer getDiaFechamento() {
+		return this.diaFechamento;
+	}
+
+	public void setDiaFechamento(Integer diaFechamento) {
+		this.diaFechamento = diaFechamento;
+	}
+
+	public Integer getDiaPagamento() {
+		return this.diaPagamento;
+	}
+
+	public void setDiaPagamento(Integer diaPagamento) {
+		this.diaPagamento = diaPagamento;
 	}
 
 }

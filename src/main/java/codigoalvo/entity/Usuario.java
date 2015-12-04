@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Index;
 import javax.validation.constraints.NotNull;
@@ -25,8 +24,7 @@ public class Usuario implements Serializable {
 	private static final long serialVersionUID = 4860641136563274996L;
 
 	@Id
-	@SequenceGenerator(name = "SEQ_USUARIO", sequenceName = "SEQ_USUARIO_ID", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_USUARIO")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@NotNull

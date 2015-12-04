@@ -1,0 +1,43 @@
+<header navheader></header>
+<div class="row">
+<div class="col-md-8 col-md-offset-2">
+<div class="panel panel-primary row spacing-top" ng-controller="PagamentoController" data-ng-init="listarPagamentos()">
+	<div class="panel-heading">
+		<h3 class="panel-title text-center">Pagamentos</h3>
+	</div>
+	<table class="table table-striped table-bordered" >
+		<thead>
+			<tr>
+				<th class="text-right">Id</th>
+				<th>Nome</th>
+				<th>Tipo</th>
+				<th>Fechamento</th>
+				<th>Pagamento</th>
+				<th class="text-center">
+					<a class="btn-sm btn-success" href="#/pagamentos/incluir" title="Incluir">
+						<span class="glyphicon glyphicon-file" />
+					</a>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="pagamento in pagamentos">
+				<td class="col-md-1 text-right">{{pagamento.id}}</td>
+				<td class="col-md-3">{{pagamento.nome}}</td>
+				<td class="col-md-2">{{pagamento.tipo}}</td>
+				<td class="col-md-2">{{pagamento.diaFechamento}}</td>
+				<td class="col-md-2">{{pagamento.diaPagamento}}</td>
+				<td class="col-md-2 text-center">
+					<a class="btn-sm btn-primary" href="#/pagamentos/editar/{{pagamento.id}}" title="Editar">
+						<span class="glyphicon glyphicon-pencil" />
+					</a>
+					<a class="btn-sm btn-danger"  ng-click="removerPagamento(pagamento)" title="Excluir">
+						<span class="glyphicon glyphicon-trash" />
+					</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+</div>
+</div>
