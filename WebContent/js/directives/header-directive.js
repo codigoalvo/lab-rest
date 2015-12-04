@@ -25,24 +25,42 @@ angular.module('headerDirective', [])
 										"<a class='navbar-brand' href='#home'>" +
 											"<img src='images/codigoalvo.svg' alt='codigoalvo' height='23px'/>" +
 										"</a>" +
-									"</div>";
+									"</div>" +
+									"<div id='navbar' class='navbar-collapse collapse'>" +
+										"<ul class='nav navbar-nav'>";
 
 		var templateFecha =	"</ul>" +
 						"</div>" +
 					"</div>" +
 				"</nav>";
 
-		var templateOpcoes =	"<div id='navbar' class='navbar-collapse collapse'>" +
-									"<ul class='nav navbar-nav'>" +
-										"<li><a href='#home'><span class='glyphicon glyphicon-home' /></a></li>" +
-										"<li><a href='#resumo'>Resumo</a></li>" +
-										"<li><a href='ws/categorias/1'>Categoria (1) - REST</a></li>" +
-										"<li><a href='ws/categorias'>Categorias - REST</a></li>" +
-										"<li><a href='#categorias'>Categorias - Angular</a></li>";
+		var templateHome = "<li><a href='#home'><span class='glyphicon glyphicon-home' /></a></li>";
+		
+		var templateResumo = "<li><a href='#resumo'>Resumo</a></li>";
 
-		var opcoesAdmin =	"<li ng-show='usuarioLogado' class='dropdown'>" +
+		var menuCadastros =	"<li ng-show='usuarioLogado' class='dropdown'>" +
 								"<a href='' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>" +
-									"</span> Administração <span class='caret'></span>" +
+									"</span>Cadastros <span class='caret'></span>" +
+								"</a>" +
+								"<ul class='dropdown-menu'>" +
+									"<li><a href='#categorias'>Categorias</a></li>" +
+									"<li><a href='#pagamentos'>Pagamentos</a></li>" +
+								"</ul>" +
+							"</li>";
+
+		var menuTemp =	"<li ng-show='usuarioLogado' class='dropdown'>" +
+								"<a href='' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>" +
+									"</span>Temp <span class='caret'></span>" +
+								"</a>" +
+								"<ul class='dropdown-menu'>" +
+									"<li><a href='ws/categorias/1'>Categoria (1) - REST</a></li>" +
+									"<li><a href='ws/categorias'>Categorias - REST</a></li>" +
+								"</ul>" +
+							"</li>";
+
+		var menuAdmin =	"<li ng-show='usuarioLogado' class='dropdown'>" +
+								"<a href='' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>" +
+									"</span>Administração <span class='caret'></span>" +
 								"</a>" +
 								"<ul class='dropdown-menu'>" +
 									"<li><a href='#usuarios'></span> Usuários </a></li>" +
@@ -68,9 +86,14 @@ angular.module('headerDirective', [])
 				return function($scope, element, attr) {
 					templateHtml = "";
 					templateHtml += templateAbre;
-					templateHtml += templateOpcoes;
+					templateHtml += templateHome;
+					if ($scope.usuarioLogado) {
+						templateHtml += templateResumo;
+						templateHtml += menuCadastros;
+					}
+					templateHtml += menuTemp;
 					if ($scope.usuarioAdmin) {
-						templateHtml += opcoesAdmin;
+						templateHtml += menuAdmin;
 					}
 					templateHtml += opcoesFecha;
 					if ($scope.usuarioLogado) {

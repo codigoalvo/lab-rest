@@ -18,13 +18,13 @@ import codigoalvo.util.MsgParamUtil;
 public class LoginServiceImpl implements LoginService {
 
 	public static final Integer MAXIMO_TENTATIVAS_LOGIN = 5;
-	private static final Logger LOGGER = Logger.getLogger(LoginServiceImpl.class);
+	private static final Logger LOG = Logger.getLogger(LoginServiceImpl.class);
 
 	private UsuarioDao usuarioDao;
 	SegurancaUtil segurancaUtil;
 
 	public LoginServiceImpl() {
-		LOGGER.debug("####################  construct  ####################");
+		LOG.debug("####################  construct  ####################");
 		this.usuarioDao = new UsuarioDaoJpa(EntityManagerUtil.getEntityManager());
 		this.segurancaUtil = new SegurancaUtilMd5();
 	}
@@ -35,27 +35,27 @@ public class LoginServiceImpl implements LoginService {
 		try {
 			usuario = this.usuarioDao.buscarPorLogin(login);
 		} catch (NoResultException nre) {
-			LOGGER.debug("Usuario não encontrado (login): " + login);
+			LOG.debug("Usuario não encontrado (login): " + login);
 		}
 		if (usuario == null || usuario.getId() == null) {
-			LOGGER.debug("login.invalido");
+			LOG.debug("login.invalido");
 			throw new LoginException("login.invalido");
 		} else {
 			if (!usuario.getAtivo()) {
-				LOGGER.debug("login.usuarioDesativado");
+				LOG.debug("login.usuarioDesativado");
 				throw new LoginException("login.usuarioDesativado");
 			} else if (usuario.getSenha().equals(this.segurancaUtil.criptografar(senha))) {
 				usuario.setDataUltimoLogin(new Date());
 				usuario.setTentativasLoginInvalido(0);
 				usuario.setDataUltimaFalhaLogin(null);
-				LOGGER.debug("login.sucesso");
+				LOG.debug("login.sucesso");
 				this.usuarioDao.atualizar(usuario);
 				return usuario;
 			} else if (usuario.getTentativasLoginInvalido() >= MAXIMO_TENTATIVAS_LOGIN) {
 				usuario.setDataUltimaFalhaLogin(new Date());
 				usuario.setAtivo(false);
 				this.usuarioDao.atualizar(usuario);
-				LOGGER.debug("login.senhaDesativada");
+				LOG.debug("login.senhaDesativada");
 				throw new LoginException("login.senhaDesativada");
 			} else {
 				usuario.setTentativasLoginInvalido(usuario.getTentativasLoginInvalido() + 1);
@@ -64,7 +64,7 @@ public class LoginServiceImpl implements LoginService {
 				String msg = "login.senhaInvalida";
 				msg += MsgParamUtil.buildParams(usuario.getTentativasLoginInvalido().toString(),
 						MAXIMO_TENTATIVAS_LOGIN.toString());
-				LOGGER.debug(msg);
+				LOG.debug(msg);
 				throw new LoginException(msg);
 			}
 		}
@@ -82,7 +82,7 @@ public class LoginServiceImpl implements LoginService {
 			}
 			return usuario;
 		} catch (NoResultException nre) {
-			LOGGER.debug("login.invalido" + login);
+			LOG.debug("login.invalido" + login);
 			throw new LoginException("login.invalido");
 		}
 	}
@@ -98,7 +98,7 @@ public class LoginServiceImpl implements LoginService {
 		} catch (Throwable exc) {
 			usuario.setSenha(senhaAtual);
 			this.usuarioDao.rollback();
-			LOGGER.debug("senha.erroGravar", exc);
+			LOG.debug("senha.erroGravar", exc);
 			throw new LoginException("senha.erroGravar");
 		}
 		return usuario;
