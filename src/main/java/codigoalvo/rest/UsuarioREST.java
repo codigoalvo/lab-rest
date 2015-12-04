@@ -1,5 +1,6 @@
 package codigoalvo.rest;
 
+import java.net.URI;
 import java.sql.SQLException;
 
 import javax.ws.rs.Consumes;
@@ -77,7 +78,7 @@ public class UsuarioREST {
 		if (resposta == null) {
 			try {
 				Usuario entidade = this.service.gravar(usuario);
-				resposta = Response.ok().entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
+				resposta = Response.created(new URI("usuarios/"+entidade.getId())).entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (Exception exc) {
 				LOG.error(exc);

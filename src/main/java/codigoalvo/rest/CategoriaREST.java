@@ -1,5 +1,6 @@
 package codigoalvo.rest;
 
+import java.net.URI;
 import java.sql.SQLException;
 
 import javax.ws.rs.Consumes;
@@ -75,7 +76,7 @@ public class CategoriaREST {
 		if (resposta == null) {
 			try {
 				Categoria entidade = this.service.gravar(categoria);
-				resposta = Response.ok().entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
+				resposta = Response.created(new URI("categorias/"+entidade.getId())).entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (Exception e) {
 				e.printStackTrace();
