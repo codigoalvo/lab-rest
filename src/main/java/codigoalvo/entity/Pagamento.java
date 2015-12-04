@@ -14,7 +14,8 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-@Table(indexes = {	@Index(name = "pagamento_nome_unique", columnList = "nome", unique = true) })
+@Table(indexes = {	@Index(name = "pagamento_codigo", columnList = "codigo", unique = false),
+					@Index(name = "pagamento_nome", columnList = "nome", unique = false)})
 public class Pagamento implements Serializable {
 
 	private static final long serialVersionUID = 919312467078802157L;
@@ -22,6 +23,11 @@ public class Pagamento implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private	Integer id;
+
+	@NotNull
+	@NotBlank
+	@Length(max = 10)
+	private	String codigo;
 
 	@NotNull
 	@NotBlank
@@ -37,15 +43,16 @@ public class Pagamento implements Serializable {
 
 	public Pagamento() {}
 
-	public Pagamento(String nome, PagamentoTipo tipo) {
+	public Pagamento(String codigo, String nome, PagamentoTipo tipo) {
 		super();
+		this.codigo = codigo;
 		this.nome = nome;
 		setTipo(tipo);
 	}
 
 	@Override
 	public String toString() {
-		return "Pagamento [nome=" + this.nome + "]";
+		return this.codigo;
 	}
 
 	@Override
@@ -79,6 +86,14 @@ public class Pagamento implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getCodigo() {
+		return this.codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getNome() {

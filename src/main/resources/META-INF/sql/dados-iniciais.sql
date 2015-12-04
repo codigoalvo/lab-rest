@@ -12,7 +12,7 @@ insert into categoria(id, nome) values (6, 'Investimentos');
 insert into categoria(id, nome) values (7, 'Hobbies');
 insert into categoria(id, nome) values (8, 'Lazer');
 /*alter sequence SEQ_CATEGORIA_ID restart with 9;*/
-insert into pagamento(id, nome, tipo) values (1, 'Dinheiro', 'D');
-insert into pagamento(id, nome, tipo) values (2, 'Débito Banco', 'B');
-insert into pagamento(id, nome, tipo, dia_fechamento, dia_pagamento) values (3, 'Cartão Master Banco', 'C', 26, 5);
-insert into pagamento(id, nome, tipo, dia_fechamento, dia_pagamento) values (4, 'Cartão Visa Loja', 'C', 24, 3);
+insert into pagamento(id, codigo, nome, tipo) values (1, 'DINHEIRO', 'Dinheiro', 'D');
+insert into pagamento(id, codigo, nome, tipo) values (2, 'DEBITO', 'Débito Banco', 'B');
+insert into pagamento(id, codigo, nome, tipo, dia_fechamento, dia_pagamento) values (3, 'CCMCBCO', 'Cartão Master Banco', 'C', 26, 5);
+insert into pagamento(id, codigo, nome, tipo, dia_fechamento, dia_pagamento) values (4, 'CCVILJ', 'Cartão Visa Loja', 'C', 24, 3);

@@ -9,6 +9,7 @@
 		<thead>
 			<tr>
 				<th class="text-right">Id</th>
+				<th>Codigo</th>
 				<th>Nome</th>
 				<th>Tipo</th>
 				<th>Fechamento</th>
@@ -23,10 +24,11 @@
 		<tbody>
 			<tr ng-repeat="pagamento in pagamentos">
 				<td class="col-md-1 text-right">{{pagamento.id}}</td>
+				<td class="col-md-2">{{pagamento.codigo}}</td>
 				<td class="col-md-3">{{pagamento.nome}}</td>
 				<td class="col-md-2">{{pagamento.tipo}}</td>
-				<td class="col-md-2">{{pagamento.diaFechamento}}</td>
-				<td class="col-md-2">{{pagamento.diaPagamento}}</td>
+				<td class="col-md-1">{{pagamento.diaFechamento}}</td>
+				<td class="col-md-1">{{pagamento.diaPagamento}}</td>
 				<td class="col-md-2 text-center">
 					<a class="btn-sm btn-primary" href="#/pagamentos/editar/{{pagamento.id}}" title="Editar">
 						<span class="glyphicon glyphicon-pencil" />
