@@ -10,7 +10,7 @@ angular.module('pagamentoService', ['ngResource'])
 				}
 			})
 	})
-	.factory("cadastroPagamento", function(recursoPagamento, $q) {
+	.factory("cadastroPagamento", function(recursoPagamento, $http, $q) {
 		var service = {};
 		service.gravar = function(pagamento) {
 			return $q(function(resolve, reject) {
@@ -45,5 +45,23 @@ angular.module('pagamentoService', ['ngResource'])
 			    stripTrailingSlashes: false
 			});
 		};
+		service.tipos = function() {
+			return $q(function(resolve, reject) {
+				$http({
+					  method: 'GET',
+					  url:'ws/pagamentos/tipos',
+					  headers: {'Content-Type':'application/json'}
+				}).then(
+					function(resp) {
+						var tipos = resp.data;
+						resolve(tipos);
+					}, function(erro) {
+						console.error('Error', erro);
+						reject({
+							mensagem: erro.data.mensagem,
+						});
+					})
+				});
+			};
 		return service;
 	});

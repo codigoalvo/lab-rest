@@ -13,10 +13,10 @@ angular.module('alvoApp').controller('UsuarioController',
 		});
 	};
 
-	$scope.tiposUsuario = function() {
+	$scope.carregarTipos = function() {
 		cadastroUsuario.tipos()
 		.then(function(resp) {
-			console.log('UsuarioController.tiposUsuario', resp);
+			//console.log('UsuarioController.tiposUsuario', resp);
 			$scope.tiposUsuario = resp;
 		}).catch(function(erro) {
 			$scope.tiposUsuario = [];

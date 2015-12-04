@@ -24,7 +24,9 @@ import codigoalvo.rest.util.Resposta;
 import codigoalvo.rest.util.ResponseBuilderHelper;
 import codigoalvo.service.PagamentoService;
 import codigoalvo.service.PagamentoServiceImpl;
+import codigoalvo.util.ErrosUtil;
 import codigoalvo.util.I18NUtil;
+import codigoalvo.util.TipoUtil;
 
 
 @Path("/pagamentos")
@@ -119,6 +121,26 @@ public class PagamentoREST {
 			} catch (SQLException e) {
 				e.printStackTrace();
 				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("remover.erro")));
+			}
+		}
+		return resposta.build();
+	}
+
+
+	@GET
+	@Path("/tipos")
+	@Produces(MediaType.APPLICATION_JSON + UTF8)
+	public Response tipos(@Context HttpHeaders headers) {
+		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
+		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
+		if (resposta == null) {
+			try {
+				String tipos = TipoUtil.getTiposPagamentoJson();
+				resposta = Response.ok().entity(tipos);
+			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
+			} catch (Exception exc) {
+				LOG.error(exc);
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage(ErrosUtil.getMensagemErro(exc))));
 			}
 		}
 		return resposta.build();

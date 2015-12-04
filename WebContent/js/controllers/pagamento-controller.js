@@ -2,6 +2,7 @@ angular.module('alvoApp').controller('PagamentoController',
 		function($scope, $routeParams, $location, $window, growl, dialogs, recursoPagamento, cadastroPagamento) {
 
 	$scope.pagamentos = [];
+	$scope.tiposPagamento = [];
 
 	$scope.listarPagamentos = function(pagamentos) {
 		recursoPagamento.query(function(resp) {
@@ -9,6 +10,18 @@ angular.module('alvoApp').controller('PagamentoController',
 		}, function(erro) {
 			$scope.pagamentos = [];
 			console.log(erro);
+		});
+	};
+	
+	$scope.carregarTipos = function() {
+		cadastroPagamento.tipos()
+		.then(function(resp) {
+			//console.log('PagamentoController.tiposPagamento', resp);
+			$scope.tiposPagamento = resp;
+		}).catch(function(erro) {
+			$scope.tiposPagamento = [];
+			console.log(erro);
+			growl.error(erro.mensagem, {title: 'Atenção!'});
 		});
 	};
 

@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -27,6 +28,7 @@ public class Pagamento implements Serializable {
 	@Length(max = 100)
 	private	String nome;
 
+	@NotNull
 	private Character tipo;
 
 	private Integer diaFechamento;

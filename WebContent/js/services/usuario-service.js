@@ -54,7 +54,6 @@ angular.module('usuarioService', ['ngResource'])
 				}).then(
 					function(resp) {
 						var tipos = resp.data;
-						console.log('servicosUsuario.tipos', resp.data);
 						resolve(tipos);
 					}, function(erro) {
 						console.error('Error', erro);
