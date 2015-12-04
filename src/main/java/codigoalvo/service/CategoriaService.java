@@ -9,8 +9,8 @@ public interface CategoriaService {
 	Categoria gravar(Categoria entity) throws SQLException;
 	void remover(Categoria categoria) throws SQLException;
 	void removerPorId(Integer id) throws SQLException;
-	Categoria buscar(Integer id);
-	List<Categoria> listar();
+	Categoria buscar(Integer usuarioId, Integer categoriaId);
+	List<Categoria> listar(Integer usuarioId);
 	public Categoria buscarPorNome(String nome);
 
 }

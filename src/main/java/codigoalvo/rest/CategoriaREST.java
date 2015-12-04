@@ -1,8 +1,7 @@
 package codigoalvo.rest;
 
 import java.net.URI;
-import java.sql.SQLException;
-
+import javax.security.auth.login.LoginException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -21,48 +20,71 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.log4j.Logger;
 
 import codigoalvo.entity.Categoria;
+import codigoalvo.entity.Usuario;
 import codigoalvo.rest.util.Resposta;
 import codigoalvo.rest.util.ResponseBuilderHelper;
+import codigoalvo.security.JsonWebTokenUtil;
 import codigoalvo.service.CategoriaService;
 import codigoalvo.service.CategoriaServiceImpl;
+import codigoalvo.service.UsuarioService;
+import codigoalvo.service.UsuarioServiceImpl;
 import codigoalvo.util.I18NUtil;
 
 
-@Path("/categorias")
+@Path("/usuarios/{usuarioId}/categorias")
 public class CategoriaREST {
 
 	private static final String UTF8 = ";charset=UTF-8";
 	private static final Logger LOG = Logger.getLogger(CategoriaREST.class);
 
-	CategoriaService service = new CategoriaServiceImpl();
+	CategoriaService categoriaService = new CategoriaServiceImpl();
+	UsuarioService usuarioService = new UsuarioServiceImpl();
 
 	public CategoriaREST() {
 		LOG.debug("####################  construct  ####################");
 	}
 
-	@Path("{id}")
+	@Path("{categoriaId}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
-	public Response find(@Context HttpHeaders headers, @PathParam("id") int id) {
+	public Response find(@Context HttpHeaders headers, @PathParam("usuarioId") int usuarioId, @PathParam("categoriaId") int categoriaId) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
 		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
 		if (resposta == null) {
-			Categoria entidade = this.service.buscar(id);
-			resposta = Response.ok().entity(entidade);
+			try {
+				validaUsuarioId(usuarioId, token);
+				Categoria entidade = this.categoriaService.buscar(usuarioId, categoriaId);
+				if (entidade == null) {
+					resposta = Response.status(Status.NOT_FOUND).entity(new Resposta("registro.naoEncontrado"));
+				} else {
+					LOG.debug("categoria.find "+entidade);
+					LOG.debug("categoria.usuario :"+entidade.getUsuario());
+					resposta = Response.ok().entity(entidade);
+				}
 			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
+			} catch (Exception e) {
+				e.printStackTrace();
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("listar.erro")));
+			}
 		}
 		return resposta.build();
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
-	public Response list(@Context HttpHeaders headers) {
+	public Response list(@Context HttpHeaders headers, @PathParam("usuarioId") int usuarioId) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
 		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
 		if (resposta == null) {
-			Categoria[] entidades = this.service.listar().toArray(new Categoria[0]);
-			resposta = Response.ok().entity(entidades);
-			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
+			try {
+				validaUsuarioId(usuarioId, token);
+				Categoria[] entidades = this.categoriaService.listar(usuarioId).toArray(new Categoria[0]);
+				resposta = Response.ok().entity(entidades);
+				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
+			} catch (Exception e) {
+				e.printStackTrace();
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("listar.erro")));
+			}
 		}
 		return resposta.build();
 	}
@@ -70,12 +92,15 @@ public class CategoriaREST {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	@Consumes(MediaType.APPLICATION_JSON + UTF8)
-	public Response insert(@Context HttpHeaders headers, Categoria categoria) {
+	public Response insert(@Context HttpHeaders headers, Categoria categoria, @PathParam("usuarioId") int usuarioId) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
 		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
 		if (resposta == null) {
 			try {
-				Categoria entidade = this.service.gravar(categoria);
+				LOG.debug("gravar.categoria.usuario: "+categoria.getUsuario());
+				Usuario usuario = validaUsuarioId(usuarioId, token);
+				categoria.setUsuario(usuario);
+				Categoria entidade = this.categoriaService.gravar(categoria);
 				resposta = Response.created(new URI("categorias/"+entidade.getId())).entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (Exception e) {
@@ -90,16 +115,19 @@ public class CategoriaREST {
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	@Consumes(MediaType.APPLICATION_JSON + UTF8)
-	public Response update(@Context HttpHeaders headers, Categoria categoria, @PathParam("id") int id) {
+	public Response update(@Context HttpHeaders headers, Categoria categoria, @PathParam("usuarioId") int usuarioId, @PathParam("id") int categoriaId) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
 		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
 		if (resposta == null) {
 			try {
-				Categoria entidade = this.service.gravar(categoria);
+				LOG.debug("gravar.categoria.usuario: "+categoria.getUsuario());
+				Usuario usuario = validaUsuarioId(usuarioId, token);
+				categoria.setUsuario(usuario);
+				Categoria entidade = this.categoriaService.gravar(categoria);
 				resposta = Response.ok().entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception exc) {
+				LOG.error(exc);
 				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("gravar.erro")));
 			}
 		}
@@ -109,19 +137,26 @@ public class CategoriaREST {
 	@DELETE
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
-	public Response remove(@Context HttpHeaders headers, @PathParam("id") int id) {
+	public Response remove(@Context HttpHeaders headers, @PathParam("usuarioId") int usuarioId, @PathParam("id") int id) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
 		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token, true);
 		if (resposta == null) {
 			try {
-				this.service.removerPorId(id);
+				validaUsuarioId(usuarioId, token);
+				this.categoriaService.removerPorId(id);
 				resposta = Response.ok().entity(new Resposta(I18NUtil.getMessage("remover.sucesso")));
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
-			} catch (SQLException e) {
-				e.printStackTrace();
+			} catch (Exception exc) {
+				LOG.debug(exc);
 				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("remover.erro")));
 			}
 		}
 		return resposta.build();
+	}
+
+	private Usuario validaUsuarioId(int usuarioId, String token) throws LoginException {
+		Usuario usuario = this.usuarioService.buscar(usuarioId);
+		JsonWebTokenUtil.validarUsuario(usuario, token);
+		return usuario;
 	}
 }

@@ -67,13 +67,13 @@ public class CategoriaServiceImpl implements CategoriaService {
 	}
 
 	@Override
-	public Categoria buscar(Integer id) {
-		return this.dao.buscar(id);
+	public Categoria buscar(Integer usuarioId, Integer categoriaId) {
+		return this.dao.categoriaDoUsuario(usuarioId, categoriaId);
 	}
 
 	@Override
-	public List<Categoria> listar() {
-		return this.dao.listar();
+	public List<Categoria> listar(Integer usuarioId) {
+		return this.dao.categoriasDoUsuario(usuarioId);
 	}
 
 	@Override

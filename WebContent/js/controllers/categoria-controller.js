@@ -1,10 +1,12 @@
 angular.module('alvoApp').controller('CategoriaController',
-		function($scope, $routeParams, $location, $window, growl, dialogs, recursoCategoria, cadastroCategoria) {
+		function($scope, $routeParams, $location, $window, growl, dialogs, servicosLogin, recursoCategoria, cadastroCategoria) {
 
 	$scope.categorias = [];
+	$scope.categoria = {};
+	$scope.usuarioLogado = servicosLogin.pegarUsuarioDoToken();
 
 	$scope.listarCategorias = function(categorias) {
-		recursoCategoria.query(function(resp) {
+		recursoCategoria.query({usuarioId: $scope.usuarioLogado.id},function(resp) {
 			$scope.categorias = resp;
 		}, function(erro) {
 			$scope.categorias = [];
@@ -15,9 +17,9 @@ angular.module('alvoApp').controller('CategoriaController',
 	$scope.removerCategoria = function(categoria) {
 		var dlg = dialogs.confirm('Atenção!', 'Confirma a exclusão da categoria: <br>"'+categoria.nome+'" ?', {'size':'sm'});
 		dlg.result.then(function(btn){
-			recursoCategoria.remove({categoriaId: categoria.id}, function(resp) {
+			recursoCategoria.remove({usuarioId: $scope.usuarioLogado.id, categoriaId: categoria.id}, function(resp) {
 				console.log(resp);
-				$scope.categorias = recursoCategoria.query();
+				$scope.listarCategorias();
 				growl.success(resp.mensagem);
 			}, function(erro) {
 				$scope.categorias = [];
@@ -27,10 +29,8 @@ angular.module('alvoApp').controller('CategoriaController',
 		});
 	};
 
-	$scope.categoria = {};
-
 	if($routeParams.categoriaId) {
-		recursoCategoria.get({categoriaId: $routeParams.categoriaId}, function(categoria) {
+		recursoCategoria.get({usuarioId: $scope.usuarioLogado.id, categoriaId: $routeParams.categoriaId}, function(categoria) {
 			$scope.categoria = categoria; 
 		}, function(erro) {
 			$scope.categoria = {};
@@ -40,7 +40,7 @@ angular.module('alvoApp').controller('CategoriaController',
 	}
 
 	$scope.submeter = function() {
-		cadastroCategoria.gravar($scope.categoria)
+		cadastroCategoria.gravar($scope.usuarioLogado.id, $scope.categoria)
 		.then(function(resp) {
 			$scope.categorias = [];
 			if (resp.inclusao) $scope.categoria = {};

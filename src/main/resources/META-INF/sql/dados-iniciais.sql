@@ -3,14 +3,14 @@ insert into usuario (id, login, senha, nome, email, tipo, tentativas_login_inval
 insert into usuario (id, login, senha, nome, email, tipo, tentativas_login_invalido) values (3, 'codigoalvo','hdBNkyS7WX79G4AK2Kdulw==', 'codigoalvo', 'codigoalvo@gmail.com', 'ADMIN', 0);
 insert into usuario (id, login, senha, nome, email, tipo, tentativas_login_invalido) values (4, 'teste','maKdyBBf0vo52M3ARzOTjQ==', 'Teste', 'teste@email.com', 'USER', 0);
 /*alter sequence SEQ_USUARIO_ID restart with 5;*/
-insert into categoria(id, nome) values (1, 'Diversos');
-insert into categoria(id, nome) values (2, 'Moradia');
-insert into categoria(id, nome) values (3, 'Alimentação');
-insert into categoria(id, nome) values (4, 'Transporte');
-insert into categoria(id, nome) values (5, 'Saúde');
-insert into categoria(id, nome) values (6, 'Investimentos');
-insert into categoria(id, nome) values (7, 'Hobbies');
-insert into categoria(id, nome) values (8, 'Lazer');
+insert into categoria(id, nome, usuario_id) values (1, 'Diversos', 1);
+insert into categoria(id, nome, usuario_id) values (2, 'Moradia', 1);
+insert into categoria(id, nome, usuario_id) values (3, 'Alimentação', 1);
+insert into categoria(id, nome, usuario_id) values (4, 'Transporte', 1);
+insert into categoria(id, nome, usuario_id) values (5, 'Saúde', 1);
+insert into categoria(id, nome, usuario_id) values (6, 'Investimentos', 1);
+insert into categoria(id, nome, usuario_id) values (7, 'Hobbies', 1);
+insert into categoria(id, nome, usuario_id) values (8, 'Lazer', 1);
 /*alter sequence SEQ_CATEGORIA_ID restart with 9;*/
 insert into pagamento(id, codigo, nome, tipo) values (1, 'DINHEIRO', 'Dinheiro', 'D');
 insert into pagamento(id, codigo, nome, tipo) values (2, 'DEBITO', 'Débito Banco', 'B');

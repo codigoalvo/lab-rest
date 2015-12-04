@@ -1,6 +1,6 @@
 angular.module('categoriaService', ['ngResource'])
 	.factory('recursoCategoria', function($resource) {
-		return $resource('ws/categorias/:categoriaId', {},
+		return $resource('ws/usuarios/:usuarioId/categorias/:categoriaId', {},
 			{
 				'update' : {
 					method: 'PUT'
@@ -12,10 +12,10 @@ angular.module('categoriaService', ['ngResource'])
 	})
 	.factory("cadastroCategoria", function(recursoCategoria, $q) {
 		var service = {};
-		service.gravar = function(categoria) {
+		service.gravar = function(usuarioId, categoria) {
 			return $q(function(resolve, reject) {
 				if(categoria.id) {
-					recursoCategoria.update({categoriaId: categoria.id}, categoria, function() {
+					recursoCategoria.update({usuarioId: usuarioId, categoriaId: categoria.id}, categoria, function() {
 						resolve({
 							mensagem: 'Categoria ' + categoria.nome + ' atualizada com sucesso',
 							inclusao: false
@@ -28,7 +28,7 @@ angular.module('categoriaService', ['ngResource'])
 					});
 
 				} else {
-					recursoCategoria.save(categoria, function() {
+					recursoCategoria.save({usuarioId: usuarioId}, categoria, function() {
 						resolve({
 							mensagem: 'Categoria ' + categoria.nome + ' incluída com sucesso',
 							inclusao: true
