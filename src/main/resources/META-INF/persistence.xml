@@ -4,8 +4,8 @@
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
-			<!-- <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:lab" /> -->
-			<property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/mem" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:lab" />
+			<!-- <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/mem" /> -->
 
 			<property name="javax.persistence.jdbc.user" value="sa" />
 

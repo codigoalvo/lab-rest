@@ -22,7 +22,7 @@ angular.module('headerDirective', [])
 											"<span class='icon-bar'></span>" +
 											"<span class='icon-bar'></span>" +
 										"</button>"+
-										"<a class='navbar-brand' href='#home'>" +
+										"<a class='navbar-brand' href='http://www.codigoalvo.com.br/' target='blank'>" +
 											"<img src='images/codigoalvo.svg' alt='codigoalvo' height='23px'/>" +
 										"</a>" +
 									"</div>" +
@@ -53,8 +53,8 @@ angular.module('headerDirective', [])
 									"</span>Temp <span class='caret'></span>" +
 								"</a>" +
 								"<ul class='dropdown-menu'>" +
-									"<li><a href='ws/categorias/1'>Categoria (1) - REST</a></li>" +
-									"<li><a href='ws/categorias'>Categorias - REST</a></li>" +
+									"<li><a href='ws/usuarios/1/categorias/1'>Categoria (1) - REST</a></li>" +
+									"<li><a href='ws/usuarios/1/categorias'>Categorias - REST</a></li>" +
 								"</ul>" +
 							"</li>";
 
