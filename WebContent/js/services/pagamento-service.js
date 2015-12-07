@@ -1,6 +1,6 @@
 angular.module('pagamentoService', ['ngResource'])
 	.factory('recursoPagamento', function($resource) {
-		return $resource('ws/pagamentos/:pagamentoId', {},
+		return $resource('ws/usuarios/:usuarioId/pagamentos/:pagamentoId', {},
 			{
 				'update' : {
 					method: 'PUT'
@@ -12,10 +12,10 @@ angular.module('pagamentoService', ['ngResource'])
 	})
 	.factory("cadastroPagamento", function(recursoPagamento, $http, $q) {
 		var service = {};
-		service.gravar = function(pagamento) {
+		service.gravar = function(usuarioId, pagamento) {
 			return $q(function(resolve, reject) {
 				if(pagamento.id) {
-					recursoPagamento.update({pagamentoId: pagamento.id}, pagamento, function() {
+					recursoPagamento.update({usuarioId: usuarioId, pagamentoId: pagamento.id}, pagamento, function() {
 						resolve({
 							mensagem: 'Pagamento ' + pagamento.nome + ' atualizado com sucesso',
 							inclusao: false
@@ -28,7 +28,7 @@ angular.module('pagamentoService', ['ngResource'])
 					});
 
 				} else {
-					recursoPagamento.save(pagamento, function() {
+					recursoPagamento.save({usuarioId: usuarioId}, pagamento, function() {
 						resolve({
 							mensagem: 'Pagamento ' + pagamento.nome + ' incluído com sucesso',
 							inclusao: true
@@ -49,7 +49,7 @@ angular.module('pagamentoService', ['ngResource'])
 			return $q(function(resolve, reject) {
 				$http({
 					  method: 'GET',
-					  url:'ws/pagamentos/tipos',
+					  url:'ws/usuarios/:usuarioId/pagamentos/tipos',
 					  headers: {'Content-Type':'application/json'}
 				}).then(
 					function(resp) {
