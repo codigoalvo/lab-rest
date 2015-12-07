@@ -7,15 +7,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-@Table(indexes = {	@Index(name = "pagamento_codigo", columnList = "codigo", unique = false),
-					@Index(name = "pagamento_nome", columnList = "nome", unique = false)})
+@Table(indexes = {	@Index(name = "pagamento_codigo", columnList = "codigo, usuario_id", unique = true),
+					@Index(name = "pagamento_nome", columnList = "nome, usuario_id", unique = true)})
 public class Pagamento implements Serializable {
 
 	private static final long serialVersionUID = 919312467078802157L;
@@ -40,6 +47,10 @@ public class Pagamento implements Serializable {
 	private Integer diaFechamento;
 
 	private Integer diaPagamento;
+
+	@XmlTransient
+	@ManyToOne
+	private	Usuario usuario;
 
 	public Pagamento() {}
 
@@ -130,6 +141,14 @@ public class Pagamento implements Serializable {
 
 	public void setDiaPagamento(Integer diaPagamento) {
 		this.diaPagamento = diaPagamento;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 }

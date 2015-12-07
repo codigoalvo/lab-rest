@@ -73,13 +73,13 @@ public class PagamentoServiceImpl implements PagamentoService {
 	}
 
 	@Override
-	public Pagamento buscar(Integer id) {
-		return this.dao.buscar(id);
+	public Pagamento buscar(Integer usuarioId, Integer categoriaId) {
+		return this.dao.pagamentoDoUsuario(usuarioId, categoriaId);
 	}
 
 	@Override
-	public List<Pagamento> listar() {
-		return this.dao.listar();
+	public List<Pagamento> listar(Integer usuarioId) {
+		return this.dao.pagamentosDoUsuario(usuarioId);
 	}
 
 	@Override

@@ -58,13 +58,13 @@ public class CategoriaREST {
 					resposta = Response.status(Status.NOT_FOUND).entity(new Resposta("registro.naoEncontrado"));
 				} else {
 					LOG.debug("categoria.find "+entidade);
-					LOG.debug("categoria.usuario :"+entidade.getUsuario());
+					LOG.debug("categoria.find.usuario :"+entidade.getUsuario());
 					resposta = Response.ok().entity(entidade);
 				}
-			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
-			} catch (Exception e) {
-				e.printStackTrace();
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("listar.erro")));
+				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
+			} catch (Exception exc) {
+				LOG.error(exc);
+				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("buscar.erro")));
 			}
 		}
 		return resposta.build();
@@ -81,8 +81,8 @@ public class CategoriaREST {
 				Categoria[] entidades = this.categoriaService.listar(usuarioId).toArray(new Categoria[0]);
 				resposta = Response.ok().entity(entidades);
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception exc) {
+				LOG.error(exc);
 				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("listar.erro")));
 			}
 		}
@@ -103,8 +103,8 @@ public class CategoriaREST {
 				Categoria entidade = this.categoriaService.gravar(categoria);
 				resposta = Response.created(new URI("categorias/"+entidade.getId())).entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception exc) {
+				LOG.error(exc);
 				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("gravar.erro")));
 			}
 		}
@@ -139,7 +139,7 @@ public class CategoriaREST {
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	public Response remove(@Context HttpHeaders headers, @PathParam("usuarioId") int usuarioId, @PathParam("id") int id) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
-		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token, true);
+		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
 		if (resposta == null) {
 			try {
 				validaUsuarioId(usuarioId, token);
@@ -156,7 +156,9 @@ public class CategoriaREST {
 
 	private Usuario validaUsuarioId(int usuarioId, String token) throws LoginException {
 		Usuario usuario = this.usuarioService.buscar(usuarioId);
-		JsonWebTokenUtil.validarUsuario(usuario, token);
+		if (ResponseBuilderHelper.AUTHENTICATION_ENABLED) {
+			JsonWebTokenUtil.validarUsuario(usuario, token);
+		}
 		return usuario;
 	}
 }

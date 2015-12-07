@@ -21,7 +21,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-@Table(indexes = {	@Index(name = "categoria_nome_unique", columnList = "nome", unique = true) })
+@Table(indexes = {	@Index(name = "categoria_nome_unique", columnList = "nome, usuario_id", unique = true) })
 public class Categoria implements Serializable {
 
 	private static final long serialVersionUID = -4407612096913713967L;
@@ -93,12 +93,11 @@ public class Categoria implements Serializable {
 		this.nome = nome;
 	}
 
-	public //@JoinColumn(name="usuario_id")
-	Usuario getUsuario() {
+	public Usuario getUsuario() {
 		return this.usuario;
 	}
 
-	public void setUsuario(//@JoinColumn(name="usuario_id")
+	public void setUsuario(
 	Usuario usuario) {
 		this.usuario = usuario;
 	}

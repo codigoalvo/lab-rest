@@ -17,7 +17,7 @@ import codigoalvo.util.UsuarioUtil;
 public class ResponseBuilderHelper {
 
 	private static final Logger LOG = Logger.getLogger(ResponseBuilderHelper.class);
-	private static final boolean AUTHENTICATION_ENABLED = true;
+	public static final boolean AUTHENTICATION_ENABLED = true;
 
 	public ResponseBuilderHelper() {
 		LOG.debug("####################  construct  ####################");
