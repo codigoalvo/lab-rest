@@ -30,7 +30,7 @@ public class TipoUtil {
 	private static String buildTiposPagamentoJson() {
 		List<String> tipos = new ArrayList<String>();
 		for (PagamentoTipo pagamentoTipo : PagamentoTipo.values()) {
-			tipos.add(pagamentoTipo.name());
+			tipos.add(""+pagamentoTipo.getId());
 		}
 		return JsonUtil.toJson(tipos.toArray(new String[0]));
 	}
