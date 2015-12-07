@@ -12,6 +12,7 @@ import javax.security.auth.login.LoginException;
 import javax.xml.bind.DatatypeConverter;
 
 import codigoalvo.entity.Usuario;
+import codigoalvo.util.Globals;
 import codigoalvo.util.JsonUtil;
 import codigoalvo.util.UsuarioUtil;
 import io.jsonwebtoken.Claims;
@@ -21,10 +22,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 public class JsonWebTokenUtil {
 
-	private static final String SECRET = "Pr3ç15ÃoEmT3cn010Gi@DA1NF0RMAÇ@0"; // TODO: Alterar!
-	public static final String ISSUER = "www.codigoalvo.com.br";
-	public static final int MINUTOS_DURACAO_TOKEN = 10;
-	public static final int MINUTOS_MINIMOS_TOKEN = 5;
 	private static SecureRandom random = new SecureRandom();
 
 	@SuppressWarnings("unused")
@@ -38,13 +35,13 @@ public class JsonWebTokenUtil {
 	}
 
 	private static Key obterChaveAssinatura(SignatureAlgorithm signatureAlgorithm) {
-		byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(DatatypeConverter.printBase64Binary(SECRET.getBytes()));
+		byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(DatatypeConverter.printBase64Binary(Globals.getSecret().getBytes()));
 		Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 		return signingKey;
 	}
 
 	public static String criarJWT(LoginToken usuario) {
-		return criarJWT(usuario, System.currentTimeMillis(), MINUTOS_DURACAO_TOKEN);
+		return criarJWT(usuario, System.currentTimeMillis(), Globals.getMinutosDuracaoToken());
 	}
 
 	public static String criarJWT(LoginToken usuario, long agora, int minutosExpiracao) {
@@ -52,7 +49,7 @@ public class JsonWebTokenUtil {
 		SignatureAlgorithm algoritmo = obterAlgoritmo();
 		Date dataAgora = new Date(agora);
 		JwtBuilder token = Jwts.builder()
-				.setIssuer(ISSUER)
+				.setIssuer(Globals.getIssuer())
 				.setId(usuario.getId().toString())
 				.setIssuedAt(dataAgora)
 				.setSubject(usuario.getLogin())
@@ -72,7 +69,7 @@ public class JsonWebTokenUtil {
 	}
 
 	public static boolean precisaRenovar(Claims corpoToken) {
-		return precisaRenovar(corpoToken, MINUTOS_MINIMOS_TOKEN);
+		return precisaRenovar(corpoToken, Globals.getMinutosMinimosToken());
 	}
 
 	public static boolean precisaRenovar(Claims corpoToken, int minutos) {
@@ -95,7 +92,7 @@ public class JsonWebTokenUtil {
 	}
 
 	public static String renovaToken(Claims corpoToken) {
-		return renovaToken(corpoToken, MINUTOS_DURACAO_TOKEN);
+		return renovaToken(corpoToken, Globals.getMinutosDuracaoToken());
 	}
 
 	public static String renovaToken(Claims corpoToken, int minutosExpiracao) {
@@ -109,6 +106,9 @@ public class JsonWebTokenUtil {
 	}
 
 	public static void validarUsuario(Usuario usuario, String token) throws LoginException {
+		if (!Globals.isAuhenticationEnabled()) {
+			return;
+		}
 		try {
 			Claims corpoJWT = JsonWebTokenUtil.obterCorpoJWT(token);
 			String subject = corpoJWT.getSubject();
@@ -146,7 +146,7 @@ public class JsonWebTokenUtil {
 	public static boolean isValidToken(String token) {
 		Claims corpoJwt = obterCorpoJWT(token);
 		String issuer = corpoJwt.getIssuer();
-		if (!ISSUER.equals(issuer)) {
+		if (!Globals.getIssuer().equals(issuer)) {
 			return false;
 		}
 		return true;

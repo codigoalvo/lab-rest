@@ -1,6 +1,7 @@
 package codigoalvo.rest;
 
 import java.net.URI;
+
 import javax.security.auth.login.LoginException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -177,9 +178,7 @@ public class PagamentoREST {
 
 	private Usuario validaUsuarioId(int usuarioId, String token) throws LoginException {
 		Usuario usuario = this.usuarioService.buscar(usuarioId);
-		if (ResponseBuilderHelper.AUTHENTICATION_ENABLED) {
-			JsonWebTokenUtil.validarUsuario(usuario, token);
-		}
+		JsonWebTokenUtil.validarUsuario(usuario, token);
 		return usuario;
 	}
 

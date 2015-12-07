@@ -12,12 +12,12 @@ import org.apache.log4j.Logger;
 import codigoalvo.entity.UsuarioTipo;
 import codigoalvo.security.JsonWebTokenUtil;
 import codigoalvo.security.LoginToken;
+import codigoalvo.util.Globals;
 import codigoalvo.util.UsuarioUtil;
 
 public class ResponseBuilderHelper {
 
 	private static final Logger LOG = Logger.getLogger(ResponseBuilderHelper.class);
-	public static final boolean AUTHENTICATION_ENABLED = true;
 
 	public ResponseBuilderHelper() {
 		LOG.debug("####################  construct  ####################");
@@ -48,7 +48,7 @@ public class ResponseBuilderHelper {
 	 * @return null se o token estiver OK ou uma Response "ruim" caso contrário
 	 */
 	public static ResponseBuilder verificarAutenticacao(String token, boolean admin) {
-		if (!AUTHENTICATION_ENABLED) {
+		if (!Globals.isAuhenticationEnabled()) {
 			return null;
 		}
 		if (token == null || token.isEmpty()) {
@@ -81,7 +81,7 @@ public class ResponseBuilderHelper {
 	}
 
 	public static void atualizarTokenNaRespostaSeNecessario(ResponseBuilder response, String token) {
-		if (!AUTHENTICATION_ENABLED) {
+		if (!Globals.isAuhenticationEnabled()) {
 			return;
 		}
 		String tokenAtualizado = JsonWebTokenUtil.renovaTokenSeNecessario(token);
