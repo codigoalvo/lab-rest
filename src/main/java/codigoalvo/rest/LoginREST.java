@@ -49,7 +49,7 @@ public class LoginREST {
 	@Consumes(MediaType.APPLICATION_JSON + UTF8)
 	public Response login(String usuarioLoginStr, @Context HttpServletRequest req) {
 		try {
-			String origem = getOrigemHost(req);
+			String origem = ResponseBuilderHelper.obterOrigemHostDoRequest(req);
 			UsuarioLogin usuarioLogin = JsonUtil.fromJson(usuarioLoginStr, UsuarioLogin.class);
 			System.out.println("usuarioLoginStr: "+usuarioLoginStr);
 			System.out.println("usuarioLogin: "+usuarioLogin);
@@ -64,15 +64,6 @@ public class LoginREST {
 		}
 	}
 
-	private String getOrigemHost(HttpServletRequest httpServletRequest) {
-		String remoteHost = httpServletRequest.getRemoteHost();
-		String remoteAddr = httpServletRequest.getRemoteAddr();
-		int remotePort = httpServletRequest.getRemotePort();
-		String origem = remoteHost + "(" + remoteAddr + ":" + remotePort + ")";
-		LOG.debug(origem);
-		return origem;
-	}
-
 	@Path("/senha")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
@@ -82,7 +73,7 @@ public class LoginREST {
 		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
 		if (resposta == null) {
 			try {
-				String origem = getOrigemHost(req);
+				String origem = ResponseBuilderHelper.obterOrigemHostDoRequest(req);
 				UsuarioLogin usuarioLogin = JsonUtil.fromJson(usuarioLoginStr, UsuarioLogin.class);
 				System.out.println("usuarioLoginStr: "+usuarioLoginStr);
 				System.out.println("usuarioLogin: "+usuarioLogin);

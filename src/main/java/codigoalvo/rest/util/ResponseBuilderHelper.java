@@ -2,6 +2,7 @@ package codigoalvo.rest.util;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -21,6 +22,15 @@ public class ResponseBuilderHelper {
 
 	public ResponseBuilderHelper() {
 		LOG.debug("####################  construct  ####################");
+	}
+
+	public static String obterOrigemHostDoRequest(HttpServletRequest httpServletRequest) {
+		String remoteHost = httpServletRequest.getRemoteHost();
+		String remoteAddr = httpServletRequest.getRemoteAddr();
+		int remotePort = httpServletRequest.getRemotePort();
+		String origem = remoteHost + "(" + remoteAddr + ":" + remotePort + ")";
+		LOG.debug(origem);
+		return origem;
 	}
 
 	public static String obterTokenDoCabecalhoHttp(HttpHeaders headers) {
