@@ -14,7 +14,7 @@ import codigoalvo.util.UsuarioUtil;
 
 public class JasonWebTokenUtilTest {
 
-	private static final LoginToken LOGIN_TOKEN = UsuarioUtil.usuarioToToken(new Usuario(1, "admin", "Administrador", "admin@email.com", UsuarioTipo.ADMIN));
+	private static final LoginToken LOGIN_TOKEN = UsuarioUtil.usuarioToToken(new Usuario(1, "admin", "Administrador", "admin@email.com", UsuarioTipo.ADMIN), "127.0.0.1");
 	private static final long AGORA = System.currentTimeMillis();
 	private static String token;
 

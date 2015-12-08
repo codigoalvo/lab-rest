@@ -13,22 +13,25 @@ public class LoginToken implements Serializable {
 	private String nome;
 	private String email;
 	private UsuarioTipo tipo;
+	private String origem;
 	private String hash;
 
 	public LoginToken() {
 	}
 
 	public LoginToken(LoginToken toCopy) {
-		this(toCopy.getId(), toCopy.getLogin(), toCopy.getNome(), toCopy.getEmail(), toCopy.getTipo());
+		this(toCopy.getId(), toCopy.getLogin(), toCopy.getNome(), toCopy.getEmail(), toCopy.getTipo(), toCopy.getOrigem());
+		this.hash = toCopy.getHash();
 	}
 
-	public LoginToken(Integer id, String login, String nome, String email, UsuarioTipo tipo) {
+	public LoginToken(Integer id, String login, String nome, String email, UsuarioTipo tipo, String origem) {
 		super();
 		this.id = id;
 		this.login = login;
 		this.nome = nome;
 		this.email = email;
 		this.tipo = tipo;
+		this.origem = origem;
 	}
 
 	public Integer getId() {
@@ -71,6 +74,14 @@ public class LoginToken implements Serializable {
 		this.tipo = tipo;
 	}
 
+	public String getOrigem() {
+		return origem;
+	}
+
+	public void setOrigem(String origem) {
+		this.origem = origem;
+	}
+
 	public String getHash() {
 		return this.hash;
 	}
@@ -86,7 +97,7 @@ public class LoginToken implements Serializable {
 	@Override
 	public String toString() {
 		return "LoginToken [id=" + this.id + ", login=" + this.login + ", nome=" + this.nome + ", email=" + this.email + ", tipo=" + this.tipo
-				+ ", extp=" + this.hash + "]";
+				 + ", origem=" + this.origem + ", extp=" + this.hash + "]";
 	}
 
 	@Override

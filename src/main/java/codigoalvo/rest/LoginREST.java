@@ -3,6 +3,7 @@ package codigoalvo.rest;
 import java.io.Serializable;
 
 import javax.security.auth.login.LoginException;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -46,13 +47,14 @@ public class LoginREST {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	@Consumes(MediaType.APPLICATION_JSON + UTF8)
-	public Response login(String usuarioLoginStr) {
+	public Response login(String usuarioLoginStr, @Context HttpServletRequest req) {
 		try {
+			String origem = getOrigemHost(req);
 			UsuarioLogin usuarioLogin = JsonUtil.fromJson(usuarioLoginStr, UsuarioLogin.class);
 			System.out.println("usuarioLoginStr: "+usuarioLoginStr);
 			System.out.println("usuarioLogin: "+usuarioLogin);
 			Usuario usuario = this.service.efetuarLogin(usuarioLogin.getLogin(), usuarioLogin.getSenha());
-			LoginToken login = UsuarioUtil.usuarioToToken(usuario);
+			LoginToken login = UsuarioUtil.usuarioToToken(usuario, origem);
 			String token = JsonWebTokenUtil.criarJWT(login);
 			LOG.debug("TOKEN: "+token);
 			return Response.status(Status.OK).header("Authorization", token).entity(new Resposta(I18NUtil.getMessage("login.sucesso"))).build();
@@ -62,15 +64,25 @@ public class LoginREST {
 		}
 	}
 
+	private String getOrigemHost(HttpServletRequest httpServletRequest) {
+		String remoteHost = httpServletRequest.getRemoteHost();
+		String remoteAddr = httpServletRequest.getRemoteAddr();
+		int remotePort = httpServletRequest.getRemotePort();
+		String origem = remoteHost + "(" + remoteAddr + ":" + remotePort + ")";
+		LOG.debug(origem);
+		return origem;
+	}
+
 	@Path("/senha")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	@Consumes(MediaType.APPLICATION_JSON + UTF8)
-	public Response senha(@Context HttpHeaders headers, String usuarioLoginStr) {
+	public Response senha(@Context HttpHeaders headers, String usuarioLoginStr, @Context HttpServletRequest req) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
 		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
 		if (resposta == null) {
 			try {
+				String origem = getOrigemHost(req);
 				UsuarioLogin usuarioLogin = JsonUtil.fromJson(usuarioLoginStr, UsuarioLogin.class);
 				System.out.println("usuarioLoginStr: "+usuarioLoginStr);
 				System.out.println("usuarioLogin: "+usuarioLogin);
@@ -80,7 +92,7 @@ public class LoginREST {
 				if (usuario == null  || usuario.getId() == null) {
 					throw new LoginException("login.invalido");
 				}
-				LoginToken login = UsuarioUtil.usuarioToToken(usuario);
+				LoginToken login = UsuarioUtil.usuarioToToken(usuario, origem);
 				String novoToken = JsonWebTokenUtil.criarJWT(login);
 				LOG.debug("NOVO TOKEN: "+novoToken);
 				resposta =  Response.status(Status.OK).header("Authorization", novoToken).entity(new Resposta(I18NUtil.getMessage("senha.alterarSucesso")));

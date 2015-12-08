@@ -9,8 +9,8 @@ import codigoalvo.security.SegurancaUtilMd5;
 public class UsuarioUtil {
 	private static final SegurancaUtil segurancaUtil = new SegurancaUtilMd5();
 
-	public static LoginToken usuarioToToken(Usuario usuario) {
-		LoginToken login = new LoginToken(usuario.getId(), usuario.getLogin(), usuario.getNome(), usuario.getEmail(), usuario.getTipo());
+	public static LoginToken usuarioToToken(Usuario usuario, String origem) {
+		LoginToken login = new LoginToken(usuario.getId(), usuario.getLogin(), usuario.getNome(), usuario.getEmail(), usuario.getTipo(), origem);
 		login.setHash(encodeHash(login.toHashKey()));
 		return login;
 	}

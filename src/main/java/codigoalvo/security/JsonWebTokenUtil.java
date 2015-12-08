@@ -53,6 +53,7 @@ public class JsonWebTokenUtil {
 				.setId(usuario.getId().toString())
 				.setIssuedAt(dataAgora)
 				.setSubject(usuario.getLogin())
+				.setAudience(usuario.getOrigem())
 				.claim("usuario", usuarioJson)
 				.signWith(algoritmo, obterChaveAssinatura(algoritmo));
 

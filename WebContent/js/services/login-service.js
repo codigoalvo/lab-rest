@@ -82,6 +82,8 @@ angular.module('loginService', [])
 				var encoded = token.split('.')[1];
 				decodedToken = JSON.parse(service.decode(encoded));
 			}
+			//TODO: Desabilitar este log em breve
+			console.log('LoginService.decodedToken: '+angular.toJson(decodedToken));
 			return decodedToken;
 		}
 
