@@ -31,6 +31,7 @@ public class ValidadorEmailREST {
 
 	private static final String UTF8 = ";charset=UTF-8";
 	private static final Logger LOG = Logger.getLogger(ValidadorEmailREST.class);
+	private static final String APP_PATH = "http://localhost:8080/lab-rest/";
 
 	ValidadorEmailService emailService = new ValidadorEmailServiceImpl();
 
@@ -62,8 +63,8 @@ public class ValidadorEmailREST {
 
 	private static String corpoEmail(ValidadorEmail entidade) {
 		StringBuilder corpo = new StringBuilder();
-		corpo.append("<h3>Clique no link abaixo para confirmar o email <b>").append(entidade.getEmail()).append("</b>");
-		corpo.append("<a href='").append("#").append("'>").append("[CONFIRMAR]").append("</a>");
+		corpo.append("<h3>Clique no link abaixo para confirmar o email <b>").append(entidade.getEmail()).append("</b>").append("</h3>").append("<br/>");
+		corpo.append("<a href='").append(APP_PATH).append("ws/email/verificar/"+entidade.getId()).append("'>").append("[CONFIRMAR]").append("</a>");
 		return corpo.toString();
 	}
 

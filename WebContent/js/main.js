@@ -2,7 +2,7 @@ google.load('visualization', '1', {packages: ['corechart']});
 angular.module('alvoApp',	['ngRoute', 'ngResource', 'ngAnimate', 'angular-growl', 'dialogs.main', 'google-chart',
 							'ui.bootstrap', 'pascalprecht.translate','dialogs.default-translations',
 							'alvoRotas', 'authInterceptor', 'miscDirectives', 'headerDirective', 
-							'loginService', 'usuarioService', 'categoriaService', 'pagamentoService'])
+							'loginService', 'usuarioService', 'categoriaService', 'pagamentoService', 'emailService'])
 	.config(function($httpProvider, $locationProvider, growlProvider) {
 		//$locationProvider.html5Mode(true);
 		//$httpProvider.interceptors.push('AuthInterceptor');

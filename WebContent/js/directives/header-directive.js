@@ -1,7 +1,9 @@
 angular.module('headerDirective', [])
 	.directive('navheader', function (servicosLogin, $compile) {
 
-		var templateDeslogado = "<li ng-show='!usuarioLogado'><a href='#login'><span class='glyphicon glyphicon-log-in'></span> login </a></li>";
+		var templateDeslogado = "<li ng-show='!usuarioLogado'><a href='#login'><span class='glyphicon glyphicon-log-in'></span> entrar </a></li>"+
+								"<li ng-show='!usuarioLogado'><a href='#registro'><span class='glyphicon glyphicon-check'></span> registrar </a></li>";
+
 		var templateLogado =	"<li ng-show='usuarioLogado' class='dropdown'>" +
 									"<a href='' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>" +
 										"<span class='glyphicon glyphicon-user'></span> {{usuarioLogado.login}} <span class='caret'></span>" +

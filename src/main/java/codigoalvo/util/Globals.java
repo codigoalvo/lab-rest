@@ -18,6 +18,30 @@ public class Globals {
 		return P;
 	}
 
+	public static String getProperty(String key) {
+		return P.getProperty(key);
+	}
+
+	public static String getProperty(String key, String defaultValue) {
+		return P.getProperty(key, defaultValue);
+	}
+
+	public static int getInt(String key) {
+		return P.getInt(key);
+	}
+
+	public static int getInt(String key, int defaultValue) {
+		return P.getInt(key, defaultValue);
+	}
+
+	public static boolean getBoolean(String key) {
+		return P.getBoolean(key);
+	}
+
+	public static boolean getBoolean(String key, boolean defaultValue) {
+		return P.getBoolean(key, defaultValue);
+	}
+
 	public static String getSecret() {
 		return P.getProperty("SECRET");
 	}

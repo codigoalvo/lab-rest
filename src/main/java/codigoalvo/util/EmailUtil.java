@@ -14,36 +14,30 @@ import org.apache.log4j.Logger;
 
 public class EmailUtil {
 
-	//TODO: Passar esses dados para properties
-	private static final String SENDERS_EMAIL = "codigoalvo@gmail.com";
-	private static final String SENDERS_PWD = "******PASSWORD*********";
-
 	private static final Logger LOG = Logger.getLogger(EmailUtil.class);
 
 	public static boolean sendMail(String destinatario, String assunto, String corpoHtml) {
 
 		Properties mailProps = new Properties();
-
-		//TODO: Passar esses dados para properties
 		// Set properties required to connect to Gmail's SMTP server
-		mailProps.put("mail.smtp.host", "smtp.gmail.com");
-		mailProps.put("mail.smtp.port", "587");
-		mailProps.put("mail.smtp.auth", "true");
-		mailProps.put("mail.smtp.starttls.enable", "true");
+		mailProps.put("mail.smtp.host", Globals.getProperty("MAIL_SMTP_HOST"));
+		mailProps.put("mail.smtp.port", Globals.getProperty("MAIL_SMTP_PORT"));
+		mailProps.put("mail.smtp.auth", Globals.getProperty("MAIL_SMTP_AUTH"));
+		mailProps.put("mail.smtp.starttls.enable", Globals.getProperty("MAIL_SMTP_STARTTLS_ENABLE"));
 
 		// Create a username-password authenticator to authenticate SMTP session
 		Authenticator authenticator = new Authenticator() {
 			// override the getPasswordAuthentication method
 			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(SENDERS_EMAIL, SENDERS_PWD);
+				return new PasswordAuthentication(Globals.getProperty("EMAIL_REMETENTE"), Globals.getProperty("EMAIL_SENHA"));
 			}
 		};
 
 		Session session = Session.getDefaultInstance(mailProps, authenticator);
 		try {
 			final MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(SENDERS_EMAIL));
+			message.setFrom(new InternetAddress(Globals.getProperty("EMAIL_REMETENTE")));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));
 			message.setSubject(assunto);
 			message.setContent(corpoHtml, "text/html" );
