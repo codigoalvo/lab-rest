@@ -2,11 +2,14 @@ package codigoalvo.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -21,8 +24,8 @@ import org.hibernate.validator.constraints.NotBlank;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-@Table(indexes = {	@Index(name = "pagamento_codigo", columnList = "codigo, usuario_id", unique = true),
-					@Index(name = "pagamento_nome", columnList = "nome, usuario_id", unique = true)})
+@Table(indexes = {	@Index(name = "idx_pagamento_codigo", columnList = "codigo, usuario_id", unique = true),
+					@Index(name = "idx_pagamento_nome", columnList = "nome, usuario_id", unique = true)})
 public class Pagamento implements Serializable {
 
 	private static final long serialVersionUID = 919312467078802157L;
@@ -49,7 +52,8 @@ public class Pagamento implements Serializable {
 	private Integer diaPagamento;
 
 	@XmlTransient
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_pagamento_usuario"))
 	private	Usuario usuario;
 
 	public Pagamento() {}

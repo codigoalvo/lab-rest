@@ -4,10 +4,13 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -23,9 +26,9 @@ import org.hibernate.validator.constraints.NotBlank;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-@Table(indexes = {	@Index(name = "validador_id", columnList = "id", unique = true),
-					@Index(name = "validador_email", columnList = "email", unique = true),
-					@Index(name = "validador_data", columnList = "data", unique = false)})
+@Table(indexes = {	@Index(name = "idx_validador_id", columnList = "id", unique = true),
+					@Index(name = "idx_validador_email", columnList = "email", unique = true),
+					@Index(name = "idx_validador_data", columnList = "data", unique = false)})
 public class ValidadorEmail implements Serializable {
 
 	private static final long serialVersionUID = 4502437052474880802L;
@@ -48,7 +51,8 @@ public class ValidadorEmail implements Serializable {
 	private Date data;
 
 	@XmlTransient
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_validador_usuario"))
 	private Usuario usuario;
 
 	public ValidadorEmail() {

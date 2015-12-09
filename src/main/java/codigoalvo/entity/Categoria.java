@@ -2,11 +2,14 @@ package codigoalvo.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -21,7 +24,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-@Table(indexes = {	@Index(name = "categoria_nome_unique", columnList = "nome, usuario_id", unique = true) })
+@Table(indexes = {	@Index(name = "idx_categoria_nome_unique", columnList = "nome, usuario_id", unique = true) })
 public class Categoria implements Serializable {
 
 	private static final long serialVersionUID = -4407612096913713967L;
@@ -36,7 +39,8 @@ public class Categoria implements Serializable {
 	private String nome;
 
 	@XmlTransient
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_categoria_usuario"))
 	private	Usuario usuario;
 
 	public Categoria() {

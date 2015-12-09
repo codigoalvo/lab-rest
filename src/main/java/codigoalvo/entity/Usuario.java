@@ -17,8 +17,8 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-@Table(indexes = { @Index(name = "usuario_login_unique", columnList = "login", unique = true),
-		@Index(name = "usuario_email_unique", columnList = "email", unique = true) })
+@Table(indexes = { @Index(name = "idx_usuario_login_unique", columnList = "login", unique = true),
+		@Index(name = "idx_usuario_email_unique", columnList = "email", unique = true) })
 public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 4860641136563274996L;
