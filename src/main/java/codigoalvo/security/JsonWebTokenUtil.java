@@ -65,6 +65,29 @@ public class JsonWebTokenUtil {
 		return token.compact();
 	}
 
+	public static String criarJWT(String id, String subject, String audience) {
+		return criarJWT(id, subject, audience, System.currentTimeMillis(), Globals.getMinutosDuracaoToken());
+	}
+
+	public static String criarJWT(String id, String subject, String audience, long agora, int minutosExpiracao) {
+		SignatureAlgorithm algoritmo = obterAlgoritmo();
+		Date dataAgora = new Date(agora);
+		JwtBuilder token = Jwts.builder()
+				.setIssuer(Globals.getIssuer())
+				.setId(id)
+				.setIssuedAt(dataAgora)
+				.setSubject(subject)
+				.setAudience(audience)
+				.signWith(algoritmo, obterChaveAssinatura(algoritmo));
+
+		if (minutosExpiracao > 0) {
+			long expDataMilisegundos = agora + ((minutosExpiracao * 1000) * 60);
+			token.setExpiration(new Date(expDataMilisegundos));
+		}
+
+		return token.compact();
+	}
+
 	protected static Claims obterCorpoJWT(String token) {
 		return Jwts.parser().setSigningKey(obterChaveAssinatura(obterAlgoritmo())).parseClaimsJws(token).getBody();
 	}
@@ -74,10 +97,10 @@ public class JsonWebTokenUtil {
 	}
 
 	public static boolean precisaRenovar(Claims corpoToken, int minutos) {
-		Calendar cincoMinutos = GregorianCalendar.getInstance();
-		cincoMinutos.add(Calendar.MINUTE, minutos);
+		Calendar limiteExpirar = GregorianCalendar.getInstance();
+		limiteExpirar.add(Calendar.MINUTE, minutos);
 		Date expiration = corpoToken.getExpiration();
-		if (expiration.before(cincoMinutos.getTime())) {
+		if (expiration.before(limiteExpirar.getTime())) {
 			return true;
 		}
 		return false;

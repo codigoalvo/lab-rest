@@ -12,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -23,6 +24,7 @@ import codigoalvo.entity.UsuarioTipo;
 import codigoalvo.entity.ValidadorEmail;
 import codigoalvo.rest.util.ResponseBuilderHelper;
 import codigoalvo.rest.util.Resposta;
+import codigoalvo.security.JsonWebTokenUtil;
 import codigoalvo.service.UsuarioService;
 import codigoalvo.service.UsuarioServiceImpl;
 import codigoalvo.service.ValidadorEmailService;
@@ -58,7 +60,7 @@ public class ValidadorEmailREST {
 			if (entidade != null  &&  entidade.getId() != null) {
 				boolean envioOk = EmailUtil.sendMail(entidade.getEmail(), "Verificação de email", corpoEmail(entidade));
 				if (envioOk) {
-					return Response.created(new URI("ws/email/verificar/"+entidade.getId())) .entity(new Resposta(I18NUtil.getMessage("registro.sucesso"), entidade)).build();
+					return Response.created(new URI("ws/email/verificar/"+entidade.getId())).entity(new Resposta(I18NUtil.getMessage("registro.sucesso"), entidade)).build();
 				}
 			}
 		} catch (Exception exc) {
@@ -79,7 +81,9 @@ public class ValidadorEmailREST {
 			ValidadorEmail entidade = emailService.buscarPorUuid(UUID.fromString(hash));
 			if (entidade != null  && entidade.getId() != null) {
 				LOG.debug("verificar.entidade: "+entidade);
-				return Response.status(Status.OK).entity(entidade).build();
+				String token = JsonWebTokenUtil.criarJWT(entidade.getId().toString(), "register", origem);
+				LOG.debug("TOKEN de registro: "+token);
+				return Response.status(Status.OK).header("Authorization", token).entity(entidade).build();
 			}
 		} catch (Exception exc) {
 			LOG.error(exc);
@@ -91,8 +95,11 @@ public class ValidadorEmailREST {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response confirmar(String usuarioStr, @Context HttpServletRequest req) {
+	public Response confirmar(@Context HttpHeaders headers, String usuarioStr, @Context HttpServletRequest req) {
 		try {
+			String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
+			LOG.debug("TOKEN de Registro do Header: "+token);
+			//TODO: Validar token do header!
 			String origem = ResponseBuilderHelper.obterOrigemHostDoRequest(req);
 			LOG.debug("confirmar.origem: "+origem);
 			LOG.debug("confirmar.usuarioStr: "+usuarioStr);
