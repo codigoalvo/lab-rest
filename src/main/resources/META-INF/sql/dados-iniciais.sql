@@ -16,3 +16,4 @@ insert into pagamento(id, codigo, nome, tipo, usuario_id) values (1, 'DINHEIRO',
 insert into pagamento(id, codigo, nome, tipo, usuario_id) values (2, 'DEBITO', 'Débito Banco', 'B', 1);
 insert into pagamento(id, codigo, nome, tipo, dia_fechamento, dia_pagamento, usuario_id) values (3, 'CCMCBCO', 'Cartão Master Banco', 'C', 26, 5, 1);
 insert into pagamento(id, codigo, nome, tipo, dia_fechamento, dia_pagamento, usuario_id) values (4, 'CCVILJ', 'Cartão Visa Loja', 'C', 24, 3, 1);
+insert into validador_email(id, email, data, origem) values ('3789a92c818241a7833a26ba0a29f232', 'fulano@email.com', '2015-12-09 12:00:00.000', '127.0.0.1'); /*3789a92c-8182-41a7-833a-26ba0a29f232*/

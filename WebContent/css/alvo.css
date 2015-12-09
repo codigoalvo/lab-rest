@@ -5,3 +5,11 @@
 .bigGraph {width:70%;height:500px;float:left;}
 .mediumGraph {width:350px;height:300px;float:left;}
 .smallGraph {width:20%;height:300px;float:left;}
+
+.flexDiv {
+	min-height: 80%;  /* Fallback for browsers do NOT support vh unit */
+	min-height: 80vh; /* These two lines are counted as one :-)       */
+	display: flex;
+	align-items: center;
+	vertical-align: middle;
+}

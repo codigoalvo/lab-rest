@@ -1,9 +1,13 @@
 package codigoalvo.rest.util;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Resposta {
+
 	private String mensagem;
 	private Object entidade;
 

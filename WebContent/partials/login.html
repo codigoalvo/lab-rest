@@ -1,15 +1,16 @@
 <header navheader></header>
-<div ng-controller="LoginController" data-ng-init="initLogin()">
+
+<div ng-controller="LoginController" data-ng-init="initLogin()" class="row text-center flexDiv">
 	<form class="form-signin">
 		<h2 class="form-signin-heading text-center">Dados de login</h2>
 
 		<label for="login" class="sr-only">Login</label>
 		<input type="text" id="login" class="form-control" focus="true" ng-model="usuario.login"
-			placeholder="Login do usuário" required autofocus>
+			placeholder="Login do usuário" required autofocus title="Login do usuário">
 
 		<label for="senha" class="sr-only">Senha</label>
 		<input type="password" id="senha" class="form-control" ng-model="usuario.senha"
-			placeholder="Senha" required>
+			placeholder="Senha" required title="Senha">
 
 		<button class="btn btn-lg btn-primary btn-block" ng-click="efetuarLogin()" id="submit" type="submit">Enviar</button>
 	</form>
