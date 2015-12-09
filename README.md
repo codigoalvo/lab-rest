@@ -4,10 +4,11 @@
 
 
 * Maven
-* Jersey
+* Jersey (https://jersey.java.net/)
 * JPA/Hibernate
 * HTML5/CSS3
-* AngularJS
+* AngularJS (https://angularjs.org/)
+* Bootstrap (http://getbootstrap.com/)
 
 ----------
 
@@ -16,6 +17,8 @@ O conceito inicial é utilizar HTML5 com AngularJS e talvez bootstrap na camada 
 A idéia é fazer uma simples aplicação que utilize de autenticação de usuário e talvez um token para as requisições REST.
 
 ----------
+
+***angular-ui-bootstrap*** from https://angular-ui.github.io/bootstrap/
 
 ***angular-growl-2*** from https://github.com/JanStevens/angular-growl-2 (http://janstevens.github.io/angular-growl-2/)
 
