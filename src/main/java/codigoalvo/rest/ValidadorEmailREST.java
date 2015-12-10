@@ -22,13 +22,10 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.log4j.Logger;
 
 import codigoalvo.entity.Usuario;
-import codigoalvo.entity.UsuarioTipo;
 import codigoalvo.entity.ValidadorEmail;
 import codigoalvo.rest.util.ResponseBuilderHelper;
 import codigoalvo.rest.util.Resposta;
 import codigoalvo.security.JsonWebTokenUtil;
-import codigoalvo.service.UsuarioService;
-import codigoalvo.service.UsuarioServiceImpl;
 import codigoalvo.service.ValidadorEmailService;
 import codigoalvo.service.ValidadorEmailServiceImpl;
 import codigoalvo.templates.TemplateUtil;
@@ -42,10 +39,8 @@ public class ValidadorEmailREST {
 
 	private static final String UTF8 = ";charset=UTF-8";
 	private static final Logger LOG = Logger.getLogger(ValidadorEmailREST.class);
-	private static final String APP_PATH = "http://localhost:8080/lab-rest/";
 
 	ValidadorEmailService emailService = new ValidadorEmailServiceImpl();
-	UsuarioService usuarioService = new UsuarioServiceImpl();
 
 	public ValidadorEmailREST() {
 		LOG.debug("####################  construct  ####################");
@@ -62,7 +57,7 @@ public class ValidadorEmailREST {
 			LOG.debug("registrar.email: "+email);
 			ValidadorEmail entidade = emailService.gravar(new ValidadorEmail(email, new Date(), origem));
 			if (entidade != null  &&  entidade.getId() != null) {
-				boolean envioOk = EmailUtil.sendMail(entidade.getEmail(), "Verificação de email", corpoEmail(entidade));
+				boolean envioOk = EmailUtil.sendMail(entidade.getEmail(), "codigoalvo - Verificação de email ("+entidade.getId()+")", corpoEmail(entidade));
 				if (envioOk) {
 					return Response.created(new URI("ws/email/verificar/"+entidade.getId())).entity(new Resposta(I18NUtil.getMessage("registro.sucesso"), entidade)).build();
 				}
@@ -141,14 +136,7 @@ public class ValidadorEmailREST {
 				return Response.status(Status.FORBIDDEN).entity(new Resposta(msg)).build();
 			}
 
-			// TODO! Gravar o usuário e apagar o token na mesma transação. Para isso o EntityManager de ambos os services devem ser o mesmo.
-			usuario.setTipo(UsuarioTipo.USER);
-			Usuario entidade = usuarioService.gravar(usuario);
-			LOG.debug("Usuário criado com sucesso! "+usuario.getId());
-
-			emailService.remover(validadorEmail);
-			LOG.debug("Token validador de registro de email removido com sucesso!");
-
+			Usuario entidade = emailService.confirmarRegistroUsuario(usuario, validadorEmail);
 			if (entidade != null  &&  entidade.getId() != null) {
 				return Response.created(new URI("ws/usuarios/"+entidade.getId())).entity(entidade).build();
 			}
