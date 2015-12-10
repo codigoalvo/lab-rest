@@ -8,6 +8,7 @@ angular.module('alvoApp').controller('EmailController',	function($scope, $routeP
 		};
 
 	$scope.registrarEmail = function() {
+		var dlg = dialogs.create('dialogs/aguarde.html','', '' ,{'size':'sm', 'keyboard':false , 'backdrop':'static'});
 		recursoEmail.registrarEmail($scope.email)
 		.then( function(resp) {
 			console.log(resp);
@@ -18,9 +19,11 @@ angular.module('alvoApp').controller('EmailController',	function($scope, $routeP
 						  'siga as instruções no email enviado. <br/>' +
 						  '** VERIFIQUE A PASTA DE SPAM! **'
 						  , {'size':'sm'});
+			dlg.dismiss('Dismiss');
 		}).catch(function(erro) {
 			console.log(erro);
 			growl.error(erro.mensagem, {title: 'Atenção!'});
+			dlg.dismiss('Dismiss');
 		});
 	};
 
