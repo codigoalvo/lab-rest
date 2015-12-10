@@ -55,9 +55,20 @@ public class ValidadorEmailREST {
 			String origem = ResponseBuilderHelper.obterOrigemHostDoRequest(req);
 			LOG.debug("registrar.origem: "+origem);
 			LOG.debug("registrar.email: "+email);
+			String registerUrl = "";
+			if (req.getContextPath() == null  || req.getContextPath().isEmpty()  ||  req.getContextPath().equals("/")) {
+				registerUrl = "http"+(req.isSecure()?"s:":":")+"//"+req.getLocalName()+":"+req.getLocalPort()+req.getContextPath();
+			} else {
+				//TODO: Testar o comportamento disso no openshift
+				String requestUrl = req.getRequestURL().toString();
+				registerUrl = requestUrl.substring(0, requestUrl.indexOf(req.getContextPath()));
+				registerUrl += req.getContextPath();
+			}
+			registerUrl	+= Globals.getProperty("CAMINHO_CONFIRMAR_REGISTRO");
+			LOG.debug("registerUrl: "+registerUrl);
 			ValidadorEmail entidade = emailService.gravar(new ValidadorEmail(email, new Date(), origem));
 			if (entidade != null  &&  entidade.getId() != null) {
-				boolean envioOk = EmailUtil.sendMail(entidade.getEmail(), "codigoalvo - Verificação de email ("+entidade.getId()+")", corpoEmail(entidade));
+				boolean envioOk = EmailUtil.sendMail(entidade.getEmail(), "codigoalvo - Verificação de email ("+entidade.getId()+")", corpoEmail(entidade, registerUrl));
 				if (envioOk) {
 					return Response.created(new URI("ws/email/verificar/"+entidade.getId())).entity(new Resposta(I18NUtil.getMessage("registro.sucesso"), entidade)).build();
 				}
@@ -146,8 +157,8 @@ public class ValidadorEmailREST {
 		return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("registro.erro"))).build();
 	}
 
-	private static String corpoEmail(ValidadorEmail entidade) {
-		String emailCorpo = TemplateUtil.getHtmlTemplateEmail(entidade.getEmail(), entidade.getId().toString());
+	private static String corpoEmail(ValidadorEmail entidade, String urlRegistro) {
+		String emailCorpo = TemplateUtil.getHtmlTemplateEmail(entidade.getEmail(), urlRegistro, entidade.getId().toString());
 		LOG.debug("emailCorppo: "+emailCorpo);
 		if (emailCorpo == null  ||  emailCorpo.isEmpty())
 			throw new IllegalArgumentException("Error on get email body!");

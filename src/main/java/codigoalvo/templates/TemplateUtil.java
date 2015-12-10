@@ -20,13 +20,13 @@ public class TemplateUtil {
 
 	private static final Logger LOG = Logger.getLogger(TemplateUtil.class);
 
-	public static String getHtmlTemplateEmail(String email, String hash) {
+	public static String getHtmlTemplateEmail(String email, String urlRegistro, String hash) {
 		Map<String, Object> valores = new HashMap<String, Object>();
-		String urlAplicacao = Globals.getProperty("URL_APLICACAO");
+		//String urlAplicacao = Globals.getProperty("URL_APLICACAO");
 		valores.put("email", email);
 		valores.put("nomeEmpresa", Globals.getProperty("NOME_EMPRESA"));
 		valores.put("nomeAplicacao", Globals.getProperty("NOME_APLICACAO"));
-		valores.put("urlConfirma", urlAplicacao+"#/registro/confirmar/"+hash);
+		valores.put("urlConfirma", urlRegistro+hash);
 		valores.put("urlLogotipo", "http://www.codigoalvo.com.br/images/logo.png");
 		return getTemplateString("email-registro.html", valores);
 	}
