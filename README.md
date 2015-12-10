@@ -41,4 +41,8 @@ A idéia é fazer uma simples aplicação que utilize de autenticação de usuá
 
 ----------
 
+* Trello do projeto em:  https://trello.com/b/k0cRKyur
+
+* Hospedado temporariamente em:  https://budgeting-codigoalvo.rhcloud.com/#/home
+
 > Written with [StackEdit](https://stackedit.io/).
