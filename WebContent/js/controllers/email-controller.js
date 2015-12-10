@@ -12,10 +12,12 @@ angular.module('alvoApp').controller('EmailController',	function($scope, $routeP
 		.then( function(resp) {
 			console.log(resp);
 			$location.path("/home");
-			dialogs.notify('Aviso', 'Um email foi enviado para: <br>' +
-						  $scope.email + ' <br>'+
-						  'Para dar continuidade ao registro, <br> ' +
-						  'siga as instruções no email enviado.', {'size':'sm'});
+			dialogs.notify('Aviso', 'Um email foi enviado para: <br/>' +
+						  '<b>'+$scope.email + '</b> <br/>'+
+						  'Para dar continuidade ao registro, <br/> ' +
+						  'siga as instruções no email enviado. <br/>' +
+						  '** VERIFIQUE A PASTA DE SPAM! **'
+						  , {'size':'sm'});
 		}).catch(function(erro) {
 			console.log(erro);
 			growl.error(erro.mensagem, {title: 'Atenção!'});
