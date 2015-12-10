@@ -9,6 +9,7 @@
 * HTML5/CSS3
 * AngularJS (https://angularjs.org/)
 * Bootstrap (http://getbootstrap.com/)
+* FreeMarker (http://freemarker.incubator.apache.org/)
 
 ----------
 

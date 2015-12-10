@@ -31,6 +31,7 @@ import codigoalvo.service.UsuarioService;
 import codigoalvo.service.UsuarioServiceImpl;
 import codigoalvo.service.ValidadorEmailService;
 import codigoalvo.service.ValidadorEmailServiceImpl;
+import codigoalvo.templates.TemplateUtil;
 import codigoalvo.util.EmailUtil;
 import codigoalvo.util.Globals;
 import codigoalvo.util.I18NUtil;
@@ -158,10 +159,10 @@ public class ValidadorEmailREST {
 	}
 
 	private static String corpoEmail(ValidadorEmail entidade) {
-		StringBuilder corpo = new StringBuilder();
-		corpo.append("<h3>Clique no link abaixo para confirmar o email <b>").append(entidade.getEmail()).append("</b>").append("</h3>").append("<br/>");
-		corpo.append("<a href='").append(APP_PATH).append("ws/email/verificar/"+entidade.getId()).append("'>").append("[VERIFICAR]").append("</a>").append("<br/>");
-		corpo.append("<a href='").append(APP_PATH).append("#/registro/confirmar/"+entidade.getId()).append("'>").append("[CONFIRMAR]").append("</a>").append("<br/>");
-		return corpo.toString();
+		String emailCorpo = TemplateUtil.getHtmlTemplateEmail(entidade.getEmail(), entidade.getId().toString());
+		LOG.debug("emailCorppo: "+emailCorpo);
+		if (emailCorpo == null  ||  emailCorpo.isEmpty())
+			throw new IllegalArgumentException("Error on get email body!");
+		return emailCorpo;
 	}
 }
