@@ -21,6 +21,8 @@ angular.module('emailService', [])
 
 		service.verificarRegistroId = function(registroId) {
 			return $q(function(resolve, reject) {
+				console.log('EmailService.verificarRegistroId : Removendo token da sessão!')
+				delete $window.sessionStorage.token;
 				$http({
 					  method: 'GET',
 					  url:'ws/email/verificar/'+registroId,
@@ -49,6 +51,8 @@ angular.module('emailService', [])
 				}).then(
 					function(resp) {
 						console.log('confirmarEmail.resp: '+resp);
+						console.log('EmailService.cadastrarUsuario : Removendo token da sessão!')
+						delete $window.sessionStorage.token;
 						resolve(resp.data);
 					}, function(erro) {
 						console.error('confirmarEmail.erro', erro);

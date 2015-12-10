@@ -2,6 +2,7 @@ package codigoalvo.rest;
 
 import java.net.URI;
 import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
@@ -30,6 +32,7 @@ import codigoalvo.service.UsuarioServiceImpl;
 import codigoalvo.service.ValidadorEmailService;
 import codigoalvo.service.ValidadorEmailServiceImpl;
 import codigoalvo.util.EmailUtil;
+import codigoalvo.util.Globals;
 import codigoalvo.util.I18NUtil;
 import codigoalvo.util.JsonUtil;
 
@@ -81,7 +84,7 @@ public class ValidadorEmailREST {
 			ValidadorEmail entidade = emailService.buscarPorUuid(UUID.fromString(hash));
 			if (entidade != null  && entidade.getId() != null) {
 				LOG.debug("verificar.entidade: "+entidade);
-				String token = JsonWebTokenUtil.criarJWT(entidade.getId().toString(), "register", origem);
+				String token = JsonWebTokenUtil.criarJWT(entidade.getId().toString(), Globals.getProperty("REGISTER_TOKEN_SUBJECT", "REGISTER"), origem);
 				LOG.debug("TOKEN de registro: "+token);
 				return Response.status(Status.OK).header("Authorization", token).entity(entidade).build();
 			}
@@ -96,16 +99,55 @@ public class ValidadorEmailREST {
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response confirmar(@Context HttpHeaders headers, String usuarioStr, @Context HttpServletRequest req) {
+		ResponseBuilder response = null;
 		try {
-			String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
-			LOG.debug("TOKEN de Registro do Header: "+token);
-			//TODO: Validar token do header!
 			String origem = ResponseBuilderHelper.obterOrigemHostDoRequest(req);
 			LOG.debug("confirmar.origem: "+origem);
 			LOG.debug("confirmar.usuarioStr: "+usuarioStr);
+
+			String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
+			LOG.debug("TOKEN de Registro do Header: "+token);
+			response = ResponseBuilderHelper.verificarAutenticacao(token, false, true);
+			if (response != null) {
+				return response.build();
+			}
+
+			Map<String, Object> claimsMap = JsonWebTokenUtil.getTokenClaimsMap(token);
+
+			String subject = (String)claimsMap.get("sub");
+			if (subject == null  ||  !subject.equals(Globals.getProperty("REGISTER_TOKEN_SUBJECT", "REGISTER"))) {
+				String msg = "Token de autorização de registro inválido!";
+				LOG.debug(msg);
+				return Response.status(Status.UNAUTHORIZED).entity(new Resposta(msg)).build();
+			}
+
+			String id = (String)claimsMap.get("jti");
+			ValidadorEmail validadorEmail = null;
+			if (id != null  &&  !id.isEmpty()) {
+				validadorEmail = emailService.buscarPorUuid(UUID.fromString(id));
+			}
+			if (validadorEmail == null || validadorEmail.getId() == null || validadorEmail.getEmail() == null) {
+				String msg = "Identificação do token de autorização de registro inválida ou expirada!";
+				LOG.debug(msg+" : "+id);
+				return Response.status(Status.FORBIDDEN).entity(new Resposta(msg)).build();
+			}
+
 			Usuario usuario = JsonUtil.fromJson(usuarioStr, Usuario.class);
+			if (usuario.getEmail() == null || usuario.getEmail().isEmpty() || !usuario.getEmail().toLowerCase().equals(validadorEmail.getEmail().toLowerCase())) {
+				String msg = "Email no token de autorização difere do email do usuário a ser cadastrado!";
+				LOG.debug(msg);
+				LOG.debug("Possivel tentativa de fraude: token.email='"+validadorEmail.getEmail()+"', usuario.email='"+usuario.getEmail()+"'");
+				return Response.status(Status.FORBIDDEN).entity(new Resposta(msg)).build();
+			}
+
+			// TODO! Gravar o usuário e apagar o token na mesma transação. Para isso o EntityManager de ambos os services devem ser o mesmo.
 			usuario.setTipo(UsuarioTipo.USER);
 			Usuario entidade = usuarioService.gravar(usuario);
+			LOG.debug("Usuário criado com sucesso! "+usuario.getId());
+
+			emailService.remover(validadorEmail);
+			LOG.debug("Token validador de registro de email removido com sucesso!");
+
 			if (entidade != null  &&  entidade.getId() != null) {
 				return Response.created(new URI("ws/usuarios/"+entidade.getId())).entity(entidade).build();
 			}

@@ -94,6 +94,13 @@ public class LoginToken implements Serializable {
 		return ""+this.id+"#"+this.login+"#"+this.tipo.name();
 	}
 
+	public boolean isValid() {
+		if (this.id == null  || this.login == null  ||  this.tipo == null  ||  this.origem == null  ||  this.hash == null) {
+			return false;
+		}
+		return true;
+	}
+
 	@Override
 	public String toString() {
 		return "LoginToken [id=" + this.id + ", login=" + this.login + ", nome=" + this.nome + ", email=" + this.email + ", tipo=" + this.tipo

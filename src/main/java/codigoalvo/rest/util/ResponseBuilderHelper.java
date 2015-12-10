@@ -50,14 +50,18 @@ public class ResponseBuilderHelper {
 	}
 
 	public static ResponseBuilder verificarAutenticacao(String token) {
-		return verificarAutenticacao(token, false);
+		return verificarAutenticacao(token, false, false);
+	}
+
+	public static ResponseBuilder verificarAutenticacao(String token, boolean admin) {
+		return verificarAutenticacao(token, admin, false);
 	}
 
 	/**
 	 * @param token (token jwt em texto)
 	 * @return null se o token estiver OK ou uma Response "ruim" caso contrário
 	 */
-	public static ResponseBuilder verificarAutenticacao(String token, boolean admin) {
+	public static ResponseBuilder verificarAutenticacao(String token, boolean admin, boolean tokenDeRegistro) {
 		if (!Globals.isAuhenticationEnabled()) {
 			return null;
 		}
@@ -69,11 +73,17 @@ public class ResponseBuilderHelper {
 					return Response.status(Status.UNAUTHORIZED).entity(new Resposta("Token de autorização inválido!"));
 				}
 
-				if (admin) {
+				if (!tokenDeRegistro) {
 					LoginToken loginToken = JsonWebTokenUtil.obterLoginToken(token);
-					UsuarioTipo usuarioTipo = UsuarioUtil.decodeTipoFromHash(loginToken);
-					if (UsuarioTipo.ADMIN != usuarioTipo) {
-						return Response.status(Status.FORBIDDEN).entity(new Resposta("Usuário não é administrador!"));
+					if (loginToken == null || !loginToken.isValid()) {
+						return Response.status(Status.UNAUTHORIZED).entity(new Resposta("Usuário do token de autorização inválido!"));
+					}
+
+					if (admin) {
+						UsuarioTipo usuarioTipo = UsuarioUtil.decodeTipoFromHash(loginToken);
+						if (UsuarioTipo.ADMIN != usuarioTipo) {
+							return Response.status(Status.FORBIDDEN).entity(new Resposta("Usuário não é administrador!"));
+						}
 					}
 				}
 
@@ -99,4 +109,5 @@ public class ResponseBuilderHelper {
 			response.header("Authorization", tokenAtualizado);
 		}
 	}
+
 }

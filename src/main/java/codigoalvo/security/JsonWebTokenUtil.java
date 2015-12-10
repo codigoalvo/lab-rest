@@ -6,6 +6,8 @@ import java.security.SecureRandom;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.security.auth.login.LoginException;
@@ -174,6 +176,24 @@ public class JsonWebTokenUtil {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * @param token
+	 * @return map where "key"(what)/objectType could be: "jti"(ID)/String, "iss"(Issuer)/String, "sub"(Subject)/String,
+	 * "aud"(Audience)/String, "iat"(Issued At)/Date, "exp"(Expiration)/Date, "nbf"(Not Before)/Date
+	 */
+	public static Map<String, Object> getTokenClaimsMap(String token) {
+		Claims corpoJwt = obterCorpoJWT(token);
+		Map<String, Object> claimsMap = new HashMap<String, Object>();
+		claimsMap.put("jti", corpoJwt.getId());
+		claimsMap.put("iss", corpoJwt.getIssuer());
+		claimsMap.put("sub", corpoJwt.getSubject());
+		claimsMap.put("aud", corpoJwt.getAudience());
+		claimsMap.put("iat", corpoJwt.getIssuedAt());
+		claimsMap.put("exp", corpoJwt.getExpiration());
+		claimsMap.put("nbf", corpoJwt.getNotBefore());
+		return claimsMap;
 	}
 
 }
