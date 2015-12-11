@@ -1,4 +1,4 @@
-angular.module('alvoApp').controller('LoginController',	function($scope, $location, growl, servicosLogin) {
+angular.module('alvoApp').controller('LoginController',	function($scope, $location, growl, dialogs, servicosLogin) {
 	$scope.usuario = {
 		login : 'admin',
 		senha : 'admin',
@@ -7,12 +7,15 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $locati
 	$scope.usuarioLogado = '';
 
 	$scope.efetuarLogin = function() {
+		var dlg = dialogs.create('dialogs/aguarde.html','', '' ,{'size':'sm', 'keyboard':false , 'backdrop':'static'});
 		servicosLogin.efetuarLogin($scope.usuario)
 		.then( function(resp) {
+			dlg.dismiss('succes');
 			$scope.usuarioLogado = resp;
 			$location.path("/home");
 			growl.success('Login realizado com sucesso!');
 		}).catch(function(erro) {
+			dlg.dismiss('error');
 			console.log(erro);
 			servicosLogin.efetuarLogout();
 			growl.error(erro.mensagem, {title: 'Atenção!'});
@@ -37,12 +40,15 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $locati
 	};
 
 	$scope.alterarSenha = function() {
+		var dlg = dialogs.create('dialogs/aguarde.html','', '' ,{'size':'sm', 'keyboard':false , 'backdrop':'static'});
 		servicosLogin.alterarSenha($scope.usuario)
 		.then( function(resp) {
+			dlg.dismiss('succes');
 			$scope.usuarioLogado = resp;
 			$location.path("/home");
 			growl.success('Senha alterada com sucesso!');
 		}).catch(function(erro) {
+			dlg.dismiss('error');
 			console.log(erro);
 			growl.error(erro.mensagem, {title: 'Atenção!'});
 		});
