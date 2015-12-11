@@ -1,19 +1,26 @@
-insert into usuario (id, login, senha, nome, email, tipo, tentativas_login_invalido) values (1, 'admin','c6zZpZchMLdQZsgllaH64w==', 'Administrador', 'admin@email.com', 'ADMIN', 0);
-insert into usuario (id, login, senha, nome, email, tipo, tentativas_login_invalido) values (2, 'usuario','QiVgyySWSwSDtwOkK811AA==', 'Usuario', 'usuario@email.com', 'USER', 0);
-insert into usuario (id, login, senha, nome, email, tipo, tentativas_login_invalido) values (3, 'codigoalvo','hdBNkyS7WX79G4AK2Kdulw==', 'codigoalvo', 'codigoalvo@gmail.com', 'ADMIN', 0);
-insert into usuario (id, login, senha, nome, email, tipo, tentativas_login_invalido) values (4, 'teste','maKdyBBf0vo52M3ARzOTjQ==', 'Teste', 'teste@email.com', 'USER', 0);
-/*alter sequence SEQ_USUARIO_ID restart with 5;*/
-insert into categoria(id, nome, usuario_id) values (1, 'Diversos', 1);
-insert into categoria(id, nome, usuario_id) values (2, 'Moradia', 1);
-insert into categoria(id, nome, usuario_id) values (3, 'Alimentação', 1);
-insert into categoria(id, nome, usuario_id) values (4, 'Transporte', 1);
-insert into categoria(id, nome, usuario_id) values (5, 'Saúde', 1);
-insert into categoria(id, nome, usuario_id) values (6, 'Investimentos', 1);
-insert into categoria(id, nome, usuario_id) values (7, 'Hobbies', 1);
-insert into categoria(id, nome, usuario_id) values (8, 'Lazer', 1);
-/*alter sequence SEQ_CATEGORIA_ID restart with 9;*/
-insert into pagamento(id, codigo, nome, tipo, usuario_id) values (1, 'DINHEIRO', 'Dinheiro', 'D', 1);
-insert into pagamento(id, codigo, nome, tipo, usuario_id) values (2, 'DEBITO', 'Débito Banco', 'B', 1);
-insert into pagamento(id, codigo, nome, tipo, dia_fechamento, dia_pagamento, usuario_id) values (3, 'CCMCBCO', 'Cartão Master Banco', 'C', 26, 5, 1);
-insert into pagamento(id, codigo, nome, tipo, dia_fechamento, dia_pagamento, usuario_id) values (4, 'CCVILJ', 'Cartão Visa Loja', 'C', 24, 3, 1);
+CREATE SEQUENCE USUARIO_ID_SEQ INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1; /*COMPATIBILIDADE COM H2 MODO POSTGREE*/
+/*ALTER TABLE usuario ALTER COLUMN id SET DEFAULT NEXTVAL("USUARIO_ID_SEQ"::regclass);*/
+insert into usuario (login, senha, nome, email, tipo, tentativas_login_invalido) values ('admin','c6zZpZchMLdQZsgllaH64w==', 'Administrador', 'admin@email.com', 'ADMIN', 0);
+insert into usuario (login, senha, nome, email, tipo, tentativas_login_invalido) values ('usuario','QiVgyySWSwSDtwOkK811AA==', 'Usuario', 'usuario@email.com', 'USER', 0);
+insert into usuario (login, senha, nome, email, tipo, tentativas_login_invalido) values ('codigoalvo','hdBNkyS7WX79G4AK2Kdulw==', 'codigoalvo', 'codigoalvo@gmail.com', 'ADMIN', 0);
+insert into usuario (login, senha, nome, email, tipo, tentativas_login_invalido) values ('teste','maKdyBBf0vo52M3ARzOTjQ==', 'Teste', 'teste@email.com', 'USER', 0);
+/*alter sequence USUARIO_ID_SEQ restart with 5;*/
+CREATE SEQUENCE CATEGORIA_ID_SEQ INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1; /*COMPATIBILIDADE COM H2 MODO POSTGREE*/
+/*ALTER TABLE categoria ALTER COLUMN id SET DEFAULT NEXTVAL("CATEGORIA_ID_SEQ"::regclass);*/
+insert into categoria(nome, usuario_id) values ('Diversos', select id from usuario where login = 'admin');
+insert into categoria(nome, usuario_id) values ('Moradia', select id from usuario where login = 'admin');
+insert into categoria(nome, usuario_id) values ('Alimentação', select id from usuario where login = 'admin');
+insert into categoria(nome, usuario_id) values ('Transporte', select id from usuario where login = 'admin');
+insert into categoria(nome, usuario_id) values ('Saúde', select id from usuario where login = 'teste');
+insert into categoria(nome, usuario_id) values ('Investimentos', select id from usuario where login = 'teste');
+insert into categoria(nome, usuario_id) values ('Hobbies', select id from usuario where login = 'teste');
+insert into categoria(nome, usuario_id) values ('Lazer', select id from usuario where login = 'teste');
+/*alter sequence CATEGORIA_ID_SEQ restart with 9;*/
+CREATE SEQUENCE PAGAMENTO_ID_SEQ INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1; /*COMPATIBILIDADE COM H2 MODO POSTGREE*/
+/*ALTER TABLE pagamento ALTER COLUMN id SET DEFAULT NEXTVAL("PAGAMENTO_ID_SEQ"::regclass);*/
+insert into pagamento(codigo, nome, tipo, usuario_id) values ('DINHEIRO', 'Dinheiro', 'D', select id from usuario where login = 'admin');
+insert into pagamento(codigo, nome, tipo, usuario_id) values ('DEBITO', 'Débito Banco', 'B', select id from usuario where login = 'teste');
+insert into pagamento(codigo, nome, tipo, dia_fechamento, dia_pagamento, usuario_id) values ('CCMCBCO', 'Cartão Master Banco', 'C', 26, 5, select id from usuario where login = 'admin');
+insert into pagamento(codigo, nome, tipo, dia_fechamento, dia_pagamento, usuario_id) values ('CCVILJ', 'Cartão Visa Loja', 'C', 24, 3, select id from usuario where login = 'teste');
+/*alter sequence PAGAMENTO_ID_SEQ restart with 5;*/
 insert into validador_email(id, email, data, origem) values ('3789a92c818241a7833a26ba0a29f232', 'fulano@email.com', '2015-12-09 12:00:00.000', '127.0.0.1'); /*3789a92c-8182-41a7-833a-26ba0a29f232*/
