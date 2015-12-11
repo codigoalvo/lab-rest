@@ -34,7 +34,8 @@ public class ValidadorEmail implements Serializable {
 	private static final long serialVersionUID = 4502437052474880802L;
 
 	@Id
-	@Column(columnDefinition = "BINARY(16)")
+	@Column(columnDefinition = "UUID")
+	@org.hibernate.annotations.Type(type="org.hibernate.type.PostgresUUIDType")
 	private UUID id;
 
 	@NotNull

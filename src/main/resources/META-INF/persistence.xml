@@ -5,7 +5,7 @@
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
 
-			<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:lab;MV_STORE=FALSE;MVCC=FALSE" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:lab;MV_STORE=FALSE;MVCC=FALSE;MODE=PostgreSQL" />
 			<!-- <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/mem;MV_STORE=FALSE;MVCC=FALSE" /> -->
 
 			<property name="javax.persistence.jdbc.user" value="sa" />
@@ -20,7 +20,7 @@
 			<property name="hibernate.connection.autocommit" value="false" />
 			<property name="hibernate.temp.use_jdbc_metadata_defaults" value="false" />
 
-			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />

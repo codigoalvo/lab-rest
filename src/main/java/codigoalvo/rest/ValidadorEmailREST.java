@@ -30,6 +30,7 @@ import codigoalvo.service.ValidadorEmailService;
 import codigoalvo.service.ValidadorEmailServiceImpl;
 import codigoalvo.templates.TemplateUtil;
 import codigoalvo.util.EmailUtil;
+import codigoalvo.util.ErrosUtil;
 import codigoalvo.util.Globals;
 import codigoalvo.util.I18NUtil;
 import codigoalvo.util.JsonUtil;
@@ -56,7 +57,9 @@ public class ValidadorEmailREST {
 			LOG.debug("registrar.origem: "+origem);
 			LOG.debug("registrar.email: "+email);
 			String registerUrl = "";
-			if (req.getContextPath() == null  || req.getContextPath().isEmpty()  ||  req.getContextPath().equals("/")) {
+			if (Globals.getBoolean("USAR_URL_APLICACAO_GLOBALS", false)) {
+				registerUrl = Globals.getProperty("URL_APLICACAO");
+			} else if (req.getContextPath() == null  || req.getContextPath().isEmpty()  ||  req.getContextPath().equals("/")) {
 				registerUrl = "http"+(req.isSecure()?"s:":":")+"//"+req.getLocalName()+":"+req.getLocalPort()+req.getContextPath();
 			} else {
 				//TODO: Testar o comportamento disso no openshift
@@ -75,6 +78,7 @@ public class ValidadorEmailREST {
 			}
 		} catch (Exception exc) {
 			LOG.error(exc);
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(ErrosUtil.getMensagemErro(exc))).build();
 		}
 		return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("registro.erro"))).build();
 	}
