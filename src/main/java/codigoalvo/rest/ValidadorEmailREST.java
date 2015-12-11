@@ -1,7 +1,11 @@
 package codigoalvo.rest;
 
 import java.net.URI;
+import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -34,6 +38,7 @@ import codigoalvo.util.ErrosUtil;
 import codigoalvo.util.Globals;
 import codigoalvo.util.I18NUtil;
 import codigoalvo.util.JsonUtil;
+import codigoalvo.util.MsgParamUtil;
 
 @Path("/email")
 public class ValidadorEmailREST {
@@ -52,7 +57,12 @@ public class ValidadorEmailREST {
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	@Consumes(MediaType.TEXT_PLAIN + UTF8)
 	public Response registrar(String email, @Context HttpServletRequest req) {
+		limparRegistrosExpirados();
 		try {
+			ResponseBuilder response = validarEmailRegistro(email);
+			if (response != null) {
+				return response.build();
+			}
 			String origem = ResponseBuilderHelper.obterOrigemHostDoRequest(req);
 			LOG.debug("registrar.origem: "+origem);
 			LOG.debug("registrar.email: "+email);
@@ -62,7 +72,6 @@ public class ValidadorEmailREST {
 			} else if (req.getContextPath() == null  || req.getContextPath().isEmpty()  ||  req.getContextPath().equals("/")) {
 				registerUrl = "http"+(req.isSecure()?"s:":":")+"//"+req.getLocalName()+":"+req.getLocalPort()+req.getContextPath();
 			} else {
-				//TODO: Testar o comportamento disso no openshift
 				String requestUrl = req.getRequestURL().toString();
 				registerUrl = requestUrl.substring(0, requestUrl.indexOf(req.getContextPath()));
 				registerUrl += req.getContextPath();
@@ -88,6 +97,7 @@ public class ValidadorEmailREST {
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	@Consumes(MediaType.TEXT_PLAIN + UTF8)
 	public Response verificar(@PathParam("hash") String hash, @Context HttpServletRequest req) {
+		limparRegistrosExpirados();
 		try {
 			String origem = ResponseBuilderHelper.obterOrigemHostDoRequest(req);
 			LOG.debug("verificar.origem: "+origem);
@@ -159,6 +169,52 @@ public class ValidadorEmailREST {
 			LOG.error(exc);
 		}
 		return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("registro.erro"))).build();
+	}
+
+	private ResponseBuilder validarEmailRegistro(String email) {
+
+		if (!Globals.getBoolean("VALIDADOR_PERMITIR_REGISTROS", false)) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("registro.naoPermitido")));
+		}
+
+		Usuario usuario = emailService.buscarUsuarioPorEmail(email);
+		if (usuario != null  && usuario.getId() != null) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("registro.emailUsuarioJaExiste")));
+		}
+
+		ValidadorEmail validadorEmail = emailService.buscarPorEmail(email);
+		if (validadorEmail != null  &&  validadorEmail.getId() != null) {
+			String msg = "registro.emailRegistroJaExiste";
+			msg += MsgParamUtil.buildParams(Globals.getProperty("VALIDADOR_EMAIL_HORAS_VALIDADE"));
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage(msg)));
+		}
+
+		int minutos = Globals.getInt("VALIDADOR_EMAIL_MINUTOS_INTERVALO", 0);
+		if (minutos > 0) {
+			Calendar calendar = GregorianCalendar.getInstance();
+			calendar.add(Calendar.MINUTE, -minutos);
+			List<ValidadorEmail> registros = emailService.buscarRegistrosDepoisDe(calendar.getTime());
+			if (registros != null && !registros.isEmpty()) {
+				String msg = "registro.excessoTentativasMinutos";
+				msg += MsgParamUtil.buildParams(Globals.getProperty("VALIDADOR_EMAIL_MINUTOS_INTERVALO"));
+				return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage(msg)));
+			}
+		}
+
+		return null;
+	}
+
+	private void limparRegistrosExpirados() {
+		int horas = Globals.getInt("VALIDADOR_EMAIL_HORAS_VALIDADE", 0);
+		if (horas > 0) {
+			Calendar calendar = GregorianCalendar.getInstance();
+			calendar.add(Calendar.HOUR, -horas);
+			try {
+				LOG.debug("Limpando validadores de registros expirados. (Anteriores à :"+calendar.getTime()+")");
+				emailService.removerAnterioresData(calendar.getTime());
+			} catch (SQLException exc) {
+			}
+		}
 	}
 
 	private static String corpoEmail(ValidadorEmail entidade, String urlRegistro) {

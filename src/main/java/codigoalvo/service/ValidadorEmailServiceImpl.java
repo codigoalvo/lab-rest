@@ -1,10 +1,11 @@
 package codigoalvo.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 
@@ -24,12 +25,16 @@ import codigoalvo.util.EntityManagerUtil;
 public class ValidadorEmailServiceImpl implements ValidadorEmailService {
 
 	private ValidadorEmailDao validadorEmailDao;
+	private UsuarioDao usuarioDao;
+
 	private SegurancaUtil segurancaUtil;
 	private static final Logger LOG = Logger.getLogger(ValidadorEmailServiceImpl.class);
 
 	public ValidadorEmailServiceImpl() {
 		LOG.debug("####################  construct  ####################");
 		this.validadorEmailDao = new ValidadorEmailDaoJpa(EntityManagerUtil.getEntityManager());
+		//Ambos os DAO's devem ter o mesmo EntityMaganer para poderem ter ações dentro da mesma transaction;
+		this.usuarioDao = new UsuarioDaoJpa(this.validadorEmailDao.getEntityManager());
 		this.segurancaUtil = new SegurancaUtilMd5();
 	}
 
@@ -73,6 +78,7 @@ public class ValidadorEmailServiceImpl implements ValidadorEmailService {
 			this.validadorEmailDao.removerAnterioresData(data);
 			this.validadorEmailDao.commit();
 		} catch (Throwable exc) {
+			LOG.error("Houve um erro ao tentar limpar os validadores de registros vencidos!", exc);
 			this.validadorEmailDao.rollback();
 			throw new SQLException(exc);
 		}
@@ -101,11 +107,35 @@ public class ValidadorEmailServiceImpl implements ValidadorEmailService {
 	}
 
 	@Override
+	public List<ValidadorEmail> buscarRegistrosDepoisDe(Date data) {
+		List<ValidadorEmail> result;
+		try {
+			LOG.debug("Buscando registros depois de: "+data.toString());
+			result = validadorEmailDao.buscarRegistrosDepoisDe(data);
+		} catch (Exception exc) {
+			LOG.error(exc);
+			result = new ArrayList<ValidadorEmail>();
+		}
+		return result;
+	}
+
+	@Override
+	public Usuario buscarUsuarioPorEmail(String email) {
+		Usuario usuario = null;
+		try {
+			usuario = this.usuarioDao.buscarPorEmail(email);
+		} catch (NoResultException nre) {
+			LOG.debug("Usuario não encontrado (email): " + email);
+		}
+		return usuario;
+	}
+
+	@Override
 	public Usuario confirmarRegistroUsuario(Usuario usuario, ValidadorEmail validadorEmail) throws SQLException {
-		//Ambos os DAO's devem ter o mesmo EntityMaganer para poderem ter ações dentro da mesma transaction;
-		EntityManager entityManager = this.validadorEmailDao.getEntityManager();
-		EntityTransaction transaction = entityManager.getTransaction();
-		UsuarioDao usuarioDao = new UsuarioDaoJpa(entityManager);
+		if (this.usuarioDao.getEntityManager() != this.validadorEmailDao.getEntityManager()) {
+			this.usuarioDao.setEntityManager(this.validadorEmailDao.getEntityManager());
+		}
+		EntityTransaction transaction = this.usuarioDao.getEntityManager().getTransaction();
 		Usuario usuarioGravado = null;
 		try {
 			transaction.rollback();

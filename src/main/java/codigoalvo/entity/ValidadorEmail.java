@@ -35,7 +35,7 @@ public class ValidadorEmail implements Serializable {
 
 	@Id
 	@Column(columnDefinition = "UUID")
-	@org.hibernate.annotations.Type(type="org.hibernate.type.PostgresUUIDType")
+	//@org.hibernate.annotations.Type(type="org.hibernate.type.PostgresUUIDType")
 	private UUID id;
 
 	@NotNull
