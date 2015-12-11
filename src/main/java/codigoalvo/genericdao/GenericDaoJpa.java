@@ -52,18 +52,21 @@ public abstract class GenericDaoJpa<T> implements GenericDao<T> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public T buscarPor(String campo, Object valor, String comparador, boolean caseSensitive) {
+		String className = getTypeClass().getSimpleName();
+		String alias = className.substring(0, 1).toLowerCase();
 		StringBuilder jpql = new StringBuilder("from ");
-		jpql.append(getTypeClass().getName()).append(" where ");
+		jpql.append(className).append(" ").append(alias).append(" where ");
 		if (!caseSensitive) {
 			jpql.append("upper(");
 		}
-		jpql.append(campo);
+		jpql.append(alias).append(".").append(campo);
 		if (!caseSensitive) {
 			jpql.append(")");
 		}
 		jpql.append(" ").append(comparador).append(" ");
 		jpql.append(":valor");
-		Query query = this.entityManager.createQuery(jpql.toString());
+		Logger.getLogger(GenericDaoJpa.class).debug("JPQL  -->  " + jpql.toString());
+		Query query = entityManager.createQuery(jpql.toString());
 		if (!caseSensitive) {
 			query.setParameter("valor", valor.toString().toUpperCase());
 		} else {
@@ -73,7 +76,7 @@ public abstract class GenericDaoJpa<T> implements GenericDao<T> {
 		result = (T) query.getSingleResult();
 		if (result == null) {
 			Logger.getLogger(GenericDaoJpa.class)
-					.debug(getTypeClass().getName() + " (buscarPor=" + campo + "): " + valor + " ! Not Found !");
+					.debug(className + " (buscarPor=" + campo + "): " + valor + " ! Não encontrado !");
 		}
 		return result;
 	}
