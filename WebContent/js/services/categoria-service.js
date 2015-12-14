@@ -15,9 +15,9 @@ angular.module('categoriaService', ['ngResource'])
 		service.gravar = function(usuarioId, categoria) {
 			return $q(function(resolve, reject) {
 				if(categoria.id) {
-					recursoCategoria.update({usuarioId: usuarioId, categoriaId: categoria.id}, categoria, function() {
+					recursoCategoria.update({usuarioId: usuarioId, categoriaId: categoria.id}, categoria, function(resp) {
 						resolve({
-							mensagem: 'Categoria ' + categoria.nome + ' atualizada com sucesso',
+							mensagem: resp.mensagem,
 							inclusao: false
 						});
 					}, function(erro) {
@@ -28,9 +28,9 @@ angular.module('categoriaService', ['ngResource'])
 					});
 
 				} else {
-					recursoCategoria.save({usuarioId: usuarioId}, categoria, function() {
+					recursoCategoria.save({usuarioId: usuarioId}, categoria, function(resp) {
 						resolve({
-							mensagem: 'Categoria ' + categoria.nome + ' incluída com sucesso',
+							mensagem: resp.mensagem,
 							inclusao: true
 						});
 					}, function(erro) {

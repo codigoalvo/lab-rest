@@ -15,9 +15,9 @@ angular.module('contaService', ['ngResource'])
 		service.gravar = function(usuarioId, conta) {
 			return $q(function(resolve, reject) {
 				if(conta.id) {
-					recursoConta.update({usuarioId: usuarioId, contaId: conta.id}, conta, function() {
+					recursoConta.update({usuarioId: usuarioId, contaId: conta.id}, conta, function(resp) {
 						resolve({
-							mensagem: 'Conta ' + conta.nome + ' atualizada com sucesso',
+							mensagem: resp.mensagem,
 							inclusao: false
 						});
 					}, function(erro) {
@@ -28,9 +28,9 @@ angular.module('contaService', ['ngResource'])
 					});
 
 				} else {
-					recursoConta.save({usuarioId: usuarioId}, conta, function() {
+					recursoConta.save({usuarioId: usuarioId}, conta, function(resp) {
 						resolve({
-							mensagem: 'Conta ' + conta.nome + ' incluída com sucesso',
+							mensagem: resp.mensagem,
 							inclusao: true
 						});
 					}, function(erro) {

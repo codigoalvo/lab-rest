@@ -15,9 +15,9 @@ angular.module('usuarioService', ['ngResource'])
 		service.gravar = function(usuario) {
 			return $q(function(resolve, reject) {
 				if(usuario.id) {
-					recursoUsuario.update({usuarioId: usuario.id}, usuario, function() {
+					recursoUsuario.update({usuarioId: usuario.id}, usuario, function(resp) {
 						resolve({
-							mensagem: 'Usuario ' + usuario.nome + ' atualizado com sucesso',
+							mensagem: resp.mensagem,
 							inclusao: false
 						});
 					}, function(erro) {
@@ -28,9 +28,9 @@ angular.module('usuarioService', ['ngResource'])
 					});
 
 				} else {
-					recursoUsuario.save(usuario, function() {
+					recursoUsuario.save(usuario, function(resp) {
 						resolve({
-							mensagem: 'Usuario ' + usuario.nome + ' incluído com sucesso',
+							mensagem: resp.mensagem,
 							inclusao: true
 						});
 					}, function(erro) {
