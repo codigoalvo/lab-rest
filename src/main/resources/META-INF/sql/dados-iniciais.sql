@@ -18,9 +18,9 @@ insert into categoria(nome, usuario_id) values ('Lazer', select id from usuario 
 /*alter sequence CATEGORIA_ID_SEQ restart with 9;*/
 CREATE SEQUENCE CONTA_ID_SEQ INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1; /*COMPATIBILIDADE COM H2 MODO POSTGREE*/
 /*ALTER TABLE conta ALTER COLUMN id SET DEFAULT NEXTVAL("CONTA_ID_SEQ"::regclass);*/
-insert into conta(codigo, nome, tipo, usuario_id) values ('DINHEIRO', 'Dinheiro', 'D', select id from usuario where login = 'admin');
-insert into conta(codigo, nome, tipo, usuario_id) values ('DEBITO', 'Débito Banco', 'B', select id from usuario where login = 'teste');
-insert into conta(codigo, nome, tipo, dia_fechamento, dia_pagamento, usuario_id) values ('CCMCBCO', 'Cartão Master Banco', 'C', 26, 5, select id from usuario where login = 'admin');
-insert into conta(codigo, nome, tipo, dia_fechamento, dia_pagamento, usuario_id) values ('CCVILJ', 'Cartão Visa Loja', 'C', 24, 3, select id from usuario where login = 'teste');
+insert into conta(nome, tipo, usuario_id) values ('Dinheiro', 'D', select id from usuario where login = 'admin');
+insert into conta(nome, tipo, usuario_id) values ('Débito Banco', 'B', select id from usuario where login = 'teste');
+insert into conta(nome, tipo, dia_fechamento, dia_pagamento, usuario_id) values ('Cartão Master Banco', 'C', 26, 5, select id from usuario where login = 'admin');
+insert into conta(nome, tipo, dia_fechamento, dia_pagamento, usuario_id) values ('Cartão Visa Loja', 'C', 24, 3, select id from usuario where login = 'teste');
 /*alter sequence CONTA_ID_SEQ restart with 5;*/
 insert into validador_email(id, email, data, origem) values ('3789a92c818241a7833a26ba0a29f232', 'fulano@email.com', '2015-12-09 12:00:00.000', '127.0.0.1'); /*3789a92c-8182-41a7-833a-26ba0a29f232*/

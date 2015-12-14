@@ -24,8 +24,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-@Table(indexes = {	@Index(name = "idx_conta_codigo", columnList = "codigo, usuario_id", unique = true),
-					@Index(name = "idx_conta_nome", columnList = "nome, usuario_id", unique = true)})
+@Table(indexes = {	@Index(name = "idx_conta_nome", columnList = "usuario_id, nome", unique = true)})
 public class Conta implements Serializable {
 
 	private static final long serialVersionUID = 919312467078802157L;
@@ -36,12 +35,7 @@ public class Conta implements Serializable {
 
 	@NotNull
 	@NotBlank
-	@Length(max = 10)
-	private	String codigo;
-
-	@NotNull
-	@NotBlank
-	@Length(max = 100)
+	@Length(max = 40)
 	private	String nome;
 
 	@NotNull
@@ -58,16 +52,15 @@ public class Conta implements Serializable {
 
 	public Conta() {}
 
-	public Conta(String codigo, String nome, ContaTipo tipo) {
+	public Conta(String nome, ContaTipo tipo) {
 		super();
-		this.codigo = codigo;
 		this.nome = nome;
 		setTipo(tipo);
 	}
 
 	@Override
 	public String toString() {
-		return this.codigo;
+		return this.nome;
 	}
 
 	@Override
@@ -101,14 +94,6 @@ public class Conta implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public String getCodigo() {
-		return this.codigo;
-	}
-
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
 	}
 
 	public String getNome() {

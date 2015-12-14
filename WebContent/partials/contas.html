@@ -9,7 +9,6 @@
 		<thead>
 			<tr>
 				<th class="text-right">Id</th>
-				<th>Cod.</th>
 				<th>Nome</th>
 				<th>Tipo</th>
 				<th>Fecha</th>
@@ -24,8 +23,7 @@
 		<tbody>
 			<tr ng-repeat="conta in contas">
 				<td class="col-md-1 text-right">{{conta.id}}</td>
-				<td class="col-md-2">{{conta.codigo}}</td>
-				<td class="col-md-3">{{conta.nome}}</td>
+				<td class="col-md-5">{{conta.nome}}</td>
 				<td class="col-md-2">{{conta.tipoValue}}</td>
 				<td class="col-md-1">{{conta.diaFechamento}}</td>
 				<td class="col-md-1">{{conta.diaPagamento}}</td>
