@@ -13,3 +13,9 @@
 	align-items: center;
 	vertical-align: middle;
 }
+
+.logoHome{
+	opacity: 0.05;
+	filter: alpha(opacity=05);
+	width: 90%;
+}
