@@ -37,7 +37,7 @@ public class Categoria implements Serializable {
 
 	@NotNull
 	@NotBlank
-	@Length(max = 100)
+	@Length(max = 40)
 	private String nome;
 
 	@XmlTransient

@@ -13,6 +13,7 @@
 				<th>Nome</th>
 				<th>Email</th>
 				<th>Tipo</th>
+				<th>Ativo</th>
 				<th class="text-center">
 					<a class="btn-sm btn-success" href="#/usuarios/incluir" title="Incluir">
 						<span class="glyphicon glyphicon-file"></span>
@@ -27,6 +28,7 @@
 				<td >{{usuario.nome}}</td>
 				<td >{{usuario.email}}</td>
 				<td >{{usuario.tipo}}</td>
+				<td >{{usuario.ativo?'Sim':'Não'}}</td>
 				<td class="col-md-2 text-center">
 					<a class="btn-sm btn-primary" href="#/usuarios/editar/{{usuario.id}}" title="Editar">
 						<span class="glyphicon glyphicon-pencil"></span>

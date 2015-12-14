@@ -14,8 +14,12 @@
 	vertical-align: middle;
 }
 
-.logoHome{
+.logoHome {
 	opacity: 0.05;
 	filter: alpha(opacity=05);
 	width: 90%;
+}
+
+.ca-checkbox {
+	width: 0;
 }

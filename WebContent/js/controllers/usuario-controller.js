@@ -3,6 +3,7 @@ angular.module('alvoApp').controller('UsuarioController',
 
 	$scope.usuarios = [];
 	$scope.tiposUsuario = [];
+	$scope.hoje = new Date();
 
 	$scope.listarUsuarios = function(usuarios) {
 		recursoUsuario.query(function(usuarios) {
@@ -44,6 +45,7 @@ angular.module('alvoApp').controller('UsuarioController',
 
 	if($routeParams.usuarioId) {
 		recursoUsuario.get({usuarioId: $routeParams.usuarioId}, function(usuario) {
+			//console.log('UsuarioController.buscar'+ angular.toJson(usuario))
 			$scope.usuario = usuario; 
 		}, function(erro) {
 			console.log(erro);
