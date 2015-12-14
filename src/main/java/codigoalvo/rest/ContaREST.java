@@ -20,13 +20,13 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
 
-import codigoalvo.entity.Pagamento;
+import codigoalvo.entity.Conta;
 import codigoalvo.entity.Usuario;
 import codigoalvo.rest.util.Resposta;
 import codigoalvo.security.JsonWebTokenUtil;
 import codigoalvo.rest.util.ResponseBuilderHelper;
-import codigoalvo.service.PagamentoService;
-import codigoalvo.service.PagamentoServiceImpl;
+import codigoalvo.service.ContaService;
+import codigoalvo.service.ContaServiceImpl;
 import codigoalvo.service.UsuarioService;
 import codigoalvo.service.UsuarioServiceImpl;
 import codigoalvo.util.ErrosUtil;
@@ -34,34 +34,34 @@ import codigoalvo.util.I18NUtil;
 import codigoalvo.util.TipoUtil;
 
 
-@Path("/usuarios/{usuarioId}/pagamentos")
-public class PagamentoREST {
+@Path("/usuarios/{usuarioId}/contas")
+public class ContaREST {
 
 	private static final String UTF8 = ";charset=UTF-8";
-	private static final Logger LOG = Logger.getLogger(PagamentoREST.class);
+	private static final Logger LOG = Logger.getLogger(ContaREST.class);
 
-	PagamentoService pagamentoService = new PagamentoServiceImpl();
+	ContaService contaService = new ContaServiceImpl();
 	UsuarioService usuarioService = new UsuarioServiceImpl();
 
-	public PagamentoREST() {
+	public ContaREST() {
 		LOG.debug("####################  construct  ####################");
 	}
 
-	@Path("{pagamentoId}")
+	@Path("{contaId}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
-	public Response find(@Context HttpHeaders headers, @PathParam("usuarioId") int usuarioId, @PathParam("pagamentoId") int pagamentoId) {
+	public Response find(@Context HttpHeaders headers, @PathParam("usuarioId") int usuarioId, @PathParam("contaId") int contaId) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
 		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
 		if (resposta == null) {
 			try {
 				validaUsuarioId(usuarioId, token);
-				Pagamento entidade = this.pagamentoService.buscar(usuarioId, pagamentoId);
+				Conta entidade = this.contaService.buscar(usuarioId, contaId);
 				if (entidade == null) {
 					resposta = Response.status(Status.NOT_FOUND).entity(new Resposta("registro.naoEncontrado"));
 				} else {
-					LOG. debug("pagamento.find "+entidade);
-					LOG.debug("pagamento.find.usuario :"+entidade.getUsuario());
+					LOG. debug("conta.find "+entidade);
+					LOG.debug("conta.find.usuario :"+entidade.getUsuario());
 					resposta = Response.ok().entity(entidade);
 				}
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
@@ -81,7 +81,7 @@ public class PagamentoREST {
 		if (resposta == null) {
 			try {
 				validaUsuarioId(usuarioId, token);
-				Pagamento[] entidades = this.pagamentoService.listar(usuarioId).toArray(new Pagamento[0]);
+				Conta[] entidades = this.contaService.listar(usuarioId).toArray(new Conta[0]);
 				resposta = Response.ok().entity(entidades);
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (Exception exc) {
@@ -95,16 +95,16 @@ public class PagamentoREST {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	@Consumes(MediaType.APPLICATION_JSON + UTF8)
-	public Response insert(@Context HttpHeaders headers, Pagamento pagamento, @PathParam("usuarioId") int usuarioId) {
+	public Response insert(@Context HttpHeaders headers, Conta conta, @PathParam("usuarioId") int usuarioId) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
 		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
 		if (resposta == null) {
 			try {
-				LOG.debug("gravar.pagamento.usuario: "+pagamento.getUsuario());
+				LOG.debug("gravar.conta.usuario: "+conta.getUsuario());
 				Usuario usuario = validaUsuarioId(usuarioId, token);
-				pagamento.setUsuario(usuario);
-				Pagamento entidade = this.pagamentoService.gravar(pagamento);
-				resposta = Response.created(new URI("pagamentos/"+entidade.getId())).entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
+				conta.setUsuario(usuario);
+				Conta entidade = this.contaService.gravar(conta);
+				resposta = Response.created(new URI("contas/"+entidade.getId())).entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (Exception exc) {
 				LOG.error(exc);
@@ -114,19 +114,19 @@ public class PagamentoREST {
 		return resposta.build();
 	}
 
-	@Path("{pagamentoId}")
+	@Path("{contaId}")
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	@Consumes(MediaType.APPLICATION_JSON + UTF8)
-	public Response update(@Context HttpHeaders headers, Pagamento pagamento, @PathParam("usuarioId") int usuarioId, @PathParam("pagamentoId") int pagamentoId) {
+	public Response update(@Context HttpHeaders headers, Conta conta, @PathParam("usuarioId") int usuarioId, @PathParam("contaId") int contaId) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
 		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
 		if (resposta == null) {
 			try {
-				LOG.debug("gravar.pagamento.usuario: "+pagamento.getUsuario());
+				LOG.debug("gravar.conta.usuario: "+conta.getUsuario());
 				Usuario usuario = validaUsuarioId(usuarioId, token);
-				pagamento.setUsuario(usuario);
-				Pagamento entidade = this.pagamentoService.gravar(pagamento);
+				conta.setUsuario(usuario);
+				Conta entidade = this.contaService.gravar(conta);
 				resposta = Response.ok().entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (Exception exc) {
@@ -146,7 +146,7 @@ public class PagamentoREST {
 		if (resposta == null) {
 			try {
 				validaUsuarioId(usuarioId, token);
-				this.pagamentoService.removerPorId(id);
+				this.contaService.removerPorId(id);
 				resposta = Response.ok().entity(new Resposta(I18NUtil.getMessage("remover.sucesso")));
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (Exception exc) {
@@ -165,7 +165,7 @@ public class PagamentoREST {
 		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
 		if (resposta == null) {
 			try {
-				String tipos = TipoUtil.getTiposPagamentoJson();
+				String tipos = TipoUtil.getTiposContaJson();
 				resposta = Response.ok().entity(tipos);
 			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (Exception exc) {

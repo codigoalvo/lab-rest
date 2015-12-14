@@ -29,19 +29,19 @@ angular.module('alvoRotas', []).config(function($routeProvider){
 		controller: 'CategoriaController'
 	});
 
-	$routeProvider.when('/pagamentos', {
-		templateUrl: 'partials/pagamentos.html',
-		controller: 'PagamentoController'
+	$routeProvider.when('/contas', {
+		templateUrl: 'partials/contas.html',
+		controller: 'ContaController'
 	});
 
-	$routeProvider.when('/pagamentos/incluir', {
-		templateUrl: 'partials/pagamento.html',
-		controller: 'PagamentoController'
+	$routeProvider.when('/contas/incluir', {
+		templateUrl: 'partials/conta.html',
+		controller: 'ContaController'
 	});
 
-	$routeProvider.when('/pagamentos/editar/:pagamentoId', {
-		templateUrl: 'partials/pagamento.html',
-		controller: 'PagamentoController'
+	$routeProvider.when('/contas/editar/:contaId', {
+		templateUrl: 'partials/conta.html',
+		controller: 'ContaController'
 	});
 
 	$routeProvider.when('/negado', {

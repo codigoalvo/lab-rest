@@ -4,20 +4,20 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import codigoalvo.entity.PagamentoTipo;
+import codigoalvo.entity.ContaTipo;
 import codigoalvo.entity.UsuarioTipo;
 
 public class TipoUtil {
 
 	private static final String TIPOS_USUARIO_JSON = buildTiposUsuarioJson();
-	private static final String TIPOS_PAGAMENTO_JSON = buildTiposPagamentoJson();
+	private static final String TIPOS_CONTA_JSON = buildTiposContaJson();
 
 	public static String getTiposUsuarioJson() {
 		return TIPOS_USUARIO_JSON;
 	}
 
-	public static String getTiposPagamentoJson() {
-		return TIPOS_PAGAMENTO_JSON;
+	public static String getTiposContaJson() {
+		return TIPOS_CONTA_JSON;
 	}
 
 	private static String buildTiposUsuarioJson() {
@@ -28,10 +28,10 @@ public class TipoUtil {
 		return JsonUtil.toJson(tipos.toArray(new String[0]));
 	}
 
-	private static String buildTiposPagamentoJson() {
+	private static String buildTiposContaJson() {
 		List<Tipo> tipos = new ArrayList<Tipo>();
-		for (PagamentoTipo pagamentoTipo : PagamentoTipo.values()) {
-			tipos.add(new TipoUtil.Tipo(""+pagamentoTipo.getId(), pagamentoTipo.getDescricao()));
+		for (ContaTipo contaTipo : ContaTipo.values()) {
+			tipos.add(new TipoUtil.Tipo(""+contaTipo.getId(), contaTipo.getDescricao()));
 		}
 		return JsonUtil.toJson(tipos);
 	}

@@ -1,6 +1,6 @@
-angular.module('pagamentoService', ['ngResource'])
-	.factory('recursoPagamento', function($resource) {
-		return $resource('ws/usuarios/:usuarioId/pagamentos/:pagamentoId', {},
+angular.module('contaService', ['ngResource'])
+	.factory('recursoConta', function($resource) {
+		return $resource('ws/usuarios/:usuarioId/contas/:contaId', {},
 			{
 				'update' : {
 					method: 'PUT'
@@ -10,14 +10,14 @@ angular.module('pagamentoService', ['ngResource'])
 				}
 			})
 	})
-	.factory("cadastroPagamento", function(recursoPagamento, $http, $q) {
+	.factory("cadastroConta", function(recursoConta, $http, $q) {
 		var service = {};
-		service.gravar = function(usuarioId, pagamento) {
+		service.gravar = function(usuarioId, conta) {
 			return $q(function(resolve, reject) {
-				if(pagamento.id) {
-					recursoPagamento.update({usuarioId: usuarioId, pagamentoId: pagamento.id}, pagamento, function() {
+				if(conta.id) {
+					recursoConta.update({usuarioId: usuarioId, contaId: conta.id}, conta, function() {
 						resolve({
-							mensagem: 'Pagamento ' + pagamento.nome + ' atualizado com sucesso',
+							mensagem: 'Conta ' + conta.nome + ' atualizada com sucesso',
 							inclusao: false
 						});
 					}, function(erro) {
@@ -28,9 +28,9 @@ angular.module('pagamentoService', ['ngResource'])
 					});
 
 				} else {
-					recursoPagamento.save({usuarioId: usuarioId}, pagamento, function() {
+					recursoConta.save({usuarioId: usuarioId}, conta, function() {
 						resolve({
-							mensagem: 'Pagamento ' + pagamento.nome + ' incluído com sucesso',
+							mensagem: 'Conta ' + conta.nome + ' incluída com sucesso',
 							inclusao: true
 						});
 					}, function(erro) {
@@ -49,7 +49,7 @@ angular.module('pagamentoService', ['ngResource'])
 			return $q(function(resolve, reject) {
 				$http({
 					  method: 'GET',
-					  url:'ws/usuarios/:usuarioId/pagamentos/tipos',
+					  url:'ws/usuarios/:usuarioId/contas/tipos',
 					  headers: {'Content-Type':'application/json'}
 				}).then(
 					function(resp) {

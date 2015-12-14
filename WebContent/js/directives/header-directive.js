@@ -46,7 +46,7 @@ angular.module('headerDirective', [])
 								"</a>" +
 								"<ul class='dropdown-menu'>" +
 									"<li><a href='#categorias'>Categorias</a></li>" +
-									"<li><a href='#pagamentos'>Pagamentos</a></li>" +
+									"<li><a href='#contas'>Contas</a></li>" +
 								"</ul>" +
 							"</li>";
 

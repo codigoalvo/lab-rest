@@ -24,9 +24,9 @@ import org.hibernate.validator.constraints.NotBlank;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-@Table(indexes = {	@Index(name = "idx_pagamento_codigo", columnList = "codigo, usuario_id", unique = true),
-					@Index(name = "idx_pagamento_nome", columnList = "nome, usuario_id", unique = true)})
-public class Pagamento implements Serializable {
+@Table(indexes = {	@Index(name = "idx_conta_codigo", columnList = "codigo, usuario_id", unique = true),
+					@Index(name = "idx_conta_nome", columnList = "nome, usuario_id", unique = true)})
+public class Conta implements Serializable {
 
 	private static final long serialVersionUID = 919312467078802157L;
 
@@ -53,12 +53,12 @@ public class Pagamento implements Serializable {
 
 	@XmlTransient
 	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(foreignKey = @ForeignKey(name = "fk_pagamento_usuario"))
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_conta_usuario"))
 	private	Usuario usuario;
 
-	public Pagamento() {}
+	public Conta() {}
 
-	public Pagamento(String codigo, String nome, PagamentoTipo tipo) {
+	public Conta(String codigo, String nome, ContaTipo tipo) {
 		super();
 		this.codigo = codigo;
 		this.nome = nome;
@@ -86,7 +86,7 @@ public class Pagamento implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Pagamento other = (Pagamento) obj;
+		Conta other = (Conta) obj;
 		if (this.id == null) {
 			if (other.id != null)
 				return false;
@@ -119,11 +119,11 @@ public class Pagamento implements Serializable {
 		this.nome = nome;
 	}
 
-	public PagamentoTipo getTipo() {
-		return PagamentoTipo.getTipo(this.tipo);
+	public ContaTipo getTipo() {
+		return ContaTipo.getTipo(this.tipo);
 	}
 
-	public void setTipo(PagamentoTipo tipo) {
+	public void setTipo(ContaTipo tipo) {
 		if (tipo == null) {
 			this.tipo = null;
 		} else {

@@ -1,6 +1,6 @@
 package codigoalvo.entity;
 
-public enum PagamentoTipo {
+public enum ContaTipo {
 
 	DINHEIRO('D', "Dinheiro"),
 	DEBITO('B', "Débito"),
@@ -11,16 +11,16 @@ public enum PagamentoTipo {
 	private char id;
 	private String descricao;
 
-	PagamentoTipo(char key, String descricao) {
+	ContaTipo(char key, String descricao) {
 		this.id = key;
 		this.descricao = descricao;
 	}
 
-	public static PagamentoTipo getTipo(Character id) {
+	public static ContaTipo getTipo(Character id) {
 		if (id == null) {
 			return null;
 		}
-		for (PagamentoTipo position : PagamentoTipo.values()) {
+		for (ContaTipo position : ContaTipo.values()) {
 			if (id.equals(position.getId())) {
 				return position;
 			}
