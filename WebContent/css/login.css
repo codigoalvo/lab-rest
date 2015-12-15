@@ -3,9 +3,11 @@ body {
   padding-bottom: 40px;
   background-color: #eee;
 }
-
+.card-signin {
+	width: 330px;
+}
 .form-signin {
-  max-width: 330px;
+  max-width: 300px;
   padding: 15px;
   margin: 0 auto;
 }
@@ -28,7 +30,9 @@ body {
 .form-signin .form-control:focus {
   z-index: 2;
 }
-
+.form-signin input {
+	margin-bottom: 15px;
+}
 .form-signin button {
 	width: 85%;
 }
