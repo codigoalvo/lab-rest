@@ -3,6 +3,7 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $locati
 		login : 'admin',
 		senha : 'admin',
 		senhaNova : '',
+		senhaConfirma : '',
 	};
 	$scope.usuarioLogado = '';
 
@@ -37,21 +38,29 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $locati
 		console.log('LoginController.initSenha.logado.login', logado.login);
 		$scope.usuario.senha = '';
 		$scope.usuario.senhaNova = '';
+		$scope.usuario.senhaConfirma = '';
 	};
 
 	$scope.alterarSenha = function() {
-		var dlg = dialogs.create('dialogs/aguarde.html','', '' ,{'size':'sm', 'keyboard':false , 'backdrop':'static'});
-		servicosLogin.alterarSenha($scope.usuario)
-		.then( function(resp) {
-			dlg.dismiss('succes');
-			$scope.usuarioLogado = resp;
-			$location.path("/home");
-			growl.success('Senha alterada com sucesso!');
-		}).catch(function(erro) {
-			dlg.dismiss('error');
-			console.log(erro);
-			growl.error(erro.mensagem, {title: 'Atenção!'});
-		});
+		if ($scope.usuario.senhaNova !== undefined  &&
+			$scope.usuario.senhaNova !== null  &&
+			$scope.usuario.senhaNova !== '' &&	
+			$scope.usuario.senhaNova === $scope.usuario.senhaConfirma) {
+			var dlg = dialogs.create('dialogs/aguarde.html','', '' ,{'size':'sm', 'keyboard':false , 'backdrop':'static'});
+			servicosLogin.alterarSenha($scope.usuario)
+			.then( function(resp) {
+				dlg.dismiss('succes');
+				$scope.usuarioLogado = resp;
+				$location.path("/home");
+				growl.success('Senha alterada com sucesso!');
+			}).catch(function(erro) {
+				dlg.dismiss('error');
+				console.log(erro);
+				growl.error(erro.mensagem, {title: 'Atenção!'});
+			});
+		} else {
+			dialogs.notify('Aviso', 'Nova senha e a confirmação da senha devem ser informadas e devem ser iguais', {'size':'sm'});
+		}
 	};
 
 })

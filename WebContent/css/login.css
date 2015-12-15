@@ -6,9 +6,19 @@ body {
 .card-signin {
 	width: 330px;
 }
+.card-senha {
+	width: 370px;
+}
+.card-register {
+	width: 390px;
+}
+.form-register {
+	max-width: 340px !important;
+	width: 340px;
+}
 .form-signin {
   max-width: 300px;
-  padding: 15px;
+  padding: 20px;
   margin: 0 auto;
 }
 .form-signin .form-signin-heading,

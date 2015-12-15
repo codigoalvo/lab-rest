@@ -1,16 +1,30 @@
 <header navheader></header>
-<div ng-controller="LoginController" data-ng-init="initSenha()">
-	<form class="form-signin">
-		<h2 class="form-signin-heading text-center">Alterar senha</h2>
 
-		<label for="senha" class="sr-only">Senha Atual</label>
-		<input type="password" id="senha" class="form-control" ng-model="usuario.senha"
-			placeholder="Senha atual" required autofocus focus="true">
-
-		<label for="senhaNova" class="sr-only">Senha nova</label>
-		<input type="password" id="senha" class="form-control" ng-model="usuario.senhaNova"
-			placeholder="Senha nova" required>
-
-		<button class="btn btn-lg btn-primary btn-block" ng-click="alterarSenha()" id="submit" type="submit">Enviar</button>
-	</form>
-</div>
+<main ng-controller="LoginController" data-ng-init="initSenha()" class="flexDiv90" align="center">
+	<div align="center" style="width: 100%;">
+		<md-card class="card-senha">
+			<form class="form-signin">
+				<md-card-title>
+					<md-card-title-text>
+						<span class="md-headline">Alterar senha</span>
+					</md-card-title-text>
+				</md-card-title>
+					<md-input-container class="md-block">
+						<input type="password" id="senhaAtual" ng-model="usuario.senha"
+							placeholder="Senha atual" required autofocus focus="true" title="Senha atual">
+					</md-input-container>
+					<md-input-container class="md-block">
+						<input type="password" id="senhaNova" ng-model="usuario.senhaNova"
+							placeholder="Senha nova" required title="Nova senha">
+					</md-input-container>
+					<md-input-container class="md-block">
+						<input type="password" id="senhaConfirma" ng-model="usuario.senhaConfirma"
+							placeholder="Senha confirma" required title="Confirmação da nova senha">
+					</md-input-container>
+				<md-card-actions layout="row" layout-align="center center">
+					<md-button class="md-raised md-primary" ng-click="alterarSenha()" id="submit" type="submit">Enviar</md-button>
+				</md-card-actions>
+			</form>
+		</md-card>
+	</div>
+</main>
