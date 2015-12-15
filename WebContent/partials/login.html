@@ -1,17 +1,28 @@
 <header navheader></header>
 
-<div ng-controller="LoginController" data-ng-init="initLogin()" class="row text-center flexDiv">
-	<form class="form-signin">
-		<h2 class="form-signin-heading text-center">Dados de login</h2>
-
-		<label for="login" class="sr-only">Login</label>
-		<input type="text" id="login" class="form-control" focus="true" ng-model="usuario.login"
-			placeholder="Login do usuário" required autofocus title="Login do usuário">
-
-		<label for="senha" class="sr-only">Senha</label>
-		<input type="password" id="senha" class="form-control" ng-model="usuario.senha"
-			placeholder="Senha" required title="Senha">
-
-		<button class="btn btn-lg btn-primary btn-block" ng-click="efetuarLogin()" id="submit" type="submit">Enviar</button>
-	</form>
-</div>
+<main ng-controller="LoginController" data-ng-init="initLogin()" class="flexDiv90" align="center">
+	<div align="center" style="width: 100%;">
+		<md-card style="width: 300px">
+			<form class="form-signin">
+				<md-card-title>
+					<md-card-title-text>
+						<span class="md-headline">Login</span>
+					</md-card-title-text>
+				</md-card-title>
+					<md-input-container class="md-block">
+						<md-icon>perm_identity</md-icon>
+						<input type="text" id="login" focus="true" ng-model="usuario.login"
+							placeholder="Usuário" required autofocus title="Login do usuário">
+					</md-input-container>
+					<md-input-container class="md-block">
+						<md-icon>lock_open</md-icon>
+						<input type="password" id="senha" ng-model="usuario.senha"
+							placeholder="Senha" required title="Senha do usuário">
+					</md-input-container>
+				<md-card-actions layout="row" layout-align="center center">
+					<md-button class="md-raised md-primary" ng-click="efetuarLogin()" id="submit" type="submit">Enviar</md-button>
+				</md-card-actions>
+			</form>
+		</md-card>
+	</div>
+</main>

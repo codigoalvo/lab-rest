@@ -1,6 +1,6 @@
 google.load('visualization', '1', {packages: ['corechart']});
-angular.module('alvoApp',	['ngRoute', 'ngResource', 'ngAnimate', 'angular-growl', 'dialogs.main', 'google-chart',
-							'ui.bootstrap', 'pascalprecht.translate','dialogs.default-translations',
+angular.module('alvoApp',	['ngRoute', 'ngResource', 'ngAnimate', 'ngMaterial', 'angular-growl', 'dialogs.main',
+							'ui.bootstrap', 'pascalprecht.translate','dialogs.default-translations', 'google-chart', 
 							'alvoRotas', 'authInterceptor', 'miscDirectives', 'headerDirective', 
 							'loginService', 'usuarioService', 'categoriaService', 'contaService', 'emailService'])
 	.config(function($httpProvider, $locationProvider, growlProvider) {

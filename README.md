@@ -27,6 +27,11 @@ A idéia é fazer uma simples aplicação que utilize de autenticação de usuá
 
 ----------
 
+https://design.google.com/icons/
+
+----------
+
+
 **Planos de substituir bootstrap pelo angular-material:** (https://material.angularjs.org/)
 > **angular-material** depende de: 
 > - angular 1.3+
