@@ -1,23 +1,28 @@
 angular.module('alvoApp').controller('CategoriaController',
-		function($scope, $routeParams, $location, $window, growl, dialogs, servicosLogin, recursoCategoria, cadastroCategoria) {
+		function($scope, $routeParams, $location, $window, growl, cDialogs, servicosLogin, recursoCategoria, cadastroCategoria) {
 
 	$scope.categorias = [];
 	$scope.categoria = {};
 	$scope.usuarioLogado = servicosLogin.pegarUsuarioDoToken();
 
 	$scope.listarCategorias = function(categorias) {
+		cDialogs.loading();
 		recursoCategoria.query({usuarioId: $scope.usuarioLogado.id},function(resp) {
+			cDialogs.hide();
 			$scope.categorias = resp;
 		}, function(erro) {
+			cDialogs.hide();
 			$scope.categorias = [];
 			console.log(erro);
 		});
 	};
 
 	$scope.removerCategoria = function(categoria) {
-		var dlg = dialogs.confirm('Atenção!', 'Confirma a exclusão da categoria: <br>"'+categoria.nome+'" ?', {'size':'sm'});
-		dlg.result.then(function(btn){
+		cDialogs.confirm('Atenção!', 'Confirma a exclusão da categoria: <br>"'+categoria.nome+'" ?', 'Sim', 'Não')
+		.then(function(btn){
+			cDialogs.loading();
 			recursoCategoria.remove({usuarioId: $scope.usuarioLogado.id, categoriaId: categoria.id}, function(resp) {
+				cDialogs.hide();
 				console.log(resp);
 				$scope.listarCategorias();
 				growl.success(resp.mensagem);
@@ -30,9 +35,12 @@ angular.module('alvoApp').controller('CategoriaController',
 	};
 
 	if($routeParams.categoriaId) {
+		cDialogs.loading();
 		recursoCategoria.get({usuarioId: $scope.usuarioLogado.id, categoriaId: $routeParams.categoriaId}, function(categoria) {
+			cDialogs.hide();
 			$scope.categoria = categoria; 
 		}, function(erro) {
+			cDialogs.hide();
 			$scope.categoria = {};
 			console.log(erro);
 			growl.error('Não foi possível obter a categoria', {title: 'Atenção!'});
@@ -40,14 +48,17 @@ angular.module('alvoApp').controller('CategoriaController',
 	}
 
 	$scope.submeter = function() {
+		cDialogs.loading();
 		cadastroCategoria.gravar($scope.usuarioLogado.id, $scope.categoria)
 		.then(function(resp) {
+			cDialogs.hide();
 			$scope.categorias = [];
 			if (resp.inclusao) $scope.categoria = {};
 			$location.path("/categorias");
 			growl.success(resp.mensagem);
 		})
 		.catch(function(erro) {
+			cDialogs.hide();
 			$scope.categorias = [];
 			growl.error(erro.mensagem, {title: 'Atenção!'});
 		});

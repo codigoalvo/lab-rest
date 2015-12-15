@@ -23,7 +23,7 @@ A idéia é fazer uma simples aplicação que utilize de autenticação de usuá
 
 ***angular-growl-2*** from https://github.com/JanStevens/angular-growl-2 (http://janstevens.github.io/angular-growl-2/)
 
-***angular-dialog-service*** from https://github.com/m-e-conroy/angular-dialog-service
+***angular-dialog-service*** from https://github.com/m-e-conroy/angular-dialog-service (Não mais utilizando - Substituido pelo angular-material)
 
 ----------
 

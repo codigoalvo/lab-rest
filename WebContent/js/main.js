@@ -1,7 +1,7 @@
 google.load('visualization', '1', {packages: ['corechart']});
-angular.module('alvoApp',	['ngRoute', 'ngResource', 'ngAnimate', 'ngMaterial', 'angular-growl', 'dialogs.main',
-							'ui.bootstrap', 'pascalprecht.translate','dialogs.default-translations', 'google-chart', 
-							'alvoRotas', 'authInterceptor', 'miscDirectives', 'headerDirective', 
+angular.module('alvoApp',	['ngRoute', 'ngResource', 'ngAnimate', 'ngMaterial', 'ngSanitize',
+ 							'angular-growl', 'google-chart',
+							'alvoRotas', 'authInterceptor', 'miscDirectives', 'headerDirective', 'dialogsService',
 							'loginService', 'usuarioService', 'categoriaService', 'contaService', 'emailService'])
 	.config(function($httpProvider, $locationProvider, growlProvider) {
 		//$locationProvider.html5Mode(true);

@@ -31,3 +31,11 @@
 .ca-checkbox {
 	width: 0;
 }
+
+.loading-dialog {
+	min-width: 0 !important;
+}
+
+.md-dialog-container, md-backdrop.md-dialog-backdrop {
+	z-index: 3000 !important;
+}
