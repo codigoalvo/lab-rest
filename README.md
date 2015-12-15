@@ -19,6 +19,8 @@ A idéia é fazer uma simples aplicação que utilize de autenticação de usuá
 
 ----------
 
+***angular-xeditable*** from http://vitalets.github.io/angular-xeditable/
+
 ***angular-ui-bootstrap*** from https://angular-ui.github.io/bootstrap/
 
 ***angular-growl-2*** from https://github.com/JanStevens/angular-growl-2 (http://janstevens.github.io/angular-growl-2/)

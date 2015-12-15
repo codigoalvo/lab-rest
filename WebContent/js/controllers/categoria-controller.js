@@ -47,14 +47,16 @@ angular.module('alvoApp').controller('CategoriaController',
 		});
 	}
 
-	$scope.submeter = function() {
+	$scope.gravar = function(categoria) {
 		cDialogs.loading();
-		cadastroCategoria.gravar($scope.usuarioLogado.id, $scope.categoria)
+		cadastroCategoria.gravar($scope.usuarioLogado.id, categoria)
 		.then(function(resp) {
 			cDialogs.hide();
-			$scope.categorias = [];
-			if (resp.inclusao) $scope.categoria = {};
-			$location.path("/categorias");
+			if (resp.inclusao) {
+				$scope.categoria = {};
+				$scope.categorias = [];
+				$location.path("/categorias");
+			}
 			growl.success(resp.mensagem);
 		})
 		.catch(function(erro) {
@@ -63,5 +65,9 @@ angular.module('alvoApp').controller('CategoriaController',
 			growl.error(erro.mensagem, {title: 'Atenção!'});
 		});
 	};
-	
+
+	$scope.submeter = function() {
+		$scope.gravar($scope.categoria);
+	}
+
 });
