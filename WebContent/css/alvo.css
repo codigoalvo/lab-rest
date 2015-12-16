@@ -1,3 +1,9 @@
+body {
+	padding-top: 40px;
+	padding-bottom: 40px;
+  background-color: #eee;
+}
+
 .dialog-header-confirm {
 	background-image: linear-gradient(to bottom, #337AB7 0px, #2E6DA4 100%);
 	background-repeat: repeat-x;
@@ -5,6 +11,12 @@
 .bigGraph {width:70%;height:500px;float:left;}
 .mediumGraph {width:350px;height:300px;float:left;}
 .smallGraph {width:20%;height:300px;float:left;}
+
+/*
+.spacing-top {
+	margin-top: 60px;
+}
+*/
 
 .flexDiv {
 	min-height: 80%;  /* Fallback for browsers do NOT support vh unit */
@@ -46,4 +58,51 @@
 	padding: 1px;
 	margin: 0px;
 	line-height: 0;
-} 
+}
+
+md-input-container {
+	margin: 10px 0;
+	padding: 0px;
+}
+
+md-input-container label {
+	margin-bottom: 0px;
+}
+
+.ca-md-input {
+	border-style: solid;
+	border-color: grey;
+	border-width: 0 0 2px 0;
+	padding-bottom: 3px;
+}
+.ca-md-input:focus {
+	border-color: #0099cc;
+	font-style: italic;
+}
+
+
+/* Cores */
+ 
+.verde_claro {
+    color: #40FF40;
+}
+ 
+.verde {
+    color: #00CC00;
+}
+ 
+.azul {
+    color: #0099cc;
+}
+ 
+.azul_claro {
+    color: #3ac2cf;
+}
+ 
+.cinza {
+    color: #666666;
+}
+ 
+.fundo_cinza {
+    background-color: #BBBBBB
+}

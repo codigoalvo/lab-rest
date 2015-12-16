@@ -18,8 +18,8 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="categoria in categorias">
-				<td class="col-md-10"><span editable-text="categoria.nome" e-name="name" e-form="rowform" onbeforesave="gravar(categoria)">{{categoria.nome || '&nbsp;'}}</span></td>
-				<td class="col-md-2 text-center">
+				<td class="col-md-10"><span editable-text="categoria.nome" e-name="name" e-form="rowform" e-class="ca-md-input" e-maxlength="40" onbeforesave="gravar(categoria)">{{categoria.nome || '&nbsp;'}}</span></td>
+				<td class="col-md-2 text-center" style="white-space:nowrap;">
 					<button md-button type="button" class="md-raised md-primary md-button-icon" ng-click="rowform.$show()" title="Editar">
 						<md-icon>create</md-icon>
 					</button>
