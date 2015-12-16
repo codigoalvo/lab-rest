@@ -114,7 +114,8 @@ public class ResponseBuilderHelper {
 
 	public static ResponseBuilder montaResponseErroAoGravar(Throwable exc) {
 		String msg = "gravar.erro";
-		if (ErrosUtil.getMensagemErro(exc).toUpperCase().contains("KEY VIOLATION")) {
+		String excMsg = ErrosUtil.getMensagemErro(exc).toUpperCase();
+		if (excMsg.contains("KEY VIOLATION")  ||  excMsg.contains("DUPLICATE KEY")) {
 			msg = "gravar.erroJaExiste";
 		}
 		return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage(msg)));
