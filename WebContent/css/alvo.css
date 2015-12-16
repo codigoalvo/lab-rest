@@ -79,6 +79,13 @@ md-input-container label {
 	border-color: #0099cc;
 	font-style: italic;
 }
+.ca-md-input-categoria {
+	width: 100%;
+}
+
+.editable-wrap { /*angular-xeditable*/
+	width: 80%;
+}
 
 
 /* Cores */

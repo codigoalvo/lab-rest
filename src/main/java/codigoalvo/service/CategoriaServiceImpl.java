@@ -34,8 +34,10 @@ public class CategoriaServiceImpl implements CategoriaService {
 			this.dao.commit();
 			return categoria;
 		} catch (Throwable exc) {
-			LOG.error(exc);
 			this.dao.rollback();
+			LOG.debug("gravar.rollback");
+			this.dao.getEntityManager().clear();
+			LOG.debug("gravar.dao.em.clear");
 			throw new SQLException(exc);
 		}
 
@@ -73,7 +75,9 @@ public class CategoriaServiceImpl implements CategoriaService {
 
 	@Override
 	public List<Categoria> listar(Integer usuarioId) {
-		return this.dao.categoriasDoUsuario(usuarioId);
+		List<Categoria> response = this.dao.categoriasDoUsuario(usuarioId);
+		//LOG.debug(response);
+		return response;
 	}
 
 	@Override

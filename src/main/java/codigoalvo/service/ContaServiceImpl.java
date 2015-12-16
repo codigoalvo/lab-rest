@@ -40,8 +40,10 @@ public class ContaServiceImpl implements ContaService {
 			this.dao.commit();
 			return conta;
 		} catch (Throwable exc) {
-			LOG.error(exc);
 			this.dao.rollback();
+			LOG.debug("gravar.rollback");
+			this.dao.getEntityManager().clear();
+			LOG.debug("gravar.dao.em.clear");
 			throw new SQLException(exc);
 		}
 

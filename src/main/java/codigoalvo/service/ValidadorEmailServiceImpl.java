@@ -53,6 +53,9 @@ public class ValidadorEmailServiceImpl implements ValidadorEmailService {
 		} catch (Throwable exc) {
 			LOG.error(exc);
 			this.validadorEmailDao.rollback();
+			LOG.debug("gravar.rollback");
+			this.validadorEmailDao.getEntityManager().clear();
+			LOG.debug("gravar.dao.em.clear");
 			throw new SQLException(exc);
 		}
 
@@ -152,6 +155,9 @@ public class ValidadorEmailServiceImpl implements ValidadorEmailService {
 			return usuarioGravado;
 		} catch (Throwable exc) {
 			transaction.rollback();
+			LOG.debug("gravar.rollback");
+			this.validadorEmailDao.getEntityManager().clear();
+			LOG.debug("gravar.dao.em.clear");
 			throw new SQLException(exc);
 		}
 	}

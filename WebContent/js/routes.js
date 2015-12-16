@@ -19,16 +19,6 @@ angular.module('alvoRotas', []).config(function($routeProvider){
 		controller: 'CategoriaController'
 	});
 
-	$routeProvider.when('/categorias/incluir', {
-		templateUrl: 'partials/categoria.html',
-		controller: 'CategoriaController'
-	});
-
-	$routeProvider.when('/categorias/editar/:categoriaId', {
-		templateUrl: 'partials/categoria.html',
-		controller: 'CategoriaController'
-	});
-
 	$routeProvider.when('/contas', {
 		templateUrl: 'partials/contas.html',
 		controller: 'ContaController'

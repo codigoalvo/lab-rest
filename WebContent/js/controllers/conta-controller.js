@@ -48,7 +48,7 @@ angular.module('alvoApp').controller('ContaController',
 			cDialogs.hide();
 			$scope.contas = resp;
 			$scope.carregarTipos().then(function() {
-				console.log('tipos carregados');
+				//console.log('tipos carregados');
 				$scope.contas.forEach(function(conta) {
 					//console.log('conta = '+conta.tipo);
 					var tipoValue = $scope.getTipo(conta.tipo);
@@ -70,7 +70,7 @@ angular.module('alvoApp').controller('ContaController',
 			cDialogs.loading();
 			recursoConta.remove({usuarioId: $scope.usuarioLogado.id, contaId: conta.id}, function(resp) {
 				cDialogs.hide();
-				console.log(resp);
+				//console.log(resp);
 				$scope.listarContas();
 				growl.success(resp.mensagem);
 			}, function(erro) {

@@ -1,0 +1,26 @@
+<md-dialog aria-label="Dialog" ng-cloak style="min-width: 400px;min-height:120px;">
+	<form role="form" ng-submit="answer(categoria)">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Edição de Categoria</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="cancel()">
+					<md-icon>close</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+		<md-dialog-content>
+			<div align="center" style="min-width: 350px;min-height:70px;padding:20px">
+				<md-input-container class="md-block">
+					<label for="nome">Categoria</label>
+					<input type="text" focus="true" ng-model="categoria.nome" id="nome" md-autofocus
+					placeholder="Nome/descrição da categoria" maxlength="40" required/>
+				</md-input-container>
+			</div>
+		</md-dialog-content>
+		<md-dialog-actions layout="row">
+			<button md-button type="submit" class="md-raised md-primary">Salvar</button>
+			<a md-button href="#/categorias" class="md-raised" ng-click="cancel()">Voltar</a>
+		<md-dialog-actions layout="row">
+	</form>
+</md-dialog>

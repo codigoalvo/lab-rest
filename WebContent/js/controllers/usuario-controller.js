@@ -35,7 +35,7 @@ angular.module('alvoApp').controller('UsuarioController',
 			cDialogs.loading();
 			recursoUsuario.remove({usuarioId: usuario.id}, function(resp) {
 				cDialogs.hide();
-				console.log(resp);
+				//console.log(resp);
 				$scope.usuarios = recursoUsuario.query();
 				growl.success(resp.mensagem);
 			}, function(erro) {

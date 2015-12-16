@@ -13,7 +13,9 @@ import org.apache.log4j.Logger;
 import codigoalvo.entity.UsuarioTipo;
 import codigoalvo.security.JsonWebTokenUtil;
 import codigoalvo.security.LoginToken;
+import codigoalvo.util.ErrosUtil;
 import codigoalvo.util.Globals;
+import codigoalvo.util.I18NUtil;
 import codigoalvo.util.UsuarioUtil;
 
 public class ResponseBuilderHelper {
@@ -108,6 +110,14 @@ public class ResponseBuilderHelper {
 		if (!token.equals(tokenAtualizado)) {
 			response.header("Authorization", tokenAtualizado);
 		}
+	}
+
+	public static ResponseBuilder montaResponseErroAoGravar(Throwable exc) {
+		String msg = "gravar.erro";
+		if (ErrosUtil.getMensagemErro(exc).toUpperCase().contains("KEY VIOLATION")) {
+			msg = "gravar.erroJaExiste";
+		}
+		return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage(msg)));
 	}
 
 }

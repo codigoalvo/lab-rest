@@ -4,6 +4,7 @@ angular.module('alvoApp').controller('CategoriaController',
 	$scope.categorias = [];
 	$scope.categoria = {};
 	$scope.usuarioLogado = servicosLogin.pegarUsuarioDoToken();
+	$scope.isAdmin = ($scope.usuarioLogado.tipo === 'ADMIN');
 
 	$scope.listarCategorias = function(categorias) {
 		cDialogs.loading();
@@ -23,7 +24,7 @@ angular.module('alvoApp').controller('CategoriaController',
 			cDialogs.loading();
 			recursoCategoria.remove({usuarioId: $scope.usuarioLogado.id, categoriaId: categoria.id}, function(resp) {
 				cDialogs.hide();
-				console.log(resp);
+				//console.log(resp);
 				$scope.listarCategorias();
 				growl.success(resp.mensagem);
 			}, function(erro) {
@@ -52,22 +53,30 @@ angular.module('alvoApp').controller('CategoriaController',
 		cadastroCategoria.gravar($scope.usuarioLogado.id, categoria)
 		.then(function(resp) {
 			cDialogs.hide();
-			if (resp.inclusao) {
-				$scope.categoria = {};
-				$scope.categorias = [];
-				$location.path("/categorias");
-			}
+			$scope.categoria = {};
+			$scope.listarCategorias();
 			growl.success(resp.mensagem);
 		})
 		.catch(function(erro) {
 			cDialogs.hide();
-			$scope.categorias = [];
+			$scope.categoria = {};
+			$scope.listarCategorias();
 			growl.error(erro.mensagem, {title: 'Atenção!'});
 		});
 	};
 
 	$scope.submeter = function() {
 		$scope.gravar($scope.categoria);
+	}
+
+	$scope.dialogIncluir = function() {
+		cDialogs.custom(this , 'dialogs/categoria.html').then(function(resp){
+			$scope.gravar(resp);
+		}).catch(function(erro) {
+			if (erro) {
+				console.log(erro);
+			}
+		});
 	}
 
 });

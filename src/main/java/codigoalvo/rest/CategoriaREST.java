@@ -106,7 +106,7 @@ public class CategoriaREST {
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (Exception exc) {
 				LOG.error(exc);
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("gravar.erro")));
+				resposta = ResponseBuilderHelper.montaResponseErroAoGravar(exc);
 			}
 		}
 		return resposta.build();
@@ -129,7 +129,7 @@ public class CategoriaREST {
 				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			} catch (Exception exc) {
 				LOG.error(exc);
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("gravar.erro")));
+				resposta = ResponseBuilderHelper.montaResponseErroAoGravar(exc);
 			}
 		}
 		return resposta.build();

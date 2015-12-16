@@ -18,9 +18,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	private UsuarioDao dao;
 	private SegurancaUtil segurancaUtil;
+	private static final Logger LOG = Logger.getLogger(UsuarioServiceImpl.class);
 
 	public UsuarioServiceImpl() {
-		Logger.getLogger(UsuarioServiceImpl.class).debug("####################  construct  ####################");
+		LOG.debug("####################  construct  ####################");
 		this.dao = new UsuarioDaoJpa(EntityManagerUtil.getEntityManager());
 		this.segurancaUtil = new SegurancaUtilMd5();
 	}
@@ -46,6 +47,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 				usuario.setSenha(senhaText);
 			}
 			this.dao.rollback();
+			LOG.debug("gravar.rollback");
+			this.dao.getEntityManager().clear();
+			LOG.debug("gravar.dao.em.clear");
 			throw new SQLException(exc);
 		}
 
@@ -92,7 +96,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		try {
 			usuario = this.dao.buscarPorLogin(login);
 		} catch (NoResultException nre) {
-			Logger.getLogger(UsuarioServiceImpl.class).debug("Usuario não encontrado (login): " + login);
+			LOG.debug("Usuario não encontrado (login): " + login);
 		}
 		return usuario;
 	}
@@ -103,7 +107,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		try {
 			usuario = this.dao.buscarPorEmail(email);
 		} catch (NoResultException nre) {
-			Logger.getLogger(UsuarioServiceImpl.class).debug("Usuario não encontrado (email): " + email);
+			LOG.debug("Usuario não encontrado (email): " + email);
 		}
 		return usuario;
 	}
