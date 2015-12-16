@@ -39,3 +39,11 @@
 .md-dialog-container, md-backdrop.md-dialog-backdrop {
 	z-index: 3000 !important;
 }
+
+.md-button-icon {
+	min-width: 24px;
+	min-height: 24px;
+	padding: 1px;
+	margin: 0px;
+	line-height: 0;
+} 
