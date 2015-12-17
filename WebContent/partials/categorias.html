@@ -25,20 +25,19 @@
 					<button md-button type="button" class="md-raised md-primary md-button-icon" ng-click="rowform.$show()" title="Editar">
 						<md-icon>create</md-icon>
 					</button>
-					
-					<md-menu md-offset="0 -7">
+					<md-menu>
 						<md-button aria-label="Open demo menu" class="md-raised md-warn md-button-icon" ng-click="$mdOpenMenu($event)">
 							<md-icon>delete</md-icon>
 						</md-button>
-						<md-menu-content width="1">
+						<md-menu-content width="1" style="padding:1px;">
 							<md-menu-item>
 								<button md-button type="button" class="md-raised md-button-icon" ng-click="removerCategoriaDireto(categoria)" title="Excluir">
-									<md-icon class="md-warn">delete</md-icon>Confirmar
+									<md-icon class="md-warn">delete</md-icon>Sim
 								</button>
 							</md-menu-item>
 							<md-menu-item>
 								<button md-button type="button" class="md-raised md-button-icon" title="Voltar">
-									<md-icon>reply</md-icon>Voltar
+									<md-icon>reply</md-icon>Não
 								</button>
 							</md-menu-item>
 						</md-menu-content>
