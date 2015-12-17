@@ -65,21 +65,25 @@ angular.module('alvoApp').controller('ContaController',
 		});
 	};
 
-	$scope.removerConta = function(conta) {
+	$scope.removerContaDireto = function(conta) {
+		cDialogs.loading();
+		recursoConta.remove({usuarioId: $scope.usuarioLogado.id, contaId: conta.id}, function(resp) {
+			cDialogs.hide();
+			//console.log(resp);
+			$scope.listarContas();
+			growl.success(resp.mensagem);
+		}, function(erro) {
+			cDialogs.hide();
+			$scope.contas = [];
+			console.log(erro);
+			growl.error(erro.mensagem, {title: 'Atenção!'});
+		});
+	}
+	
+	$scope.removerContaConfirmar = function(conta) {
 		cDialogs.confirm('Atenção!', 'Confirma a exclusão da conta: <br>"'+conta.nome+'" ?', 'Sim', 'Não')
 		.then(function(btn){
-			cDialogs.loading();
-			recursoConta.remove({usuarioId: $scope.usuarioLogado.id, contaId: conta.id}, function(resp) {
-				cDialogs.hide();
-				//console.log(resp);
-				$scope.listarContas();
-				growl.success(resp.mensagem);
-			}, function(erro) {
-				cDialogs.hide();
-				$scope.contas = [];
-				console.log(erro);
-				growl.error(erro.mensagem, {title: 'Atenção!'});
-			});
+			$scope.removerContaDireto(conta);
 		});
 	};
 

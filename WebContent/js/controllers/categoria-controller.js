@@ -18,20 +18,24 @@ angular.module('alvoApp').controller('CategoriaController',
 		});
 	};
 
-	$scope.removerCategoria = function(categoria) {
+	$scope.removerCategoriaDireto = function(categoria) {
+		cDialogs.loading();
+		recursoCategoria.remove({usuarioId: $scope.usuarioLogado.id, categoriaId: categoria.id}, function(resp) {
+			cDialogs.hide();
+			//console.log(resp);
+			$scope.listarCategorias();
+			growl.success(resp.mensagem);
+		}, function(erro) {
+			$scope.categorias = [];
+			console.log(erro);
+			growl.error(erro.mensagem, {title: 'Atenção!'});
+		});
+	}
+
+	$scope.removerCategoriaConfirmar = function(categoria) {
 		cDialogs.confirm('Atenção!', 'Confirma a exclusão da categoria: <br>"'+categoria.nome+'" ?', 'Sim', 'Não')
 		.then(function(btn){
-			cDialogs.loading();
-			recursoCategoria.remove({usuarioId: $scope.usuarioLogado.id, categoriaId: categoria.id}, function(resp) {
-				cDialogs.hide();
-				//console.log(resp);
-				$scope.listarCategorias();
-				growl.success(resp.mensagem);
-			}, function(erro) {
-				$scope.categorias = [];
-				console.log(erro);
-				growl.error(erro.mensagem, {title: 'Atenção!'});
-			});
+			$scope.removerCategoriaDireto(categoria);
 		});
 	};
 
