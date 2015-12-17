@@ -24,16 +24,6 @@ angular.module('alvoRotas', []).config(function($routeProvider){
 		controller: 'ContaController'
 	});
 
-	$routeProvider.when('/contas/incluir', {
-		templateUrl: 'partials/conta.html',
-		controller: 'ContaController'
-	});
-
-	$routeProvider.when('/contas/editar/:contaId', {
-		templateUrl: 'partials/conta.html',
-		controller: 'ContaController'
-	});
-
 	$routeProvider.when('/negado', {
 		templateUrl: 'partials/negado.html'
 	});
