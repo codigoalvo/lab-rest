@@ -1,5 +1,5 @@
 <header navheader></header>
-<div class="row">
+<main class="row">
 <div class="col-md-10 col-md-offset-1">
 <div class="panel panel-default row spacing-top" ng-controller="UsuarioController" data-ng-init="listarUsuarios()">
 	<div class="panel-heading">
@@ -15,8 +15,8 @@
 				<th>Tipo</th>
 				<th>Ativo</th>
 				<th class="text-center">
-					<a class="btn-sm btn-success" href="#/usuarios/incluir" title="Incluir">
-						<span class="glyphicon glyphicon-file"></span>
+					<a md-button type="button" class="md-raised md-button-icon" style="background-color: green;" title="Incluir"  ng-click="dialogIncluir()">
+						<md-icon style="color: white;">insert_drive_file</md-icon>
 					</a>
 				</th>
 			</tr>
@@ -30,16 +30,30 @@
 				<td >{{usuario.tipo}}</td>
 				<td >{{usuario.ativo?'Sim':'Não'}}</td>
 				<td class="col-md-2 text-center" style="white-space:nowrap;">
-					<a class="btn-sm btn-primary" href="#/usuarios/editar/{{usuario.id}}" title="Editar">
-						<span class="glyphicon glyphicon-pencil"></span>
-					</a>
-					<a class="btn-sm btn-danger"  ng-click="removerUsuario(usuario)" title="Excluir">
-						<span class="glyphicon glyphicon-trash"></span>
-					</a>
+					<button md-button type="button" class="md-raised md-primary md-button-icon" ng-click="dialogAlterar(usuario)" title="Editar">
+						<md-icon>create</md-icon>
+					</button>
+					<md-menu>
+						<md-button aria-label="Open demo menu" class="md-raised md-warn md-button-icon" ng-click="$mdOpenMenu($event)">
+							<md-icon>delete</md-icon>
+						</md-button>
+						<md-menu-content width="1" style="padding:1px;">
+							<md-menu-item>
+								<button md-button type="button" class="md-raised md-button-icon" ng-click="removerUsuarioDireto(usuario)" title="Excluir">
+									<md-icon class="md-warn">delete</md-icon>Sim
+								</button>
+							</md-menu-item>
+							<md-menu-item>
+								<button md-button type="button" class="md-raised md-button-icon" title="Voltar">
+									<md-icon>reply</md-icon>Não
+								</button>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu>
 				</td>
 			</tr>
 		</tbody>
 	</table>
 	</div>
 </div>
-</div>
+</main>

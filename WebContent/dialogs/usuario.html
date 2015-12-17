@@ -1,0 +1,50 @@
+<md-dialog aria-label="Dialog" ng-cloak style="min-width: 400px;min-height:120px;">
+	<form id="contaForm" role="form" ng-submit="answer(locals.conta)">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Edição de usuario</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="cancel()">
+					<md-icon>close</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+		<md-dialog-content>
+			<br/>
+			<div class="ca-input-group md-subheade">
+				<md-input-container class="md-block">
+					<label for="login">Login</label>
+					<input type="text" ng-model="locals.usuario.login" id="login" md-autofocus focus="true"
+						maxlength="40" required/>
+				</md-input-container>
+				<md-input-container class="md-block">
+					<label for="senha">Senha</label>
+					<input type="password" ng-model="locals.usuario.senha" id="senha" maxlength="40" required/>
+				</md-input-container>
+				<md-input-container class="md-block">
+					<label for="nome">Nome</label>
+					<input type="text" ng-model="locals.usuario.nome" id="nome" maxlength="40" required/>
+				</md-input-container>
+				<md-input-container class="md-block">
+					<label for="email">Email</label>
+					<input type="text" ng-model="locals.usuario.email" id="email" maxlength="40" required/>
+				</md-input-container>
+				<md-input-container class="md-block">
+					<label for="tipo">Tipo</label>
+					<md-select ng-model="locals.usuario.tipo" id="tipo">
+						<md-option ng-repeat="tipo for tipo in tiposUsuario" value="{{tipo}}">{{tipo}}</md-option>
+					</md-select>
+				</md-input-container>
+				<md-input-container class="md-block">
+					<label for="ativo">Ativo</label>
+						<input type="checkbox"  ng-model="locals.usuario.ativo" class="form-control ca-checkbox" id="ativo"
+								ng-change="locals.usuario.dataInativo = locals.usuario.ativo ? null : {{locals.hoje}}" value="true" />
+				</md-input-container>
+			</div>
+		</md-dialog-content>
+		<md-dialog-actions layout="row">
+			<button md-button type="submit" class="md-raised md-primary">Salvar</button>
+			<a md-button href="#/usuarios" class="md-raised" ng-click="cancel()">Voltar</a>
+		<md-dialog-actions layout="row">
+	</form>
+</md-dialog>

@@ -1,5 +1,5 @@
 angular.module('alvoApp').controller('ContaController',
-		function($scope, $rootScope, $routeParams, $location, $window, $q, growl, cDialogs, servicosLogin, recursoConta, cadastroConta) {
+		function($scope, $routeParams, $location, $window, $q, growl, cDialogs, servicosLogin, recursoConta, cadastroConta) {
 
 	$scope.contas = [];
 	$scope.conta = {};
