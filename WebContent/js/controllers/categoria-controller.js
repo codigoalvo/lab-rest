@@ -70,7 +70,10 @@ angular.module('alvoApp').controller('CategoriaController',
 	}
 
 	$scope.dialogIncluir = function() {
-		cDialogs.custom(this , 'dialogs/categoria.html').then(function(resp){
+		var locals = {
+				categoria : {},
+		};
+		cDialogs.custom('dialogs/categoria.html', locals).then(function(resp){
 			$scope.gravar(resp);
 		}).catch(function(erro) {
 			if (erro) {

@@ -1,10 +1,11 @@
 angular.module('alvoApp').controller('ContaController',
-		function($scope, $routeParams, $location, $window, $q, growl, cDialogs, servicosLogin, recursoConta, cadastroConta) {
+		function($scope, $rootScope, $routeParams, $location, $window, $q, growl, cDialogs, servicosLogin, recursoConta, cadastroConta) {
 
 	$scope.contas = [];
 	$scope.conta = {};
 	$scope.tiposConta = [];
 	$scope.usuarioLogado = servicosLogin.pegarUsuarioDoToken();
+	$scope.isAdmin = ($scope.usuarioLogado.tipo === 'ADMIN');
 
 	$scope.carregarTipos = function() {
 		return $q(function(resolve, reject) {
@@ -117,7 +118,25 @@ angular.module('alvoApp').controller('ContaController',
 	}
 
 	$scope.dialogIncluir = function() {
-		cDialogs.custom(this , 'dialogs/conta.html').then(function(resp){
+		var locals = {
+				conta : {},
+				tiposConta : $scope.tiposConta,
+		}
+		cDialogs.custom('dialogs/conta.html', locals).then(function(resp){
+			$scope.gravar(resp);
+		}).catch(function(erro) {
+			if (erro) {
+				console.log(erro);
+			}
+		});
+	}
+
+	$scope.dialogAlterar = function(conta) {
+		var locals = {
+				conta : conta,
+				tiposConta : $scope.tiposConta,
+		}
+		cDialogs.custom('dialogs/conta.html', locals).then(function(resp){
 			$scope.gravar(resp);
 		}).catch(function(erro) {
 			if (erro) {

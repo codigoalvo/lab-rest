@@ -43,14 +43,17 @@ angular.module('dialogsService', [])
 			});
 		}
 
-		recurso.custom = function(controller, templateUrl) {
-			//console.log('dialog.custom');
+		recurso.custom = function(templateUrl, locals) {
+			//console.log('dialog.custom.entidade: '+angular.toJson(locals));
 			return $q(function(resolve, reject) {
+				//console.log('q.locals: '+locals)
 				$mdDialog.show({
-					controller: DialogController, 
+					controller: DialogController,
+					controllerAs: 'ctrl',
 					templateUrl: templateUrl,
 					parent: angular.element(document.body),
 					clickOutsideToClose: true,
+					locals: locals,
 				}).then(function(resp) {
 					resolve(resp);
 				}, function(error) {
@@ -60,7 +63,9 @@ angular.module('dialogsService', [])
 					reject(error);
 				});
 			});
-			function DialogController($scope, $mdDialog) {
+			function DialogController($scope, $mdDialog, locals) {
+				//console.log('DialogController.locals: '+angular.toJson(locals));
+				$scope.locals = locals;
 			  $scope.hide = function() {
 			    $mdDialog.hide();
 			  };

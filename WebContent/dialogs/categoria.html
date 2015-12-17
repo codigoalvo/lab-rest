@@ -1,8 +1,8 @@
 <md-dialog aria-label="Dialog" ng-cloak style="min-width: 400px;min-height:120px;">
-	<form role="form" ng-submit="answer(categoria)">
+	<form role="form" ng-submit="answer(locals.categoria)">
 		<md-toolbar>
 			<div class="md-toolbar-tools">
-				<h2>Edição de Categoria</h2>
+				<h2>Inclusão de Categoria</h2>
 				<span flex></span>
 				<md-button class="md-icon-button" ng-click="cancel()">
 					<md-icon>close</md-icon>
@@ -14,7 +14,7 @@
 			<div class="ca-input-group">
 				<md-input-container class="md-block">
 					<label for="nome">Nome/descrição da categoria</label>
-					<input type="text" focus="true" ng-model="categoria.nome" id="nome" md-autofocus
+					<input type="text" focus="true" ng-model="locals.categoria.nome" id="nome" md-autofocus
 						maxlength="40" required/>
 				</md-input-container>
 			</div>
