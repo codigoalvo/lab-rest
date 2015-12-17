@@ -1,5 +1,5 @@
 <header navheader></header>
-<div class="row">
+<main class="row">
 <div class="col-md-10 col-md-offset-1">
 <div class="panel panel-default row spacing-top" ng-controller="ContaController" data-ng-init="listarContas()">
 	<div class="panel-heading">
@@ -14,8 +14,8 @@
 				<th>Fecha</th>
 				<th>Paga</th>
 				<th class="text-center">
-					<a class="btn-sm btn-success" href="#/contas/incluir" title="Incluir">
-						<span class="glyphicon glyphicon-file"></span>
+					<a md-button type="button" class="md-raised md-button-icon" style="background-color: green;" title="Incluir"  ng-click="dialogIncluir()">
+						<md-icon style="color: white;">insert_drive_file</md-icon>
 					</a>
 				</th>
 			</tr>
@@ -28,12 +28,12 @@
 				<td class="col-md-1">{{conta.diaFechamento}}</td>
 				<td class="col-md-1">{{conta.diaPagamento}}</td>
 				<td class="col-md-2 text-center">
-					<a class="btn-sm btn-primary" href="#/contas/editar/{{conta.id}}" title="Editar">
-						<span class="glyphicon glyphicon-pencil"></span>
-					</a>
-					<a class="btn-sm btn-danger"  ng-click="removerConta(conta)" title="Excluir">
-						<span class="glyphicon glyphicon-trash"></span>
-					</a>
+					<button md-button type="button" class="md-raised md-primary md-button-icon" href="#/contas/editar/{{conta.id}}" title="Editar">
+						<md-icon>create</md-icon>
+					</button>
+					<button md-button type="button" class="md-raised md-warn md-button-icon" ng-click="removerConta(conta)" title="Excluir" style="vertical-align: top;">
+						<md-icon>delete</md-icon>
+					</button>
 				</td>
 			</tr>
 		</tbody>

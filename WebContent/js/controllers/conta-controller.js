@@ -11,7 +11,7 @@ angular.module('alvoApp').controller('ContaController',
 			if ($scope.tiposConta == undefined ||  $scope.tiposConta == null  ||  $scope.tiposConta.length == 0) {
 				cadastroConta.tipos()
 				.then(function(resp) {
-					//console.log('ContaController.tiposConta', resp);
+					console.log('ContaController.tiposConta', resp);
 					$scope.tiposConta = resp;
 					resolve(true);
 				}).catch(function(erro) {
@@ -48,7 +48,7 @@ angular.module('alvoApp').controller('ContaController',
 			cDialogs.hide();
 			$scope.contas = resp;
 			$scope.carregarTipos().then(function() {
-				//console.log('tipos carregados');
+				console.log('listarContas.tiposCarregados');
 				$scope.contas.forEach(function(conta) {
 					//console.log('conta = '+conta.tipo);
 					var tipoValue = $scope.getTipo(conta.tipo);
@@ -95,21 +95,35 @@ angular.module('alvoApp').controller('ContaController',
 		});
 	}
 
-	$scope.submeter = function() {
+	$scope.gravar = function(conta) {
 		cDialogs.loading();
-		cadastroConta.gravar($scope.usuarioLogado.id, $scope.conta)
+		cadastroConta.gravar($scope.usuarioLogado.id, conta)
 		.then(function(resp) {
 			cDialogs.hide();
-			$scope.contas = [];
-			if (resp.inclusao) $scope.conta = {};
-			$location.path("/contas");
+			$scope.conta = {};
+			$scope.listarContas();
 			growl.success(resp.mensagem);
 		})
 		.catch(function(erro) {
 			cDialogs.hide();
-			$scope.contas = [];
+			$scope.conta = {};
+			$scope.listarContas();
 			growl.error(erro.mensagem, {title: 'Atenção!'});
 		});
 	};
+
+	$scope.submeter = function() {
+		$scope.gravar($scope.conta);
+	}
+
+	$scope.dialogIncluir = function() {
+		cDialogs.custom(this , 'dialogs/conta.html').then(function(resp){
+			$scope.gravar(resp);
+		}).catch(function(erro) {
+			if (erro) {
+				console.log(erro);
+			}
+		});
+	}
 	
 });

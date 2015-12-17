@@ -12,12 +12,6 @@ body {
 .mediumGraph {width:350px;height:300px;float:left;}
 .smallGraph {width:20%;height:300px;float:left;}
 
-/*
-.spacing-top {
-	margin-top: 60px;
-}
-*/
-
 .flexDiv {
 	min-height: 80%;  /* Fallback for browsers do NOT support vh unit */
 	min-height: 80vh; /* These two lines are counted as one :-)       */
@@ -40,33 +34,13 @@ body {
 	width: 90%;
 }
 
-.ca-checkbox {
-	width: 0;
+.ca-button-85 {
+	width: 85%;
+	margin: 15px 0 !important;
 }
 
-.loading-dialog {
-	min-width: 0 !important;
-}
-
-.md-dialog-container, md-backdrop.md-dialog-backdrop {
-	z-index: 3000 !important;
-}
-
-.md-button-icon {
-	min-width: 24px;
-	min-height: 24px;
-	padding: 1px;
-	margin: 0px;
-	line-height: 0;
-}
-
-md-input-container {
-	margin: 10px 0;
-	padding: 0px;
-}
-
-md-input-container label {
-	margin-bottom: 0px;
+.ca-input-group {
+	margin: 15px;
 }
 
 .ca-md-input {
@@ -83,10 +57,68 @@ md-input-container label {
 	width: 100%;
 }
 
+.ca-checkbox {
+	width: 0;
+}
+
 .editable-wrap { /*angular-xeditable*/
 	width: 80%;
 }
 
+.loading-dialog {
+	min-width: 0 !important;
+}
+
+.navbar-fixed-bottom, .navbar-fixed-top {
+	z-index: 190 !important;
+}
+
+.md-dialog-container, md-backdrop.md-dialog-backdrop {
+	z-index: 200 !important;
+}
+
+.md-select-menu-container {
+	z-index: 210 !important;
+}
+
+.md-button-icon {
+	min-width: 24px;
+	min-height: 24px;
+	padding: 1px;
+	margin: 0px;
+	line-height: 0;
+}
+
+md-card md-card-title {
+	padding: 16px;
+}
+
+md-input-container .md-errors-spacer {
+	min-height: 0;
+}
+
+md-input-container {
+	margin: 5px;
+	margin-top: 20px;
+}
+
+md-input-container label {
+	margin-bottom: 0px;
+}
+
+md-dialog md-dialog-content:not([layout="row"]) > :first-child:not(.md-subheader) {
+	margin-top: 0;
+}
+
+.card-signin {
+	width: 330px;
+}
+.card-senha {
+	width: 330px;
+}
+.card-register {
+	width: 390px;
+}
 
 /* Cores */
  

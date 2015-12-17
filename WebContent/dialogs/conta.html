@@ -1,0 +1,41 @@
+<md-dialog aria-label="Dialog" ng-cloak style="min-width: 400px;min-height:120px;">
+	<form id="contaForm" role="form" ng-submit="answer(conta)" ng-controller="ContaController" data-ng-init="carregarTipos()">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Edição de Conta</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="cancel()">
+					<md-icon>close</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+		<md-dialog-content>
+			<br/>
+			<div class="ca-input-group md-subheade">
+				<md-input-container class="md-block">
+					<label for="nome">Nome/descrição da conta</label>
+					<input type="text" focus="true" ng-model="conta.nome" id="nome" md-autofocus
+						maxlength="40" required/>
+				</md-input-container>
+				<md-input-container class="md-block">
+					<label for="tipo">Tipo</label>
+					<md-select ng-model="conta.tipo" class="md-block" id="tipo" required>
+						<md-option ng-repeat="tipo in tiposConta" value="{{tipo.key}}">{{tipo.value}}</md-option>
+					</md-select>
+				</md-input-container>
+				<md-input-container class="md-block" ng-show="conta.tipo=='C'">
+					<label for="fechamento">Dia do fechamento da fatura (Cartão)</label>
+					<input type="text" focus="true" ng-model="conta.diaFechamento" id="fechamento" maxlength="2"/>
+				</md-input-container>
+				<md-input-container class="md-block" ng-show="conta.tipo=='C'">
+					<label for="pagamento">Dia do vencimento/pagamento (Cartão)</label>
+					<input type="text" focus="true" ng-model="conta.diaPagamento" id="pagamento" maxlength="2"/>
+				</md-input-container>
+			</div>
+		</md-dialog-content>
+		<md-dialog-actions layout="row">
+			<button md-button type="submit" class="md-raised md-primary">Salvar</button>
+			<a md-button href="#/contas" class="md-raised" ng-click="cancel()">Voltar</a>
+		<md-dialog-actions layout="row">
+	</form>
+</md-dialog>
