@@ -1,5 +1,5 @@
 angular.module('alvoApp').controller('ContaController',
-		function($scope, $routeParams, $location, $window, $q, growl, cDialogs, servicosLogin, recursoConta, cadastroConta) {
+		function($scope, $routeParams, $q, growl, cDialogs, servicosLogin, recursoConta, cadastroConta) {
 
 	$scope.contas = [];
 	$scope.conta = {};
@@ -12,7 +12,7 @@ angular.module('alvoApp').controller('ContaController',
 			if ($scope.tiposConta == undefined ||  $scope.tiposConta == null  ||  $scope.tiposConta.length == 0) {
 				cadastroConta.tipos()
 				.then(function(resp) {
-					console.log('ContaController.tiposConta', resp);
+					//console.log('ContaController.tiposConta', resp);
 					$scope.tiposConta = resp;
 					resolve(true);
 				}).catch(function(erro) {

@@ -1,9 +1,29 @@
 angular.module('alvoApp').controller('UsuarioController',
-		function($scope, $routeParams, $location, $window, growl, cDialogs, recursoUsuario, cadastroUsuario) {
+		function($scope, $routeParams, $q, growl, cDialogs, recursoUsuario, cadastroUsuario) {
 
 	$scope.usuarios = [];
 	$scope.tiposUsuario = [];
 	$scope.hoje = new Date();
+
+	$scope.carregarTipos = function() {
+		return $q(function(resolve, reject) {
+			if ($scope.tiposUsuario == undefined ||  $scope.tiposUsuario == null  ||  $scope.tiposUsuario.length == 0) {
+				cadastroUsuario.tipos()
+				.then(function(resp) {
+					console.log('UsuarioController.tiposUsuario', resp);
+					$scope.tiposUsuario = resp;
+					resolve(true);
+				}).catch(function(erro) {
+					$scope.tiposUsuario = [];
+					console.log(erro);
+					growl.error(erro.mensagem, {title: 'Atenção!'});
+					reject(false);
+				});
+			} else {
+				resolve(true);
+			}
+		});
+	};
 
 	$scope.listarUsuarios = function(usuarios) {
 		cDialogs.loading();
@@ -14,18 +34,6 @@ angular.module('alvoApp').controller('UsuarioController',
 			cDialogs.hide();
 			$scope.usuarios = [];
 			console.log(erro);
-		});
-	};
-
-	$scope.carregarTipos = function() {
-		cadastroUsuario.tipos()
-		.then(function(resp) {
-			//console.log('UsuarioController.tiposUsuario', resp);
-			$scope.tiposUsuario = resp;
-		}).catch(function(erro) {
-			$scope.tiposUsuario = [];
-			console.log(erro);
-			growl.error(erro.mensagem, {title: 'Atenção!'});
 		});
 	};
 
@@ -69,7 +77,7 @@ angular.module('alvoApp').controller('UsuarioController',
 
 	$scope.gravar = function(usuario) {
 		cDialogs.loading();
-		cadastroCategoria.gravar(usuario)
+		cadastroUsuario.gravar(usuario)
 		.then(function(resp) {
 			cDialogs.hide();
 			$scope.usuario = {};
@@ -89,32 +97,37 @@ angular.module('alvoApp').controller('UsuarioController',
 	};
 
 	$scope.dialogIncluir = function() {
-		var locals = {
-				usuario : {},
-				tiposUsuario : $scope.tiposUsuario,
-				hoje : $scope.hoje,
-		}
-		cDialogs.custom('dialogs/usuario.html', locals).then(function(resp){
-			$scope.gravar(resp);
-		}).catch(function(erro) {
-			if (erro) {
-				console.log(erro);
+		$scope.carregarTipos().then(function() {
+			var locals = {
+					usuario : {},
+					tiposUsuario : $scope.tiposUsuario,
+					hoje : $scope.hoje,
 			}
+			console.log("locals.tiposUsuario: "+locals.tiposUsuario);
+			cDialogs.custom('dialogs/usuario.html', locals).then(function(resp){
+				$scope.gravar(resp);
+			}).catch(function(erro) {
+				if (erro) {
+					console.log(erro);
+				}
+			});
 		});
 	}
 
 	$scope.dialogAlterar = function(usuario) {
-		var locals = {
-				usuario : usuario,
-				tiposUsuario : $scope.tiposUsuario,
-				hoje : $scope.hoje,
-		}
-		cDialogs.custom('dialogs/usuario.html', locals).then(function(resp){
-			$scope.gravar(resp);
-		}).catch(function(erro) {
-			if (erro) {
-				console.log(erro);
+			$scope.carregarTipos().then(function() {
+			var locals = {
+					usuario : usuario,
+					tiposUsuario : $scope.tiposUsuario,
+					hoje : $scope.hoje,
 			}
+			cDialogs.custom('dialogs/usuario.html', locals).then(function(resp){
+				$scope.gravar(resp);
+			}).catch(function(erro) {
+				if (erro) {
+					console.log(erro);
+				}
+			});
 		});
 	}
 
