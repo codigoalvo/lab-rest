@@ -1,5 +1,5 @@
 angular.module('headerDirective', [])
-	.directive('navheader', function (servicosLogin, $compile) {
+	.directive('bsNavHeader', function (servicosLogin, $compile) {
 
 		var templateDeslogado = "<li ng-show='!usuarioLogado'><a href='#login'><span class='glyphicon glyphicon-log-in'></span> entrar </a></li>"+
 								"<li ng-show='!usuarioLogado'><a href='#registro'><span class='glyphicon glyphicon-check'></span> registrar </a></li>";
