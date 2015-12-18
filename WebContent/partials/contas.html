@@ -1,5 +1,6 @@
 <header navheader></header>
-<main class="row">
+<main class="container">
+<div class="row">
 <div class="col-md-10 col-md-offset-1">
 <div class="panel panel-default row spacing-top" ng-controller="ContaController" data-ng-init="listarContas()">
 	<div class="panel-heading">
@@ -14,7 +15,7 @@
 				<th>Fecha</th>
 				<th>Paga</th>
 				<th class="text-center">
-					<a md-button type="button" class="md-raised md-button-icon" style="background-color: green;" title="Incluir"  ng-click="dialogIncluir()">
+					<a md-button type="button" class="md-raised md-button-icon md-accent" title="Incluir"  ng-click="dialogIncluir()">
 						<md-icon style="color: white;">insert_drive_file</md-icon>
 					</a>
 				</th>
@@ -52,6 +53,7 @@
 			</tr>
 		</tbody>
 	</table>
-	</div>
 </div>
 </div>
+</div>
+</main>

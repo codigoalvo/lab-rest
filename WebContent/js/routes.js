@@ -56,6 +56,11 @@ angular.module('alvoRotas', []).config(function($routeProvider){
 	$routeProvider.when('/home', {
 		templateUrl: 'partials/home.html'
 	});
+	
+	$routeProvider.when('/header', {
+		templateUrl: 'partials/header.html'
+	});
+
 
 	$routeProvider.otherwise({redirectTo: '/home'});
 });

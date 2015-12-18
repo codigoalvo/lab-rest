@@ -1,6 +1,6 @@
 google.load('visualization', '1', {packages: ['corechart']});
 angular.module('alvoApp',	['ngRoute', 'ngResource', 'ngAnimate', 'ngMaterial', 'ngSanitize',
- 							'angular-growl', 'google-chart', 'xeditable',
+ 							'angular-growl', 'google-chart', 'xeditable', 'alvoTheme',
 							'alvoRotas', 'authInterceptor', 'miscDirectives', 'headerDirective', 'dialogsService',
 							'loginService', 'usuarioService', 'categoriaService', 'contaService', 'emailService'])
 	.config(function($httpProvider, $locationProvider, growlProvider) {

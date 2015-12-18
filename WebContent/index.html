@@ -7,11 +7,12 @@
 
 <link rel="stylesheet" href="css/reset.css">
 
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+
 <link rel="stylesheet" href="css/angular-material.css"> <!-- angular-material -->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="css/angular-growl.css">
 
 <link rel="stylesheet" href="css/xeditable.css">
@@ -21,7 +22,9 @@
 <link rel="stylesheet" href="css/alvo.css">
 
 <script src="js/lib/jquery2.min.js"></script>
+
 <script src="js/lib/bootstrap.min.js"></script>
+
 <script src="js/lib/google-charts-jsapi.js"></script>
 
 <script src="js/lib/angular.js"></script>
@@ -46,6 +49,8 @@
 
 <script src="js/main.js"></script>
 <script src="js/routes.js"></script>
+<script src="js/theme.js"></script>
+
 <script src="js/interceptors/auth-interceptor.js"></script>
 <script src="js/directives/misc-directives.js"></script>
 <script src="js/directives/header-directive.js"></script>
@@ -76,11 +81,9 @@
 </head>
 
 <body>
-	<div class="container">
-
+	<div>
 		<ng-view></ng-view>
 		<div growl></div>
-
 	</div>
 </body>
 </html>
