@@ -32,6 +32,15 @@ body {
 	width: 90%;
 }
 
+.ca-linha-negrito th {
+	font-weight: bold;
+}
+
+.ca-div-filtro {
+	margin-bottom: 0;
+	padding: 8px;
+}
+
 .ca-header {
 	position: fixed;
 	top: 0;
