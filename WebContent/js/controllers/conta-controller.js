@@ -127,7 +127,7 @@ angular.module('alvoApp').controller('ContaController',
 
 	$scope.dialogAlterar = function(conta) {
 		var locals = {
-				conta : conta,
+				conta : angular.copy(conta),
 				tiposConta : $scope.tiposConta,
 		}
 		cDialogs.custom('dialogs/conta.html', locals).then(function(resp){

@@ -20,7 +20,7 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="categoria in categorias">
-				<td class="col-md-1" class="text-right" ng-show="isAdmin">{{categoria.id}}</td>
+				<td class="col-md-1 text-right" ng-show="isAdmin">{{categoria.id}}</td>
 				<td class="col-md-9"><span editable-text="categoria.nome" e-name="name" e-form="rowform" e-class="ca-md-input ca-md-input-categoria" e-maxlength="40" onbeforesave="gravar(categoria)">{{categoria.nome || '&nbsp;'}}</span></td>
 				<td class="col-md-2 text-center" style="white-space:nowrap;">
 					<button md-button type="button" class="md-raised md-primary md-button-icon" ng-click="rowform.$show()" title="Editar">
@@ -43,9 +43,6 @@
 							</md-menu-item>
 						</md-menu-content>
 					</md-menu>
-					
-					
-
 				</td>
 			</tr>
 		</tbody>

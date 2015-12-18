@@ -105,7 +105,7 @@ angular.module('alvoApp').controller('UsuarioController',
 	$scope.dialogAlterar = function(usuario) {
 			$scope.carregarTipos().then(function() {
 			var locals = {
-					usuario : usuario,
+					usuario : angular.copy(usuario),
 					tiposUsuario : $scope.tiposUsuario,
 					hoje : $scope.hoje,
 			}
