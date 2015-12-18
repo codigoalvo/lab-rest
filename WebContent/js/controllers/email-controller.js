@@ -30,7 +30,7 @@ angular.module('alvoApp').controller('EmailController',	function($scope, $routeP
 
 	$scope.verificarIdRegistro = function() {
 		$scope.erro = false;
-		cDialogs.loading();
+		cDialogs.delayedLoading();
 		$scope.usuarioRegistro.email = undefined;
 		if ($routeParams.registroId) {
 			//console.log('routeParams.registroId: '+$routeParams.registroId);

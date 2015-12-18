@@ -1,9 +1,21 @@
 angular.module('dialogsService', [])
-	.factory('cDialogs', function($q, $mdDialog) {
+	.factory('cDialogs', function($q, $mdDialog, $timeout) {
 		var recurso = {};
 
+		recurso.loadTimer = undefined;
+
+		recurso.delayedLoading = function(milisegundos) {
+			if (milisegundos === undefined  ||  milisegundos === null  ||  milisegundos  === '') {
+				milisegundos = 800;
+			}
+			recurso.loadTimer = $timeout(function() {
+				console.log('dialog.loading');
+				recurso.stopTimer();
+				recurso.loading();
+			}, milisegundos);
+		}
+
 		recurso.loading = function() {
-			//console.log('dialog.loading');
 			$mdDialog.show({
 				template: '<md-dialog class="loading-dialog" ng-cloak><md-progress-circular md-mode="indeterminate" md-diameter="100px"></md-progress-circular></md-dialog>',
 				parent: angular.element(document.body),
@@ -11,6 +23,13 @@ angular.module('dialogsService', [])
 				escapeToClose:false,
 				ariaLabel:'Carregando...'
 			});
+		}
+
+		recurso.stopTimer = function() {
+			if (recurso.loadTimer) {
+				$timeout.cancel(recurso.loadTimer);
+				recurso.loadTimer = undefined;
+			}
 		}
 
 		recurso.inform = function(titulo, corpoHtml, textoBotao) {
@@ -80,6 +99,7 @@ angular.module('dialogsService', [])
 
 		recurso.hide = function() {
 			//console.log('dialog.hide')
+			recurso.stopTimer();
 			$mdDialog.hide();
 		}
 

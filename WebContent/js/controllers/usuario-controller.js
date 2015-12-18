@@ -2,20 +2,24 @@ angular.module('alvoApp').controller('UsuarioController',
 		function($scope, $routeParams, $q, growl, cDialogs, recursoUsuario, cadastroUsuario) {
 
 	$scope.usuarios = [];
+	$scope.usuario = {};
 	$scope.tiposUsuario = [];
 	$scope.hoje = new Date();
 
 	$scope.carregarTipos = function() {
 		return $q(function(resolve, reject) {
 			if ($scope.tiposUsuario == undefined ||  $scope.tiposUsuario == null  ||  $scope.tiposUsuario.length == 0) {
+				cDialogs.delayedLoading(1000);
 				cadastroUsuario.tipos()
 				.then(function(resp) {
 					console.log('UsuarioController.tiposUsuario', resp);
 					$scope.tiposUsuario = resp;
+					cDialogs.hide();
 					resolve(true);
 				}).catch(function(erro) {
 					$scope.tiposUsuario = [];
 					console.log(erro);
+					cDialogs.hide();
 					growl.error(erro.mensagem, {title: 'Atenção!'});
 					reject(false);
 				});
@@ -26,7 +30,7 @@ angular.module('alvoApp').controller('UsuarioController',
 	};
 
 	$scope.listarUsuarios = function(usuarios) {
-		cDialogs.loading();
+		cDialogs.delayedLoading();
 		recursoUsuario.query(function(usuarios) {
 			cDialogs.hide();
 			$scope.usuarios = usuarios;
@@ -58,22 +62,6 @@ angular.module('alvoApp').controller('UsuarioController',
 			$scope.removerUsuarioDireto(usuario);
 		});
 	};
-
-	$scope.usuario = {};
-
-	if($routeParams.usuarioId) {
-		cDialogs.loading();
-		recursoUsuario.get({usuarioId: $routeParams.usuarioId}, function(usuario) {
-			cDialogs.hide();
-			//console.log('UsuarioController.buscar'+ angular.toJson(usuario))
-			$scope.usuario = usuario; 
-		}, function(erro) {
-			cDialogs.hide();
-			console.log(erro);
-			$scope.usuario = {};
-			growl.error('Não foi possível obter o usuario', {title: 'Atenção!'});
-		});
-	}
 
 	$scope.gravar = function(usuario) {
 		cDialogs.loading();

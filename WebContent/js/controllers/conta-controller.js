@@ -10,14 +10,17 @@ angular.module('alvoApp').controller('ContaController',
 	$scope.carregarTipos = function() {
 		return $q(function(resolve, reject) {
 			if ($scope.tiposConta == undefined ||  $scope.tiposConta == null  ||  $scope.tiposConta.length == 0) {
+				cDialogs.delayedLoading(1000);
 				cadastroConta.tipos()
 				.then(function(resp) {
 					//console.log('ContaController.tiposConta', resp);
 					$scope.tiposConta = resp;
+					cDialogs.hide();
 					resolve(true);
 				}).catch(function(erro) {
 					$scope.tiposConta = [];
 					console.log(erro);
+					cDialogs.hide();
 					growl.error(erro.mensagem, {title: 'Atenção!'});
 					reject(false);
 				});
@@ -44,7 +47,7 @@ angular.module('alvoApp').controller('ContaController',
 	}
 
 	$scope.listarContas = function(contas) {
-		cDialogs.loading();
+		cDialogs.delayedLoading();
 		recursoConta.query({usuarioId: $scope.usuarioLogado.id}, function(resp) {
 			cDialogs.hide();
 			$scope.contas = resp;
@@ -86,19 +89,6 @@ angular.module('alvoApp').controller('ContaController',
 			$scope.removerContaDireto(conta);
 		});
 	};
-
-	if($routeParams.contaId) {
-		cDialogs.loading();
-		recursoConta.get({usuarioId: $scope.usuarioLogado.id, contaId: $routeParams.contaId}, function(conta) {
-			cDialogs.hide();
-			$scope.conta = conta; 
-		}, function(erro) {
-			cDialogs.hide();
-			$scope.conta = {};
-			console.log(erro);
-			growl.error('Não foi possível obter a conta', {title: 'Atenção!'});
-		});
-	}
 
 	$scope.gravar = function(conta) {
 		cDialogs.loading();

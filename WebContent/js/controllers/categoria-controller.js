@@ -7,7 +7,7 @@ angular.module('alvoApp').controller('CategoriaController',
 	$scope.isAdmin = ($scope.usuarioLogado.tipo === 'ADMIN');
 
 	$scope.listarCategorias = function(categorias) {
-		cDialogs.loading();
+		cDialogs.delayedLoading();
 		recursoCategoria.query({usuarioId: $scope.usuarioLogado.id},function(resp) {
 			cDialogs.hide();
 			$scope.categorias = resp;
@@ -39,21 +39,8 @@ angular.module('alvoApp').controller('CategoriaController',
 		});
 	};
 
-	if($routeParams.categoriaId) {
-		cDialogs.loading();
-		recursoCategoria.get({usuarioId: $scope.usuarioLogado.id, categoriaId: $routeParams.categoriaId}, function(categoria) {
-			cDialogs.hide();
-			$scope.categoria = categoria; 
-		}, function(erro) {
-			cDialogs.hide();
-			$scope.categoria = {};
-			console.log(erro);
-			growl.error('Não foi possível obter a categoria', {title: 'Atenção!'});
-		});
-	}
-
 	$scope.gravar = function(categoria) {
-		cDialogs.loading();
+		cDialogs.delayedLoading(150);
 		cadastroCategoria.gravar($scope.usuarioLogado.id, categoria)
 		.then(function(resp) {
 			cDialogs.hide();
@@ -62,7 +49,7 @@ angular.module('alvoApp').controller('CategoriaController',
 			growl.success(resp.mensagem);
 		})
 		.catch(function(erro) {
-			cDialogs.hide();
+			//cDialogs.hide();
 			$scope.categoria = {};
 			$scope.listarCategorias();
 			growl.error(erro.mensagem, {title: 'Atenção!'});

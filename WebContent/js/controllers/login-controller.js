@@ -8,7 +8,7 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $locati
 	$scope.usuarioLogado = '';
 
 	$scope.efetuarLogin = function() {
-		cDialogs.loading();
+		cDialogs.delayedLoading(500);
 		servicosLogin.efetuarLogin($scope.usuario)
 		.then( function(resp) {
 			cDialogs.hide();
