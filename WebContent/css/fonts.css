@@ -1,26 +1,50 @@
 @font-face {
-    font-family: 'Bauhaus Light';
-    src: url('../fonts/BauhausLight.eot');
-    src: url('../fonts/BauhausLight.eot'), 
-         url('../fonts/BauhausLight.ttf') format('truetype'),
-         url('../fonts/BauhausLight.otf') format('opentype'),
-         url('../fonts/BauhausLight.svg') format('svg');
+    font-family: 'codigoalvo lt';
+    src: url('../fonts/CodigoalvoLight.eot');
+    src: url('../fonts/CodigoalvoLight.eot'), 
+         url('../fonts/CodigoalvoLight.ttf') format('truetype'),
+         url('../fonts/CodigoalvoLight.otf') format('opentype'),
+         url('../fonts/CodigoalvoLight.svg') format('svg');
 }
- 
+
 @font-face {
-    font-family: 'Bauhaus Demi';
-    src: url('../fonts/BauhausDemi.eot');
-    src: url('../fonts/BauhausDemi.eot'), 
-         url('../fonts/BauhausDemi.ttf') format('truetype'),
-         url('../fonts/BauhausDemi.otf') format('opentype'),
-         url('../fonts/BauhausDemi.svg') format('svg');
+    font-family: 'codigoalvo bd';
+    src: url('../fonts/CodigoalvoBold.eot');
+    src: url('../fonts/CodigoalvoBold.eot'), 
+         url('../fonts/CodigoalvoBold.ttf') format('truetype'),
+         url('../fonts/CodigoalvoBold.otf') format('opentype'),
+         url('../fonts/CodigoalvoBold.svg') format('svg');
 }
- 
+
 @font-face {
-    font-family: 'Bauhaus Medium';
-    src: url('../fonts/BauhausMedium.eot');
-    src: url('../fonts/BauhausMedium.eot'),
-         url('../fonts/BauhausMedium.ttf') format('truetype'),
-         url('../fonts/BauhausMedium.otf') format('opentype'),
-         url('../fonts/BauhausMedium.svg') format('svg');
+    font-family: 'codigoalvo md';
+    src: url('../fonts/CodigoalvoMedium.eot');
+    src: url('../fonts/CodigoalvoMedium.eot'),
+         url('../fonts/CodigoalvoMedium.ttf') format('truetype'),
+         url('../fonts/CodigoalvoMedium.otf') format('opentype'),
+         url('../fonts/CodigoalvoMedium.svg') format('svg');
+}
+
+body {
+	font-family: 'codigoalvo lt';
+	text-transform:lowercase;
+}
+
+header {
+	font-family: 'codigoalvo bd';
+}
+
+.font-ca-lt {
+	text-transform:lowercase;
+	font-family: 'codigoalvo lt';
+}
+
+.font-ca-md {
+	text-transform:lowercase;
+	font-family: 'codigoalvo md';
+}
+
+.font-ca-bd {
+	text-transform:lowercase;
+	font-family: 'codigoalvo bd';
 }

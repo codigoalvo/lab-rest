@@ -1,17 +1,17 @@
 angular.module('headerDirective', [])
 	.directive('bsNavHeader', function (servicosLogin, $compile) {
 
-		var templateDeslogado = "<li ng-show='!usuarioLogado'><a href='#login'><span class='glyphicon glyphicon-log-in'></span><span class='font-bh-light'> entrar </span></a></li>"+
-								"<li ng-show='!usuarioLogado'><a href='#registro'><span class='glyphicon glyphicon-check'></span><span class='font-bh-light'> registrar </span></a></li>";
+		var templateDeslogado = "<li ng-show='!usuarioLogado'><a href='#login'><span class='glyphicon glyphicon-log-in'></span> entrar </a></li>"+
+								"<li ng-show='!usuarioLogado'><a href='#registro'><span class='glyphicon glyphicon-check'></span> registrar </a></li>";
 
 		var templateLogado =	"<li ng-show='usuarioLogado' class='dropdown'>" +
 									"<a href='' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>" +
-										"<span class='glyphicon glyphicon-user'></span><span class='font-bh-light'> {{usuarioLogado.login}} </span><span class='caret'></span>" +
+										"<span class='glyphicon glyphicon-user'></span> {{usuarioLogado.login}} <span class='caret'></span>" +
 									"</a>" +
 									"<ul class='dropdown-menu'>" +
-										"<li><a href='#senha'><span class='glyphicon glyphicon-edit'></span><span class='font-bh-light'> senha </span></a></li>" +
+										"<li><a href='#senha'><span class='glyphicon glyphicon-edit'></span> senha </a></li>" +
 										"<li role='separator' class='divider'></li>" +
-										"<li><a href='#logout' ng-click='efetuarLogout()'><span class='glyphicon glyphicon-log-out'></span><span class='font-bh-light'> logout </span></a></li>" +
+										"<li><a href='#logout' ng-click='efetuarLogout()'><span class='glyphicon glyphicon-log-out'></span> logout </a></li>" +
 									"</ul>" +
 								"</li>";
 
@@ -36,36 +36,36 @@ angular.module('headerDirective', [])
 					"</div>" +
 				"</nav>";
 
-		var templateHome = "<li><a href='#home'><span class='glyphicon glyphicon-home' /></a></li>";
-		
-		var templateResumo = "<li><a href='#resumo' class='font-bh-light'>Resumo</a></li>";
+		var templateHome = "<li><a href='#home'><span class='glyphicon glyphicon-home'></span></a></li>";
+
+		var templateResumo = "<li><a href='#resumo'>Resumo</a></li>";
 
 		var menuCadastros =	"<li ng-show='usuarioLogado' class='dropdown'>" +
 								"<a href='' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>" +
-									"<span class='font-bh-light'>Cadastros</span> <span class='caret'></span>" +
+									"Cadastros <span class='caret'></span>" +
 								"</a>" +
 								"<ul class='dropdown-menu'>" +
-									"<li><a href='#categorias' class='font-bh-light'>Categorias</a></li>" +
-									"<li><a href='#contas' class='font-bh-light'>Contas</a></li>" +
+									"<li><a href='#categorias'>Categorias</a></li>" +
+									"<li><a href='#contas'>Contas</a></li>" +
 								"</ul>" +
 							"</li>";
 
 		var menuTemp =	"<li ng-show='usuarioLogado' class='dropdown'>" +
 								"<a href='' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>" +
-									"<span class='font-bh-light'>Temp</span> <span class='caret'></span>" +
+									"Temp <span class='caret'></span>" +
 								"</a>" +
 								"<ul class='dropdown-menu'>" +
-									"<li><a href='ws/usuarios/1/categorias/1' class='font-bh-light'>Categoria (1) - REST</a></li>" +
-									"<li><a href='ws/usuarios/1/categorias' class='font-bh-light'>Categorias - REST</a></li>" +
+									"<li><a href='ws/usuarios/1/categorias/1'>Categoria (1) - REST</a></li>" +
+									"<li><a href='ws/usuarios/1/categorias'>Categorias - REST</a></li>" +
 								"</ul>" +
 							"</li>";
 
 		var menuAdmin =	"<li ng-show='usuarioLogado' class='dropdown'>" +
 								"<a href='' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>" +
-									"<span class='font-bh-light'> Administração </span><span class='caret'></span>" +
+									"Administração <span class='caret'></span>" +
 								"</a>" +
 								"<ul class='dropdown-menu'>" +
-									"<li><a href='#usuarios'><span class='font-bh-light'> Usuários </span></a></li>" +
+									"<li><a href='#usuarios'>Usuários </span></a></li>" +
 								"</ul>" +
 							"</li>";
 

@@ -32,13 +32,6 @@ body {
 	width: 90%;
 }
 
-.font-bh-light {
-	font-weight:bolder;
-	text-transform:lowercase;
-	font-family: 'Bauhaus Light';
-	font-size: 18px;
-}
-
 .ca-linha-negrito th {
 	font-weight: bold;
 }
