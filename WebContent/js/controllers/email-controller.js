@@ -8,6 +8,63 @@ angular.module('alvoApp').controller('EmailController',	function($scope, $routeP
 			nome : '',
 		};
 
+	$scope.cadastrarUsuario = function(usuario) {
+		cDialogs.loading();
+		recursoEmail.cadastrarUsuario(usuario)
+		.then(function(resp) {
+			cDialogs.hide();
+			$location.path("/login");
+			growl.success('Registro de novo usuário confirmado com sucesso!');
+		})
+		.catch(function(erro) {
+			cDialogs.hide();
+			growl.error(erro.mensagem, {title: 'Atenção!'});
+		});
+	};
+
+	$scope.dialogCadastrar = function() {
+		console.log('dialogCadastrar');
+		var locals = {
+			usuarioRegistro : angular.copy($scope.usuarioRegistro),
+		}
+		console.log("locals.usuarioRegistro: "+locals.usuarioRegistro);
+		cDialogs.custom('dialogs/confirmar.html', locals).then(function(resp){
+			$scope.cadastrarUsuario(resp);
+		}).catch(function(erro) {
+			if (erro) {
+				console.log(erro);
+			}
+			growl.warning('O registro NÃO foi concluído!', {title: 'Atenção!'});
+			$location.path("/home");
+		});
+	}
+
+	$scope.verificarIdRegistro = function(registroId) {
+		$scope.erro = false;
+		cDialogs.delayedLoading();
+		$scope.usuarioRegistro.email = undefined;
+		//console.log('verificarIdRegistro.registroId: '+registroId);
+		recursoEmail.verificarRegistroId(registroId)
+		.then(function(resp){
+			cDialogs.hide();
+			var entidade = angular.fromJson(resp.entidade);
+			console.log('EmailController.verificarIdRegistro.resp.entidade: '+entidade.email);
+			$scope.usuarioRegistro.email = resp.entidade.email;
+			console.log('$scope.usuarioRegistro.email '+$scope.usuarioRegistro.email);
+			$scope.dialogCadastrar();
+		}).catch(function(erro) {
+			$scope.erro = true;
+			cDialogs.hide();
+			console.log(erro);
+			growl.error(erro.mensagem, {title: 'Atenção!'});
+		});
+	};
+
+	if ($routeParams.registroId) { 
+		//console.log('routeParams.registroId: '+$routeParams.registroId);
+		$scope.verificarIdRegistro($routeParams.registroId);
+	}
+
 	$scope.registrarEmail = function() {
 		cDialogs.loading();
 		recursoEmail.registrarEmail($scope.email)
@@ -24,44 +81,6 @@ angular.module('alvoApp').controller('EmailController',	function($scope, $routeP
 		}).catch(function(erro) {
 			cDialogs.hide();
 			console.log(erro);
-			growl.error(erro.mensagem, {title: 'Atenção!'});
-		});
-	};
-
-	$scope.verificarIdRegistro = function() {
-		$scope.erro = false;
-		cDialogs.delayedLoading();
-		$scope.usuarioRegistro.email = undefined;
-		if ($routeParams.registroId) {
-			//console.log('routeParams.registroId: '+$routeParams.registroId);
-			recursoEmail.verificarRegistroId($routeParams.registroId)
-			.then(function(resp){
-				cDialogs.hide();
-				var entidade = angular.fromJson(resp.entidade);
-				//console.log('EmailController.verificarIdRegistro.resp.entidade: '+entidade.email);
-				$scope.usuarioRegistro.email = resp.entidade.email;
-				//console.log('$scope.usuarioRegistro.email '+$scope.usuarioRegistro.email);
-			}).catch(function(erro) {
-				$scope.erro = true;
-				cDialogs.hide();
-				console.log(erro);
-				growl.error(erro.mensagem, {title: 'Atenção!'});
-			});
-		} else {
-			growl.error('Codigo de confirmação de registro inválido ou não informado!', {title: 'Atenção!'});
-		}
-	};
-
-	$scope.submeter = function() {
-		cDialogs.loading();
-		recursoEmail.cadastrarUsuario($scope.usuarioRegistro)
-		.then(function(resp) {
-			cDialogs.hide();
-			$location.path("/login");
-			growl.success('Registro de novo usuário confirmado com sucesso!');
-		})
-		.catch(function(erro) {
-			cDialogs.hide();
 			growl.error(erro.mensagem, {title: 'Atenção!'});
 		});
 	};

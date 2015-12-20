@@ -167,6 +167,7 @@ public class ValidadorEmailREST {
 			}
 		} catch (Exception exc) {
 			LOG.error(exc);
+			return ResponseBuilderHelper.montaResponseErroAoGravar(exc).build();
 		}
 		return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("registro.erro"))).build();
 	}

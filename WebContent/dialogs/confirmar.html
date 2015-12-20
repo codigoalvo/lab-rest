@@ -1,0 +1,39 @@
+<md-dialog aria-label="Dialog" ng-cloak style="min-width: 400px;min-height:120px;">
+	<form role="form" ng-submit="answer(locals.usuarioRegistro)">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Registro de novo uusário</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="cancel()">
+					<md-icon>close</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+		<md-dialog-content>
+			<br/>
+			<div class="ca-input-group md-subheade">
+				<md-input-container class="md-block">
+					<label for="email">Email</label>
+					<input type="text" ng-model="locals.usuarioRegistro.email" id="email" maxlength="40" required disabled="disabled"/>
+				</md-input-container>
+				<md-input-container class="md-block">
+					<label for="login">Login</label>
+					<input type="text" ng-model="locals.usuarioRegistro.login" id="login" md-autofocus focus="true"
+						maxlength="40" required/>
+				</md-input-container>
+				<md-input-container class="md-block">
+					<label for="senha">Senha</label>
+					<input type="password" ng-model="locals.usuarioRegistro.senha" id="senha" maxlength="40" required/>
+				</md-input-container>
+				<md-input-container class="md-block">
+					<label for="nome">Nome</label>
+					<input type="text" ng-model="locals.usuarioRegistro.nome" id="nome" maxlength="40" required/>
+				</md-input-container>
+			</div>
+		</md-dialog-content>
+		<md-dialog-actions layout="row">
+			<button md-button type="submit" class="md-raised md-primary">Salvar</button>
+			<button md-button class="md-raised" ng-click="cancel()">Voltar</button>
+		<md-dialog-actions layout="row">
+	</form>
+</md-dialog>

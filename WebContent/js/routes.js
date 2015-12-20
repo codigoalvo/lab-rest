@@ -44,7 +44,7 @@ angular.module('alvoRotas', []).config(function($routeProvider){
 	});
 
 	$routeProvider.when('/registro/confirmar/:registroId', {
-		templateUrl: 'partials/confirmar.html',
+		templateUrl: 'partials/home.html',
 		controller: 'EmailController'
 	});
 
