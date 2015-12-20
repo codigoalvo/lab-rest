@@ -26,25 +26,40 @@
 }
 
 body {
-	font-family: 'codigoalvo lt';
+	font-family: 'Comfortaa', cursive;
+	/* font-family: 'Open Sans', sans-serif; */
+	/* font-family: 'codigoalvo lt', 'Comfortaa', cursive; */
+}
+
+.md-button {
+	font-family: 'codigoalvo md', 'Comfortaa', cursive;
 	text-transform:lowercase;
+	font-size: 120%;
+}
+
+.ca-md-input {
+	font-family: 'Comfortaa', cursive;
+	/* font-family: 'codigoalvo lt', 'Comfortaa', cursive; */
+	text-transform: none;
 }
 
 header {
-	font-family: 'codigoalvo bd';
+	font-family: 'codigoalvo bd', 'Comfortaa', cursive;
+	text-transform:lowercase;
+	font-size: 120%;
 }
 
-.font-ca-lt {
+.ca-font-lt, .ca-font-lt-linha th, .ca-font-lt-linha td {
+	font-family: 'codigoalvo lt', 'Comfortaa', cursive;
 	text-transform:lowercase;
-	font-family: 'codigoalvo lt';
 }
 
-.font-ca-md {
+.ca-font-md, .ca-font-md-linha th, .ca-font-md-linha td {
+	font-family: 'codigoalvo md', 'Comfortaa', cursive;
 	text-transform:lowercase;
-	font-family: 'codigoalvo md';
 }
 
-.font-ca-bd {
+.ca-font-bd, .ca-font-bd-linha th, .ca-font-bd-linha td {
+	font-family: 'codigoalvo bd', 'Comfortaa', cursive;
 	text-transform:lowercase;
-	font-family: 'codigoalvo bd';
 }
