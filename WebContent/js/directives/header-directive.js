@@ -93,8 +93,8 @@ angular.module('headerDirective', [])
 						templateHtml += templateResumo;
 						templateHtml += menuCadastros;
 					}
-					templateHtml += menuTemp;
 					if ($scope.usuarioAdmin) {
+						templateHtml += menuTemp;
 						templateHtml += menuAdmin;
 					}
 					templateHtml += opcoesFecha;
