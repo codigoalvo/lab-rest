@@ -1,0 +1,34 @@
+<md-dialog aria-label="Dialog" ng-cloak style="min-width: 400px;min-height:120px;">
+	<form role="form" ng-submit="answer(locals)">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Alteração de senha</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="cancel()">
+					<md-icon>close</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+		<md-dialog-content>
+			<br/>
+			<div class="ca-input-group">
+				<md-input-container class="md-block" ng-show="locals.informarAtual" ng-cloak>
+					<input type="password" id="senhaAtual" ng-model="locals.senhas.atual"
+						placeholder="Senha atual" title="Senha atual">
+				</md-input-container>
+				<md-input-container class="md-block">
+					<input type="password" id="senhaNova" ng-model="locals.senhas.nova"
+						placeholder="Senha nova" title="Nova senha" required autofocus focus="true">
+				</md-input-container>
+				<md-input-container class="md-block">
+					<input type="password" id="senhaConfirma" ng-model="locals.senhas.confirma"
+						placeholder="Senha confirma" title="Confirmação da senha" required>
+				</md-input-container>
+			</div>
+		</md-dialog-content>
+		<md-dialog-actions layout="row">
+			<button md-button type="submit" class="md-raised md-primary">Confirmar</button>
+			<button md-button class="md-raised" ng-click="cancel()">Voltar</button>
+		</md-dialog-actions>
+	</form>
+</md-dialog>

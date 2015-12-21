@@ -61,5 +61,29 @@ angular.module('emailService', [])
 			});
 		}
 
+		service.alterarSenha = function(validadorEmail, senhas) {
+			console.log('EmailService.alterarSenha');
+			return $q(function(resolve, reject) {
+				$http({
+					  method: 'POST',
+					  data: angular.toJson({ email : validadorEmail.email,
+					  				hash : validadorEmail.id,
+					  				senha: senhas.nova,
+					  			}),
+					  url:'ws/email/senha',
+					  headers: {'Content-Type' : 'application/json'}
+				}).then(
+					function(resp) {
+						console.log('confirmarEmail.resp: '+resp);
+						console.log('EmailService.alterarSenha : Removendo token da sessão!')
+						delete $window.sessionStorage.token;
+						resolve(resp.data);
+					}, function(erro) {
+						console.error('confirmarEmail.erro', erro);
+						reject(erro.data);
+					})
+			});
+		}
+
 		return service; 
 	});

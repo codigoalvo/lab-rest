@@ -35,6 +35,39 @@ angular.module('alvoApp').controller('EmailController',	function($scope, $routeP
 		});
 	}
 
+	$scope.alterarSenha = function(validadorEmail, senhas) {
+		cDialogs.loading();
+		console.log('EmailController.alterarSenha');
+		recursoEmail.alterarSenha(validadorEmail, senhas)
+		.then(function(resp) {
+			cDialogs.hide();
+			$location.path("/login");
+			growl.success('Registro de novo usuário confirmado com sucesso!');
+		})
+		.catch(function(erro) {
+			console.log(erro);
+			cDialogs.hide();
+			growl.error(erro.mensagem, {title: 'Atenção!'});
+		});
+	};
+
+	$scope.dialogSenha = function(validador) {
+		console.log('dialogSenha');
+		var locals = {
+			informarAtual : false,
+			validadorEmail : validador,
+		}
+		cDialogs.custom('dialogs/senha.html', locals).then(function(resp){
+			$scope.alterarSenha(resp.validadorEmail, resp.senhas);
+		}).catch(function(erro) {
+			if (erro) {
+				console.log(erro);
+			}
+			growl.warning('A operação NÃO foi concluída!', {title: 'Atenção!'});
+			$location.path("/home");
+		});
+	}
+
 	$scope.verificarEmailId = function(registroId) {
 		$scope.erro = false;
 		cDialogs.delayedLoading();
@@ -43,11 +76,11 @@ angular.module('alvoApp').controller('EmailController',	function($scope, $routeP
 		.then(function(resp){
 			cDialogs.hide();
 			var entidade = angular.fromJson(resp.entidade);
-			console.log('EmailController.verificarIdRegistro.resp.entidade: '+entidade);
+			console.log('EmailController.verificarIdRegistro.resp.entidade: '+angular.toJson(entidade));
 			if (entidade.tipo === 'R') {
 				$scope.dialogCadastrar(resp.entidade.email);
 			} else if (entidade.tipo === 'S') {
-				growl.error('Email de alteração de senha', {title: 'Atenção!'})
+				$scope.dialogSenha(resp.entidade);
 			} else {
 				growl.error('Tipo de email inválido!', {title: 'Atenção!'})
 			}
@@ -66,6 +99,10 @@ angular.module('alvoApp').controller('EmailController',	function($scope, $routeP
 
 	$scope.registrarEmail = function() {
 		$scope.enviarEmail('R');
+	}
+	
+	$scope.recuperarSenha = function() {
+		$scope.enviarEmail('S');
 	}
 
 	$scope.enviarEmail = function(tipo) {

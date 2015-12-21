@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.log4j.Logger;
 
 import codigoalvo.entity.UsuarioTipo;
+import codigoalvo.exceptions.RestException;
 import codigoalvo.security.JsonWebTokenUtil;
 import codigoalvo.security.LoginToken;
 import codigoalvo.util.ErrosUtil;
@@ -51,55 +52,54 @@ public class ResponseBuilderHelper {
 		}
 	}
 
-	public static ResponseBuilder verificarAutenticacao(String token) {
-		return verificarAutenticacao(token, false, false);
+	public static void verificarAutenticacao(String token) throws RestException {
+		verificarAutenticacao(token, false, false);
 	}
 
-	public static ResponseBuilder verificarAutenticacao(String token, boolean admin) {
-		return verificarAutenticacao(token, admin, false);
+	public static void verificarAutenticacao(String token, boolean admin) throws RestException {
+		verificarAutenticacao(token, admin, false);
 	}
 
 	/**
 	 * @param token (token jwt em texto)
 	 * @return null se o token estiver OK ou uma Response "ruim" caso contrário
 	 */
-	public static ResponseBuilder verificarAutenticacao(String token, boolean admin, boolean tokenDeRegistro) {
+	public static void verificarAutenticacao(String token, boolean admin, boolean tokenDeEmail) throws RestException {
 		if (!Globals.isAuhenticationEnabled()) {
-			return null;
+			return;
 		}
 		if (token == null || token.isEmpty()) {
-			return Response.status(Status.UNAUTHORIZED).entity(new Resposta("Token de autorização não encontrado!"));
+			throw new RestException(Response.status(Status.UNAUTHORIZED).entity(new Resposta("Token de autorização não encontrado!")));
 		} else {
 			try {
 				if (!JsonWebTokenUtil.isValidToken(token)) {
-					return Response.status(Status.UNAUTHORIZED).entity(new Resposta("Token de autorização inválido!"));
+					throw new RestException(Response.status(Status.UNAUTHORIZED).entity(new Resposta("Token de autorização inválido!")));
 				}
 
-				if (!tokenDeRegistro) {
+				if (!tokenDeEmail) {
 					LoginToken loginToken = JsonWebTokenUtil.obterLoginToken(token);
 					if (loginToken == null || !loginToken.isValid()) {
-						return Response.status(Status.UNAUTHORIZED).entity(new Resposta("Usuário do token de autorização inválido!"));
+						throw new RestException(Response.status(Status.UNAUTHORIZED).entity(new Resposta("Usuário do token de autorização inválido!")));
 					}
 
 					if (admin) {
 						UsuarioTipo usuarioTipo = UsuarioUtil.decodeTipoFromHash(loginToken);
 						if (UsuarioTipo.ADMIN != usuarioTipo) {
-							return Response.status(Status.FORBIDDEN).entity(new Resposta("Usuário não é administrador!"));
+							throw new RestException(Response.status(Status.FORBIDDEN).entity(new Resposta("Usuário não é administrador!")));
 						}
 					}
 				}
 
-				return null;
+				return;
 			} catch (ExpiredJwtException exc) {
-				return Response.status(Status.UNAUTHORIZED).entity(new Resposta("Token de autorização expirado!"));
+				throw new RestException(Response.status(Status.UNAUTHORIZED).entity(new Resposta("Token de autorização expirado!")));
 			}
 		}
 	}
 
-	public static ResponseBuilder validarTokenCabecalhoHttp(HttpHeaders headers) {
+	public static void validarTokenCabecalhoHttp(HttpHeaders headers) throws RestException {
 		String token = obterTokenDoCabecalhoHttp(headers);
-		ResponseBuilder resposta = verificarAutenticacao(token);
-		return resposta;
+		verificarAutenticacao(token);
 	}
 
 	public static void atualizarTokenNaRespostaSeNecessario(ResponseBuilder response, String token) {
@@ -112,13 +112,19 @@ public class ResponseBuilderHelper {
 		}
 	}
 
-	public static ResponseBuilder montaResponseErroAoGravar(Throwable exc) {
-		String msg = "gravar.erro";
-		String excMsg = ErrosUtil.getMensagemErro(exc).toUpperCase();
-		if (excMsg.contains("KEY VIOLATION")  ||  excMsg.contains("DUPLICATE KEY")) {
-			msg = "gravar.erroJaExiste";
+	public static ResponseBuilder montarResponseDoErro(Throwable exc) {
+		if (exc instanceof RestException) {
+			RestException rsexc = (RestException)exc;
+			if (rsexc.getResponse() != null) {
+				return rsexc.getResponse();
+			}
 		}
-		return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage(msg)));
+		String excMsg = ErrosUtil.getMensagemErro(exc);
+		return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(excMsg));
+	}
+
+	public static ResponseBuilder respostaErroInterno(String menssagem) {
+		return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage(menssagem)));
 	}
 
 }

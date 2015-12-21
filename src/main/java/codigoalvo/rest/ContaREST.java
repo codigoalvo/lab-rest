@@ -22,6 +22,7 @@ import org.apache.log4j.Logger;
 
 import codigoalvo.entity.Conta;
 import codigoalvo.entity.Usuario;
+import codigoalvo.exceptions.RestException;
 import codigoalvo.rest.util.Resposta;
 import codigoalvo.security.JsonWebTokenUtil;
 import codigoalvo.rest.util.ResponseBuilderHelper;
@@ -29,7 +30,6 @@ import codigoalvo.service.ContaService;
 import codigoalvo.service.ContaServiceImpl;
 import codigoalvo.service.UsuarioService;
 import codigoalvo.service.UsuarioServiceImpl;
-import codigoalvo.util.ErrosUtil;
 import codigoalvo.util.I18NUtil;
 import codigoalvo.util.TipoUtil;
 
@@ -52,44 +52,40 @@ public class ContaREST {
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	public Response find(@Context HttpHeaders headers, @PathParam("usuarioId") int usuarioId, @PathParam("contaId") int contaId) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
-		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
-		if (resposta == null) {
-			try {
-				validaUsuarioId(usuarioId, token);
-				Conta entidade = this.contaService.buscar(usuarioId, contaId);
-				if (entidade == null) {
-					resposta = Response.status(Status.NOT_FOUND).entity(new Resposta("registro.naoEncontrado"));
-				} else {
-					LOG. debug("conta.find "+entidade);
-					LOG.debug("conta.find.usuario :"+entidade.getUsuario());
-					resposta = Response.ok().entity(entidade);
-				}
-				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
-			} catch (Exception exc) {
-				LOG.error(exc);
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("buscar.erro")));
+		try {
+			ResponseBuilderHelper.verificarAutenticacao(token);
+			validaUsuarioId(usuarioId, token);
+			Conta entidade = this.contaService.buscar(usuarioId, contaId);
+			if (entidade == null) {
+				throw new RestException(Response.status(Status.NOT_FOUND).entity(new Resposta("registro.naoEncontrado")));
 			}
+
+			LOG. debug("conta.find "+entidade);
+			LOG.debug("conta.find.usuario :"+entidade.getUsuario());
+			ResponseBuilder resposta = Response.ok().entity(entidade);
+			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
+			return resposta.build();
+		} catch (Exception exc) {
+			LOG.error(exc);
+			return ResponseBuilderHelper.montarResponseDoErro(exc).build();
 		}
-		return resposta.build();
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	public Response list(@Context HttpHeaders headers, @PathParam("usuarioId") int usuarioId) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
-		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
-		if (resposta == null) {
-			try {
-				validaUsuarioId(usuarioId, token);
-				Conta[] entidades = this.contaService.listar(usuarioId).toArray(new Conta[0]);
-				resposta = Response.ok().entity(entidades);
-				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
-			} catch (Exception exc) {
-				LOG.error(exc);
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("listar.erro")));
-			}
+		try {
+			ResponseBuilderHelper.verificarAutenticacao(token);
+			validaUsuarioId(usuarioId, token);
+			Conta[] entidades = this.contaService.listar(usuarioId).toArray(new Conta[0]);
+			ResponseBuilder resposta = Response.ok().entity(entidades);
+			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
+			return resposta.build();
+		} catch (Exception exc) {
+			LOG.error(exc);
+			return ResponseBuilderHelper.montarResponseDoErro(exc).build();
 		}
-		return resposta.build();
 	}
 
 	@POST
@@ -97,21 +93,19 @@ public class ContaREST {
 	@Consumes(MediaType.APPLICATION_JSON + UTF8)
 	public Response insert(@Context HttpHeaders headers, Conta conta, @PathParam("usuarioId") int usuarioId) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
-		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
-		if (resposta == null) {
-			try {
-				LOG.debug("gravar.conta.usuario: "+conta.getUsuario());
-				Usuario usuario = validaUsuarioId(usuarioId, token);
-				conta.setUsuario(usuario);
-				Conta entidade = this.contaService.gravar(conta);
-				resposta = Response.created(new URI("contas/"+entidade.getId())).entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
-				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
-			} catch (Exception exc) {
-				LOG.error(exc);
-				resposta = ResponseBuilderHelper.montaResponseErroAoGravar(exc);
-			}
+		try {
+			ResponseBuilderHelper.verificarAutenticacao(token);
+			LOG.debug("gravar.conta.usuario: "+conta.getUsuario());
+			Usuario usuario = validaUsuarioId(usuarioId, token);
+			conta.setUsuario(usuario);
+			Conta entidade = this.contaService.gravar(conta);
+			ResponseBuilder resposta = Response.created(new URI("contas/"+entidade.getId())).entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
+			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
+			return resposta.build();
+		} catch (Exception exc) {
+			LOG.error(exc);
+			return ResponseBuilderHelper.montarResponseDoErro(exc).build();
 		}
-		return resposta.build();
 	}
 
 	@Path("{contaId}")
@@ -120,21 +114,19 @@ public class ContaREST {
 	@Consumes(MediaType.APPLICATION_JSON + UTF8)
 	public Response update(@Context HttpHeaders headers, Conta conta, @PathParam("usuarioId") int usuarioId, @PathParam("contaId") int contaId) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
-		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
-		if (resposta == null) {
-			try {
-				LOG.debug("gravar.conta.usuario: "+conta.getUsuario());
-				Usuario usuario = validaUsuarioId(usuarioId, token);
-				conta.setUsuario(usuario);
-				Conta entidade = this.contaService.gravar(conta);
-				resposta = Response.ok().entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
-				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
-			} catch (Exception exc) {
-				LOG.error(exc);
-				resposta = ResponseBuilderHelper.montaResponseErroAoGravar(exc);
-			}
+		try {
+			ResponseBuilderHelper.verificarAutenticacao(token);
+			LOG.debug("gravar.conta.usuario: "+conta.getUsuario());
+			Usuario usuario = validaUsuarioId(usuarioId, token);
+			conta.setUsuario(usuario);
+			Conta entidade = this.contaService.gravar(conta);
+			ResponseBuilder resposta = Response.ok().entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
+			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
+			return resposta.build();
+		} catch (Exception exc) {
+			LOG.error(exc);
+			return ResponseBuilderHelper.montarResponseDoErro(exc).build();
 		}
-		return resposta.build();
 	}
 
 	@DELETE
@@ -142,19 +134,17 @@ public class ContaREST {
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	public Response remove(@Context HttpHeaders headers, @PathParam("usuarioId") int usuarioId, @PathParam("id") int id) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
-		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
-		if (resposta == null) {
-			try {
-				validaUsuarioId(usuarioId, token);
-				this.contaService.removerPorId(id);
-				resposta = Response.ok().entity(new Resposta(I18NUtil.getMessage("remover.sucesso")));
-				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
-			} catch (Exception exc) {
-				LOG.error(exc);
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("remover.erro")));
-			}
+		try {
+			ResponseBuilderHelper.verificarAutenticacao(token);
+			validaUsuarioId(usuarioId, token);
+			this.contaService.removerPorId(id);
+			ResponseBuilder resposta = Response.ok().entity(new Resposta(I18NUtil.getMessage("remover.sucesso")));
+			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
+			return resposta.build();
+		} catch (Exception exc) {
+			LOG.error(exc);
+			return ResponseBuilderHelper.montarResponseDoErro(exc).build();
 		}
-		return resposta.build();
 	}
 
 	@GET
@@ -162,18 +152,16 @@ public class ContaREST {
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	public Response tipos(@Context HttpHeaders headers) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
-		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
-		if (resposta == null) {
-			try {
-				String tipos = TipoUtil.getTiposContaJson();
-				resposta = Response.ok().entity(tipos);
+		try {
+			ResponseBuilderHelper.verificarAutenticacao(token);
+			String tipos = TipoUtil.getTiposContaJson();
+			ResponseBuilder resposta = Response.ok().entity(tipos);
 			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
-			} catch (Exception exc) {
-				LOG.error(exc);
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage(ErrosUtil.getMensagemErro(exc))));
-			}
+			return resposta.build();
+		} catch (Exception exc) {
+			LOG.error(exc);
+			return ResponseBuilderHelper.montarResponseDoErro(exc).build();
 		}
-		return resposta.build();
 	}
 
 	private Usuario validaUsuarioId(int usuarioId, String token) throws LoginException {

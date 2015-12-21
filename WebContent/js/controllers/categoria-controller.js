@@ -49,7 +49,7 @@ angular.module('alvoApp').controller('CategoriaController',
 			growl.success(resp.mensagem);
 		})
 		.catch(function(erro) {
-			//cDialogs.hide();
+			cDialogs.hide();
 			$scope.categoria = {};
 			$scope.listarCategorias();
 			growl.error(erro.mensagem, {title: 'Atenção!'});

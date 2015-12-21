@@ -33,9 +33,14 @@ angular.module('alvoRotas', []).config(function($routeProvider){
 		controller: 'LoginController'
 	});
 
-	$routeProvider.when('/senha', {
+	$routeProvider.when('/senha/alterar', {
 		templateUrl: 'partials/senha.html',
 		controller: 'LoginController'
+	});
+
+	$routeProvider.when('/senha/esqueci', {
+		templateUrl: 'partials/esqueci.html',
+		controller: 'EmailController'
 	});
 
 	$routeProvider.when('/registro', {
@@ -43,7 +48,7 @@ angular.module('alvoRotas', []).config(function($routeProvider){
 		controller: 'EmailController'
 	});
 
-	$routeProvider.when('/registro/confirmar/:registroId', {
+	$routeProvider.when('/email/verificar/:registroId', {
 		templateUrl: 'partials/home.html',
 		controller: 'EmailController'
 	});

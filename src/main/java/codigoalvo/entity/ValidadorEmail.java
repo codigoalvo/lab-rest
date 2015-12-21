@@ -73,17 +73,19 @@ public class ValidadorEmail implements Serializable {
 		setTipo(tipo);
 	}
 
-	public ValidadorEmail(String email, Date data, String origem, Usuario usuario) {
+	public ValidadorEmail(String email, Date data, String origem, ValidadorEmailTipo tipo, Usuario usuario) {
 		super();
 		this.email = email;
 		this.data = data;
 		this.origem = origem;
 		this.usuario = usuario;
+		setTipo(tipo);
 	}
 
 	@Override
 	public String toString() {
-		return "ValidadorEmail [id=" + id + ", email=" + email + ", origem=" + origem + ", data=" + data + ", tipo=" + tipo + "]";
+		return "ValidadorEmail [id=" + id + ", email=" + email + ", origem=" + origem + ", data=" + data +
+				", tipo=" + tipo + (usuario==null?"":", usuarioId="+usuario.getId())+"]";
 	}
 
 	@Override

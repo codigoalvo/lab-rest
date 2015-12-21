@@ -1,8 +1,6 @@
 package codigoalvo.rest;
 
 import java.net.URI;
-import java.sql.SQLException;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -16,8 +14,6 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Response.Status;
-
 import org.apache.log4j.Logger;
 
 import codigoalvo.entity.Usuario;
@@ -25,7 +21,6 @@ import codigoalvo.rest.util.Resposta;
 import codigoalvo.rest.util.ResponseBuilderHelper;
 import codigoalvo.service.UsuarioService;
 import codigoalvo.service.UsuarioServiceImpl;
-import codigoalvo.util.ErrosUtil;
 import codigoalvo.util.I18NUtil;
 import codigoalvo.util.TipoUtil;
 
@@ -47,26 +42,32 @@ public class UsuarioREST {
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	public Response find(@Context HttpHeaders headers, @PathParam("id") int id) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
-		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token, true);
-		if (resposta == null) {
+		try {
+			ResponseBuilderHelper.verificarAutenticacao(token, true);
 			Usuario entidade = this.service.buscar(id);
-			resposta = Response.ok().entity(entidade);
+			ResponseBuilder resposta = Response.ok().entity(entidade);
 			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
+			return resposta.build();
+		} catch (Exception exc) {
+			LOG.error(exc);
+			return ResponseBuilderHelper.montarResponseDoErro(exc).build();
 		}
-		return resposta.build();
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	public Response list(@Context HttpHeaders headers) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
-		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token, true);
-		if (resposta == null) {
+		try {
+			ResponseBuilderHelper.verificarAutenticacao(token, true);
 			Usuario[] entidades = this.service.listar().toArray(new Usuario[0]);
-			resposta = Response.ok().entity(entidades);
+			ResponseBuilder resposta = Response.ok().entity(entidades);
 			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
+			return resposta.build();
+		} catch (Exception exc) {
+			LOG.error(exc);
+			return ResponseBuilderHelper.montarResponseDoErro(exc).build();
 		}
-		return resposta.build();
 	}
 
 	@POST
@@ -74,18 +75,16 @@ public class UsuarioREST {
 	@Consumes(MediaType.APPLICATION_JSON + UTF8)
 	public Response insert(@Context HttpHeaders headers, Usuario usuario) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
-		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token, true);
-		if (resposta == null) {
-			try {
-				Usuario entidade = this.service.gravar(usuario);
-				resposta = Response.created(new URI("usuarios/"+entidade.getId())).entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
-				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
-			} catch (Exception exc) {
-				LOG.error(exc);
-				resposta = ResponseBuilderHelper.montaResponseErroAoGravar(exc);
-			}
+		try {
+			ResponseBuilderHelper.verificarAutenticacao(token, true);
+			Usuario entidade = this.service.gravar(usuario);
+			ResponseBuilder resposta = Response.created(new URI("usuarios/"+entidade.getId())).entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
+			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
+			return resposta.build();
+		} catch (Exception exc) {
+			LOG.error(exc);
+			return ResponseBuilderHelper.montarResponseDoErro(exc).build();
 		}
-		return resposta.build();
 	}
 
 	@Path("{id}")
@@ -94,18 +93,16 @@ public class UsuarioREST {
 	@Consumes(MediaType.APPLICATION_JSON + UTF8)
 	public Response update(@Context HttpHeaders headers, Usuario usuario, @PathParam("id") int id) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
-		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token, true);
-		if (resposta == null) {
-			try {
-				Usuario entidade = this.service.gravar(usuario);
-				resposta = Response.ok().entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
-				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
-			} catch (Exception exc) {
-				LOG.error(exc);
-				resposta = ResponseBuilderHelper.montaResponseErroAoGravar(exc);
-			}
+		try {
+			ResponseBuilderHelper.verificarAutenticacao(token, true);
+			Usuario entidade = this.service.gravar(usuario);
+			ResponseBuilder resposta = Response.ok().entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
+			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
+			return resposta.build();
+		} catch (Exception exc) {
+			LOG.error(exc);
+			return ResponseBuilderHelper.montarResponseDoErro(exc).build();
 		}
-		return resposta.build();
 	}
 
 	@DELETE
@@ -113,18 +110,16 @@ public class UsuarioREST {
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	public Response remove(@Context HttpHeaders headers, @PathParam("id") int id) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
-		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token, true);
-		if (resposta == null) {
-			try {
-				this.service.removerPorId(id);
-				resposta = Response.ok().entity(new Resposta(I18NUtil.getMessage("remover.sucesso")));
-				ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
-			} catch (SQLException exc) {
-				LOG.error(exc);
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("remover.erro")));
-			}
+		try {
+			ResponseBuilderHelper.verificarAutenticacao(token, true);
+			this.service.removerPorId(id);
+			ResponseBuilder resposta = Response.ok().entity(new Resposta(I18NUtil.getMessage("remover.sucesso")));
+			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
+			return resposta.build();
+		} catch (Exception exc) {
+			LOG.error(exc);
+			return ResponseBuilderHelper.montarResponseDoErro(exc).build();
 		}
-		return resposta.build();
 	}
 
 	@GET
@@ -132,17 +127,15 @@ public class UsuarioREST {
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	public Response tipos(@Context HttpHeaders headers) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
-		ResponseBuilder resposta = ResponseBuilderHelper.verificarAutenticacao(token);
-		if (resposta == null) {
-			try {
-				String tipos = TipoUtil.getTiposUsuarioJson();
-				resposta = Response.ok().entity(tipos);
+		try {
+			ResponseBuilderHelper.verificarAutenticacao(token);
+			String tipos = TipoUtil.getTiposUsuarioJson();
+			ResponseBuilder resposta = Response.ok().entity(tipos);
 			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
-			} catch (Exception exc) {
-				LOG.error(exc);
-				resposta = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage(ErrosUtil.getMensagemErro(exc))));
-			}
+			return resposta.build();
+		} catch (Exception exc) {
+			LOG.error(exc);
+			return ResponseBuilderHelper.montarResponseDoErro(exc).build();
 		}
-		return resposta.build();
 	}
 }

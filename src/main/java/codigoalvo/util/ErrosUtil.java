@@ -6,6 +6,14 @@ public class ErrosUtil {
 			exc = exc.getCause();
 		}
 		String msg = exc.getMessage();
+		msg = trataErros(msg);
 		return I18NUtil.getMessage(msg);
+	}
+
+	public static String trataErros(String excMsg) {
+		if (excMsg.toUpperCase().contains("KEY VIOLATION")  ||  excMsg.toUpperCase().contains("DUPLICATE KEY")) {
+			excMsg = "gravar.erroJaExiste";
+		}
+		return excMsg;
 	}
 }

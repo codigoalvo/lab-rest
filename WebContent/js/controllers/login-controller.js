@@ -59,7 +59,7 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $locati
 				growl.error(erro.mensagem, {title: 'Atenção!'});
 			});
 		} else {
-			dialogs.notify('Aviso', 'Nova senha e a confirmação da senha devem ser informadas e devem ser iguais', {'size':'sm'});
+			growl.error('Nova senha e a confirmação da senha devem ser informadas e devem ser iguais');
 		}
 	};
 
