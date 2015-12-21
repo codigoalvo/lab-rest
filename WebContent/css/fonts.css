@@ -40,6 +40,9 @@ body {
 header {
 	font-family: 'codigoalvo bd', 'Comfortaa', cursive;
 	text-transform:lowercase;
+}
+
+header a {
 	font-size: 120%;
 }
 
