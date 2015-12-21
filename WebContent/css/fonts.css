@@ -1,26 +1,20 @@
 @font-face {
     font-family: 'codigoalvo lt';
-    src: url('../fonts/CodigoalvoLight.eot');
-    src: url('../fonts/CodigoalvoLight.eot'), 
-         url('../fonts/CodigoalvoLight.ttf') format('truetype'),
+    src: url('../fonts/CodigoalvoLight.ttf') format('truetype'),
          url('../fonts/CodigoalvoLight.otf') format('opentype'),
          url('../fonts/CodigoalvoLight.svg') format('svg');
 }
 
 @font-face {
     font-family: 'codigoalvo bd';
-    src: url('../fonts/CodigoalvoBold.eot');
-    src: url('../fonts/CodigoalvoBold.eot'), 
-         url('../fonts/CodigoalvoBold.ttf') format('truetype'),
+    src: url('../fonts/CodigoalvoBold.ttf') format('truetype'),
          url('../fonts/CodigoalvoBold.otf') format('opentype'),
          url('../fonts/CodigoalvoBold.svg') format('svg');
 }
 
 @font-face {
     font-family: 'codigoalvo md';
-    src: url('../fonts/CodigoalvoMedium.eot');
-    src: url('../fonts/CodigoalvoMedium.eot'),
-         url('../fonts/CodigoalvoMedium.ttf') format('truetype'),
+    src: url('../fonts/CodigoalvoMedium.ttf') format('truetype'),
          url('../fonts/CodigoalvoMedium.otf') format('opentype'),
          url('../fonts/CodigoalvoMedium.svg') format('svg');
 }
