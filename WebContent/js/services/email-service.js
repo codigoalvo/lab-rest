@@ -1,12 +1,12 @@
 angular.module('emailService', [])
 	.factory('recursoEmail', function($http, $window, $q) {
 		var service = {};
-		service.registrarEmail = function(email) {
+		service.enviarEmail = function(email, tipo) {
 			return $q(function(resolve, reject) {
 				$http({
 					  method: 'POST',
 					  data: email,
-					  url:'ws/email/registrar',
+					  url:'ws/email/'+tipo+'/enviar',
 					  headers: {'Content-Type':'text/plain'}
 				}).then(
 					function(resp) {
@@ -19,7 +19,7 @@ angular.module('emailService', [])
 			});
 		};
 
-		service.verificarRegistroId = function(registroId) {
+		service.verificarEmailId = function(registroId) {
 			return $q(function(resolve, reject) {
 				console.log('EmailService.verificarRegistroId : Removendo token da sessão!')
 				delete $window.sessionStorage.token;

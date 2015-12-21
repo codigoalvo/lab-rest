@@ -53,6 +53,9 @@ public class ValidadorEmail implements Serializable {
 	@NotNull
 	private Date data;
 
+	@NotNull
+	private Character tipo;
+
 	@XmlTransient
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_validador_usuario"))
@@ -62,11 +65,12 @@ public class ValidadorEmail implements Serializable {
 	public ValidadorEmail() {
 	}
 
-	public ValidadorEmail(String email, Date data, String origem) {
+	public ValidadorEmail(String email, Date data, String origem, ValidadorEmailTipo tipo) {
 		super();
 		this.email = email;
 		this.data = data;
 		this.origem = origem;
+		setTipo(tipo);
 	}
 
 	public ValidadorEmail(String email, Date data, String origem, Usuario usuario) {
@@ -79,7 +83,7 @@ public class ValidadorEmail implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ValidadorEmail [id=" + id + ", email=" + email + ", origem=" + origem + ", data=" + data + "]";
+		return "ValidadorEmail [id=" + id + ", email=" + email + ", origem=" + origem + ", data=" + data + ", tipo=" + tipo + "]";
 	}
 
 	@Override
@@ -137,6 +141,18 @@ public class ValidadorEmail implements Serializable {
 
 	public void setData(Date data) {
 		this.data = data;
+	}
+
+	public ValidadorEmailTipo getTipo() {
+		return ValidadorEmailTipo.getTipo(this.tipo);
+	}
+
+	public void setTipo(ValidadorEmailTipo tipo) {
+		if (tipo == null) {
+			this.tipo = null;
+		} else {
+			this.tipo = tipo.getId();
+		}
 	}
 
 	public Usuario getUsuario() {

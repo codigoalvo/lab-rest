@@ -26,4 +26,4 @@ insert into conta(nome, tipo, usuario_id) values ('Débito Banco', 'B', (select 
 insert into conta(nome, tipo, dia_fechamento, dia_pagamento, usuario_id) values ('Cartão Master Banco', 'C', 26, 5, (select id from usuario where login = 'admin'));
 insert into conta(nome, tipo, dia_fechamento, dia_pagamento, usuario_id) values ('Cartão Visa Loja', 'C', 24, 3, (select id from usuario where login = 'teste'));
 /*alter sequence CONTA_ID_SEQ restart with 5;*/
-insert into validador_email(id, email, data, origem) values ('3789a92c818241a7833a26ba0a29f232', 'fulano@email.com', '2015-12-20 16:00:00.000', '127.0.0.1'); /*3789a92c-8182-41a7-833a-26ba0a29f232*/
+insert into validador_email(id, email, data, origem, tipo) values ('3789a92c818241a7833a26ba0a29f232', 'fulano@email.com', '2015-12-20 16:00:00.000', '127.0.0.1', 'R'); /*3789a92c-8182-41a7-833a-26ba0a29f232*/

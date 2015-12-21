@@ -1,12 +1,6 @@
 angular.module('alvoApp').controller('EmailController',	function($scope, $routeParams, $location, growl, cDialogs, recursoEmail) {
 	$scope.email = '';
 	$scope.erro = false;
-	$scope.usuarioRegistro = {
-			email : undefined,
-			login : '',
-			senha : '',
-			nome : '',
-		};
 
 	$scope.cadastrarUsuario = function(usuario) {
 		cDialogs.loading();
@@ -22,10 +16,12 @@ angular.module('alvoApp').controller('EmailController',	function($scope, $routeP
 		});
 	};
 
-	$scope.dialogCadastrar = function() {
+	$scope.dialogCadastrar = function(emailRegistro) {
 		console.log('dialogCadastrar');
 		var locals = {
-			usuarioRegistro : angular.copy($scope.usuarioRegistro),
+			usuarioRegistro : {
+				email : emailRegistro,
+			},
 		}
 		console.log("locals.usuarioRegistro: "+locals.usuarioRegistro);
 		cDialogs.custom('dialogs/confirmar.html', locals).then(function(resp){
@@ -39,19 +35,22 @@ angular.module('alvoApp').controller('EmailController',	function($scope, $routeP
 		});
 	}
 
-	$scope.verificarIdRegistro = function(registroId) {
+	$scope.verificarEmailId = function(registroId) {
 		$scope.erro = false;
 		cDialogs.delayedLoading();
-		$scope.usuarioRegistro.email = undefined;
 		//console.log('verificarIdRegistro.registroId: '+registroId);
-		recursoEmail.verificarRegistroId(registroId)
+		recursoEmail.verificarEmailId(registroId)
 		.then(function(resp){
 			cDialogs.hide();
 			var entidade = angular.fromJson(resp.entidade);
-			console.log('EmailController.verificarIdRegistro.resp.entidade: '+entidade.email);
-			$scope.usuarioRegistro.email = resp.entidade.email;
-			console.log('$scope.usuarioRegistro.email '+$scope.usuarioRegistro.email);
-			$scope.dialogCadastrar();
+			console.log('EmailController.verificarIdRegistro.resp.entidade: '+entidade);
+			if (entidade.tipo === 'R') {
+				$scope.dialogCadastrar(resp.entidade.email);
+			} else if (entidade.tipo === 'S') {
+				growl.error('Email de alteração de senha', {title: 'Atenção!'})
+			} else {
+				growl.error('Tipo de email inválido!', {title: 'Atenção!'})
+			}
 		}).catch(function(erro) {
 			$scope.erro = true;
 			cDialogs.hide();
@@ -62,19 +61,23 @@ angular.module('alvoApp').controller('EmailController',	function($scope, $routeP
 
 	if ($routeParams.registroId) { 
 		//console.log('routeParams.registroId: '+$routeParams.registroId);
-		$scope.verificarIdRegistro($routeParams.registroId);
+		$scope.verificarEmailId($routeParams.registroId);
 	}
 
 	$scope.registrarEmail = function() {
+		$scope.enviarEmail('R');
+	}
+
+	$scope.enviarEmail = function(tipo) {
 		cDialogs.loading();
-		recursoEmail.registrarEmail($scope.email)
+		recursoEmail.enviarEmail($scope.email, tipo)
 		.then( function(resp) {
 			cDialogs.hide();
 			console.log(resp);
 			$location.path("/home");
 			cDialogs.inform('Aviso', 'Um email foi enviado para: <br/>' +
 						  '<b>'+$scope.email + '</b> <br/>'+
-						  'Para dar continuidade ao registro, <br/> ' +
+						  'Para dar continuidade ao processo, <br/> ' +
 						  'siga as instruções no email enviado. <br/>' +
 						  '** VERIFIQUE A PASTA DE SPAM! **'
 						  , 'OK');

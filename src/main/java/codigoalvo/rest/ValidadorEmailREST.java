@@ -27,6 +27,7 @@ import org.apache.log4j.Logger;
 
 import codigoalvo.entity.Usuario;
 import codigoalvo.entity.ValidadorEmail;
+import codigoalvo.entity.ValidadorEmailTipo;
 import codigoalvo.rest.util.ResponseBuilderHelper;
 import codigoalvo.rest.util.Resposta;
 import codigoalvo.security.JsonWebTokenUtil;
@@ -52,11 +53,11 @@ public class ValidadorEmailREST {
 		LOG.debug("####################  construct  ####################");
 	}
 
-	@Path("/registrar")
+	@Path("/{tipo}/enviar")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	@Consumes(MediaType.TEXT_PLAIN + UTF8)
-	public Response registrar(String email, @Context HttpServletRequest req) {
+	public Response registrar(String email, @PathParam("tipo") Character tipo, @Context HttpServletRequest req) {
 		limparRegistrosExpirados();
 		try {
 			ResponseBuilder response = validarEmailRegistro(email);
@@ -78,7 +79,7 @@ public class ValidadorEmailREST {
 			}
 			registerUrl	+= Globals.getProperty("CAMINHO_CONFIRMAR_REGISTRO");
 			LOG.debug("registerUrl: "+registerUrl);
-			ValidadorEmail entidade = emailService.gravar(new ValidadorEmail(email, new Date(), origem));
+			ValidadorEmail entidade = emailService.gravar(new ValidadorEmail(email, new Date(), origem, ValidadorEmailTipo.getTipo(tipo)));
 			if (entidade != null  &&  entidade.getId() != null) {
 				boolean envioOk = EmailUtil.sendMail(entidade.getEmail(), "codigoalvo - Verificação de email ("+entidade.getId()+")", corpoEmail(entidade, registerUrl));
 				if (envioOk) {
