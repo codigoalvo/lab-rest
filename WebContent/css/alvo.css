@@ -32,6 +32,20 @@ body {
 	width: 90%;
 }
 
+.ca-dialog-title-bar {
+	background-color: #EEE;
+	border-bottom: 2px solid #DDD;
+}
+
+.ca-dialog-title-text {
+	padding-left: 10px;
+	font-size: 130%;
+	font-weight: bold;
+	margin-top: 12px;
+	white-space: nowrap;
+	text-transform: lowercase;
+}
+
 .ca-linha-negrito th {
 	font-weight: bold;
 }

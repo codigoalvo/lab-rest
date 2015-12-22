@@ -1,26 +1,26 @@
 <md-dialog aria-label="Dialog" ng-cloak style="min-width: 400px;min-height:120px;">
 	<form role="form" ng-submit="answer(locals.usuario)">
-		<md-toolbar>
-			<div class="md-toolbar-tools">
-				<h2>Edição de usuario</h2>
-				<span flex></span>
-				<md-button class="md-icon-button" ng-click="cancel()">
-					<md-icon>close</md-icon>
-				</md-button>
-			</div>
-		</md-toolbar>
+		<div layout="row" class="ca-dialog-title-bar">
+			<h3 flex="auto"class="ca-dialog-title-text ca-font-md">Edição de Usuário</h3>
+			<span flex ></span>
+			<md-button class="md-icon-button" ng-click="cancel()">
+				<md-icon>close</md-icon>
+			</md-button>
+		</div>
 		<md-dialog-content>
 			<br/>
 			<div class="ca-input-group md-subheade">
-				<md-input-container class="md-block">
-					<label for="login">Login</label>
-					<input type="text" ng-model="locals.usuario.login" id="login" md-autofocus focus="true"
-						maxlength="40" required/>
-				</md-input-container>
-				<md-input-container class="md-block">
-					<label for="senha">Senha</label>
-					<input type="password" ng-model="locals.usuario.senha" id="senha" maxlength="40" required/>
-				</md-input-container>
+				<div layout="row">
+					<md-input-container flex class="md-block">
+						<label for="login">Login</label>
+						<input type="text" ng-model="locals.usuario.login" id="login" md-autofocus focus="true"
+							maxlength="40" required/>
+					</md-input-container>
+					<md-input-container flex class="md-block">
+						<label for="senha">Senha</label>
+						<input type="password" ng-model="locals.usuario.senha" id="senha" maxlength="40" required/>
+					</md-input-container>
+				</div>
 				<md-input-container class="md-block">
 					<label for="nome">Nome</label>
 					<input type="text" ng-model="locals.usuario.nome" id="nome" maxlength="40" required/>
@@ -29,17 +29,19 @@
 					<label for="email">Email</label>
 					<input type="text" ng-model="locals.usuario.email" id="email" maxlength="40" required/>
 				</md-input-container>
-				<md-input-container class="md-block">
-					<label for="tipo">Tipo</label>
-					<md-select ng-model="locals.usuario.tipo" id="tipo">
-						<md-option ng-repeat="tipo in locals.tiposUsuario" value="{{tipo}}">{{tipo}}</md-option>
-					</md-select>
-				</md-input-container>
-				<md-input-container class="md-block">
-					<label>Ativo</label>
-					<md-checkbox ng-model="locals.usuario.ativo" class="md-primary" id="ativo" style="margin-left:4em; margin-top:6px;"
-						ng-change="locals.usuario.dataInativo = locals.usuario.ativo ? null : {{locals.hoje}}" value="true" />
-				</md-input-container>
+				<div layout="row">
+					<md-input-container flex class="md-block">
+						<label for="tipo">Tipo</label>
+						<md-select ng-model="locals.usuario.tipo" id="tipo">
+							<md-option ng-repeat="tipo in locals.tiposUsuario" value="{{tipo}}">{{tipo}}</md-option>
+						</md-select>
+					</md-input-container>
+					<md-input-container flex class="md-block">
+						<label>Ativo</label>
+						<md-checkbox ng-model="locals.usuario.ativo" class="md-primary" id="ativo" style="margin-left:4em; margin-top:6px;"
+							ng-change="locals.usuario.dataInativo = locals.usuario.ativo ? null : {{locals.hoje}}" value="true" />
+					</md-input-container>
+				</div>
 			</div>
 		</md-dialog-content>
 		<md-dialog-actions layout="row">
