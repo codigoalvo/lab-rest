@@ -89,12 +89,13 @@ main {
 
 .ca-md-input {
 	border-style: solid;
-	border-color: grey;
-	border-width: 0 0 2px 0;
+	border-color: #CCC;
+	border-width: 0 0 1px 0;
 	padding-bottom: 3px;
 }
 .ca-md-input:focus {
-	border-color: #0099cc;
+	border-color: #2196F3;
+	border-width: 0 0 2px 0;
 	font-style: italic;
 }
 .ca-md-input-categoria {
