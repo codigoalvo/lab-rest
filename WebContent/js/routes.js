@@ -34,8 +34,8 @@ angular.module('alvoRotas', []).config(function($routeProvider){
 	});
 
 	$routeProvider.when('/senha/alterar', {
-		templateUrl: 'partials/senha.html',
-		controller: 'LoginController'
+		templateUrl: 'partials/home.html',
+		controller: 'SenhaController'
 	});
 
 	$routeProvider.when('/senha/esqueci', {

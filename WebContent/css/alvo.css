@@ -50,6 +50,10 @@ md-toolbar:not(.md-menu-toolbar) .md-button:not(.md-raised) md-icon {
 	height: unset;
 }
 
+md-input-container [ng-message] {
+	font-size: 10px;
+}
+
 .panel-title { /* bootstrap */
 	font-size: 20px;
 	color: #777;

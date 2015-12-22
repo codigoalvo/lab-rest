@@ -25,27 +25,6 @@ angular.module('loginService', [])
 			});
 		};
 
-		service.alterarSenha = function(usuario) {
-			return $q(function(resolve, reject) {
-			$http({
-				  method: 'POST',
-				  data: usuario,
-				  url:'ws/auth/senha',
-				  headers: {'Content-Type':'application/json'}
-			}).then(
-				function(resp) {
-					var usuarioLogado = service.pegarUsuarioDoToken();
-					//console.log('servicosLogin.senha.usuarioLogado', usuarioLogado);
-					resolve(usuarioLogado);
-				}, function(erro) {
-					//console.error('Error', erro.data.mensagem);
-					reject({
-						mensagem: erro.data.mensagem,
-					});
-				})
-			});
-		};
-
 		service.efetuarLogout = function() {
 			console.log('Removendo token da sessão!')
 			delete $window.sessionStorage.token;
