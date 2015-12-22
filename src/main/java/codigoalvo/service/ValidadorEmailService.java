@@ -16,7 +16,8 @@ public interface ValidadorEmailService {
 	public ValidadorEmail buscarPorUuid(UUID uuid);
 	public ValidadorEmail buscarPorEmail(String email);
 	public Usuario buscarUsuarioPorEmail(String email);
-	public Usuario confirmarRegistroUsuario(Usuario usuario, ValidadorEmail validadorEmail) throws SQLException;
 	public List<ValidadorEmail> buscarRegistrosDepoisDe(Date data);
+	public Usuario confirmarRegistroUsuario(Usuario usuario, ValidadorEmail validadorEmail) throws SQLException;
+	public Usuario alterarSenhaUsuario(Usuario usuario, ValidadorEmail validadorEmail, String novaSenha) throws SQLException;
 
 }

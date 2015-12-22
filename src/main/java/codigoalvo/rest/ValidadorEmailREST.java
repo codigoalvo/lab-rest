@@ -57,7 +57,7 @@ public class ValidadorEmailREST {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	@Consumes(MediaType.TEXT_PLAIN + UTF8)
-	public Response registrar(String email, @PathParam("tipo") Character tipo, @Context HttpServletRequest req) {
+	public Response enviarEmail(String email, @PathParam("tipo") Character tipo, @Context HttpServletRequest req) {
 		limparRegistrosExpirados();
 		try {
 			ResponseBuilder response = null;
@@ -66,17 +66,24 @@ public class ValidadorEmailREST {
 				response = validarEmailRegistro(email);
 			}
 			Usuario usuario = emailService.buscarUsuarioPorEmail(email);
-			if (emailTipo == ValidadorEmailTipo.REGISTRO && usuario != null  && usuario.getId() != null) {
-				response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("registro.emailUsuarioJaExiste")));
+
+			LOG.debug("enviarEmail.emailTipo: "+emailTipo);
+			if (emailTipo == ValidadorEmailTipo.REGISTRO) {
+				if (usuario != null && usuario.getId() != null) {
+					response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("registro.emailUsuarioJaExiste")));
+				}
+			} else if (usuario == null  ||   usuario.getId() == null) {
+				response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("email.usuarioNaoEncontrado")));
 			}
+
 			if (response != null) {
 				return response.build();
 			}
 			String origem = ResponseBuilderHelper.obterOrigemHostDoRequest(req);
-			LOG.debug("registrar.origem: "+origem);
-			LOG.debug("registrar.email: "+email);
 			String urlValidacao = getUrlValidacao(req);
-			LOG.debug("urlValidacao: "+urlValidacao);
+			LOG.debug("enviarEmail.origem: "+origem);
+			LOG.debug("enviarEmail.email: "+email);
+			LOG.debug("enviarEmail.urlValidacao: "+urlValidacao);
 			ValidadorEmail entidade = emailService.gravar(new ValidadorEmail(email, new Date(), origem, emailTipo, usuario));
 			if (entidade == null  ||  entidade.getId() == null) {
 				throw new RestException(ResponseBuilderHelper.respostaErroInterno("registro.erro"));
@@ -140,7 +147,7 @@ public class ValidadorEmailREST {
 
 			Usuario usuario = JsonUtil.fromJson(usuarioStr, Usuario.class);
 
-			validarUsuario(origem, validadorEmail, usuario);
+			validarEmailUsuario(origem, validadorEmail.getEmail(), usuario.getEmail());
 
 			Usuario entidade = emailService.confirmarRegistroUsuario(usuario, validadorEmail);
 			if (entidade == null  ||  entidade.getId() == null) {
@@ -179,11 +186,22 @@ public class ValidadorEmailREST {
 
 			Usuario usuario = validadorEmail.getUsuario();
 
-			validarUsuario(origem, validadorEmail, usuario);
+			String email = jsonMap.get("email");
+			String novaSenha = jsonMap.get("senha");
 
+			validarEmailUsuario(origem, validadorEmail.getEmail(), email);
+			validarEmailUsuario(origem, validadorEmail.getEmail(), usuario.getEmail());
 
+			if (novaSenha == null  || novaSenha.trim().isEmpty()) {
+				throw new RestException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("senha.novaInvalida"))));
+			}
 
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("senha.erro"))).build();
+			Usuario entidade = emailService.alterarSenhaUsuario(usuario, validadorEmail, novaSenha);
+			if (entidade == null  ||  entidade.getId() == null) {
+				throw new RestException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Resposta(I18NUtil.getMessage("senha.erro"))));
+			}
+
+			return Response.created(new URI("ws/usuarios/"+entidade.getId())).entity(entidade).build();
 		} catch (Exception exc) {
 			LOG.error(exc);
 			return ResponseBuilderHelper.montarResponseDoErro(exc).build();
@@ -205,11 +223,11 @@ public class ValidadorEmailREST {
 		return registerUrl;
 	}
 
-	private void validarUsuario(String origem, ValidadorEmail validadorEmail, Usuario usuario) throws RestException {
-		if (usuario.getEmail() == null || usuario.getEmail().isEmpty() || !usuario.getEmail().toLowerCase().equals(validadorEmail.getEmail().toLowerCase())) {
+	private void validarEmailUsuario(String origem, String emailValidador, String emailUsuario) throws RestException {
+		if (emailUsuario == null || emailUsuario.isEmpty() || !emailUsuario.toLowerCase().equals(emailValidador.toLowerCase())) {
 			String msg = "Email no token de autorização difere do email informado!";
 			LOG.debug(msg);
-			LOG.error("Possivel tentativa de fraude: token.email='"+validadorEmail.getEmail()+"', usuario.email='"+usuario.getEmail()+"', origem: '"+origem+"'");
+			LOG.error("Possivel tentativa de fraude: token.email='"+emailValidador+"', usuario.email='"+emailUsuario+"', origem: '"+origem+"'");
 			throw new RestException(Response.status(Status.FORBIDDEN).entity(new Resposta(msg)));
 		}
 	}

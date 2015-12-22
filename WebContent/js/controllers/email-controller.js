@@ -42,7 +42,7 @@ angular.module('alvoApp').controller('EmailController',	function($scope, $routeP
 		.then(function(resp) {
 			cDialogs.hide();
 			$location.path("/login");
-			growl.success('Registro de novo usuário confirmado com sucesso!');
+			growl.success('Alteração de recuperação de senha realizada com sucesso!');
 		})
 		.catch(function(erro) {
 			console.log(erro);

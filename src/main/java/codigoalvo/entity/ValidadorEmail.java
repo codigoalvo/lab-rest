@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -19,8 +18,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -57,9 +54,8 @@ public class ValidadorEmail implements Serializable {
 	private Character tipo;
 
 	@XmlTransient
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_validador_usuario"))
-	@OnDelete(action=OnDeleteAction.CASCADE)
 	private Usuario usuario;
 
 	public ValidadorEmail() {

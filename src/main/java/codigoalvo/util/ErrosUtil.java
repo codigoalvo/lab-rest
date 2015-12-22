@@ -11,6 +11,9 @@ public class ErrosUtil {
 	}
 
 	public static String trataErros(String excMsg) {
+		if (excMsg ==  null) {
+			return "";
+		}
 		if (excMsg.toUpperCase().contains("KEY VIOLATION")  ||  excMsg.toUpperCase().contains("DUPLICATE KEY")) {
 			excMsg = "gravar.erroJaExiste";
 		}

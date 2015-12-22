@@ -135,10 +135,7 @@ public class ValidadorEmailServiceImpl implements ValidadorEmailService {
 
 	@Override
 	public Usuario confirmarRegistroUsuario(Usuario usuario, ValidadorEmail validadorEmail) throws SQLException {
-		if (this.usuarioDao.getEntityManager() != this.validadorEmailDao.getEntityManager()) {
-			this.usuarioDao.setEntityManager(this.validadorEmailDao.getEntityManager());
-		}
-		EntityTransaction transaction = this.usuarioDao.getEntityManager().getTransaction();
+		EntityTransaction transaction = pegarTransacaoSincronizada();
 		Usuario usuarioGravado = null;
 		try {
 			transaction.rollback();
@@ -160,6 +157,38 @@ public class ValidadorEmailServiceImpl implements ValidadorEmailService {
 			LOG.debug("gravar.dao.em.clear");
 			throw new SQLException(exc);
 		}
+	}
+
+	@Override
+	public Usuario alterarSenhaUsuario(Usuario usuario, ValidadorEmail validadorEmail, String novaSenha) throws SQLException {
+		EntityTransaction transaction = pegarTransacaoSincronizada();
+		Usuario usuarioGravado = null;
+		try {
+			transaction.rollback();
+		} catch (Exception exc) {}
+		try {
+			transaction.begin();
+			usuario.setSenha(this.segurancaUtil.criptografar(novaSenha));
+			usuarioGravado = usuarioDao.atualizar(usuario);
+			LOG.debug("Usuário criado com sucesso! "+usuarioGravado.getId());
+			this.validadorEmailDao.remover(validadorEmail.getId());
+			LOG.debug("Token validador de registro de email removido com sucesso!");
+			transaction.commit();
+			return usuarioGravado;
+		} catch (Throwable exc) {
+			transaction.rollback();
+			LOG.debug("gravar.rollback");
+			this.validadorEmailDao.getEntityManager().clear();
+			LOG.debug("gravar.dao.em.clear");
+			throw new SQLException(exc);
+		}
+	}
+
+	private EntityTransaction pegarTransacaoSincronizada() {
+		if (this.usuarioDao.getEntityManager() != this.validadorEmailDao.getEntityManager()) {
+			this.usuarioDao.setEntityManager(this.validadorEmailDao.getEntityManager());
+		}
+		return this.usuarioDao.getEntityManager().getTransaction();
 	}
 
 }
