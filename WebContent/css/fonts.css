@@ -25,15 +25,15 @@ body {
 	/* font-family: 'codigoalvo lt', 'Comfortaa', cursive; */
 }
 
-md-toolbar h2 {
+.md-toolbar-tools h2 {
 	white-space: nowrap;
-	font-family: 'codigoalvo md', 'Comfortaa', cursive;
+	font-family: 'codigoalvo bd', 'Comfortaa', cursive;
 	text-transform:lowercase;
-	font-size: 130%;
+	font-size: 18px;
 }
 
 .md-button {
-	font-family: 'codigoalvo md', 'Comfortaa', cursive;
+	font-family: 'codigoalvo bd', 'Comfortaa', cursive;
 	text-transform:lowercase;
 	font-size: 120%;
 }

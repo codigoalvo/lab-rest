@@ -34,7 +34,7 @@ body {
 
 md-toolbar:not(.md-menu-toolbar) {
 	background-color: #EEE;
-	color: #000;
+	color: #555;
 	border-bottom: 2px solid #DDD;
 	min-height: 42px;
 }
@@ -43,15 +43,21 @@ md-toolbar:not(.md-menu-toolbar) .md-button:not(.md-raised) {
 }
 
 md-toolbar:not(.md-menu-toolbar) .md-button:not(.md-raised) md-icon {
-	color: #000;
+	color: #555;
 }
 
 .md-toolbar-tools {
 	height: unset;
 }
 
+.panel-title { /* bootstrap */
+	font-size: 20px;
+	color: #777;
+}
+
 .ca-linha-negrito th {
 	font-weight: bold;
+	color: #777;
 }
 
 .ca-div-filtro {
