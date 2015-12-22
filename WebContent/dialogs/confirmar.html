@@ -1,12 +1,14 @@
 <md-dialog aria-label="Dialog" ng-cloak style="min-width: 400px;min-height:120px;">
 	<form role="form" ng-submit="answer(locals.usuarioRegistro)">
-		<div layout="row" class="ca-dialog-title-bar">
-			<h3 flex="auto"class="ca-dialog-title-text ca-font-md">Registro de novo usuário</h3>
-			<span flex ></span>
-			<md-button class="md-icon-button" ng-click="cancel()">
-				<md-icon>close</md-icon>
-			</md-button>
-		</div>
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Registro de novo usuário</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="cancel()">
+					<md-icon>close</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
 		<md-dialog-content>
 			<br/>
 			<div class="ca-input-group md-subheade">

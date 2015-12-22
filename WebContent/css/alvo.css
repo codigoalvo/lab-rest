@@ -32,18 +32,22 @@ body {
 	width: 90%;
 }
 
-.ca-dialog-title-bar {
+md-toolbar:not(.md-menu-toolbar) {
 	background-color: #EEE;
+	color: #000;
 	border-bottom: 2px solid #DDD;
+	min-height: 42px;
+}
+md-toolbar:not(.md-menu-toolbar) .md-button:not(.md-raised) {
+	line-height: 0;
 }
 
-.ca-dialog-title-text {
-	padding-left: 10px;
-	font-size: 130%;
-	font-weight: bold;
-	margin-top: 12px;
-	white-space: nowrap;
-	text-transform: lowercase;
+md-toolbar:not(.md-menu-toolbar) .md-button:not(.md-raised) md-icon {
+	color: #000;
+}
+
+.md-toolbar-tools {
+	height: unset;
 }
 
 .ca-linha-negrito th {
