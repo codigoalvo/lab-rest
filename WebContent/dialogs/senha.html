@@ -13,16 +13,16 @@
 			<br/>
 			<div class="ca-input-group" ng-cloak>
 				<md-input-container class="md-block" ng-if="locals.informarAtual">
-					<input type="password" id="senhaAtual" ng-model="locals.senhas.atual"
-						placeholder="Senha atual" title="Senha atual" required>
+					<input type="password" id="senhaAtual" ng-model="locals.senhas.atual" required
+						placeholder="Senha atual" title="Senha atual">
 				</md-input-container>
 				<md-input-container class="md-block">
-					<input type="password" id="senhaNova" ng-model="locals.senhas.nova"
-						placeholder="Senha nova" title="Nova senha" required md-autofocus>
+					<input type="password" id="senhaNova" ng-model="locals.senhas.nova" required
+						placeholder="Senha nova" title="Nova senha" focus="true" autofocus md-autofocus>
 				</md-input-container>
 				<md-input-container class="md-block">
-					<input type="password" id="senhaConfirma" ng-model="locals.senhas.confirma"
-						placeholder="Senha confirma" title="Confirmação da senha" required>
+					<input type="password" id="senhaConfirma" ng-model="locals.senhas.confirma" required
+						placeholder="Senha confirma" title="Confirmação da senha">
 				</md-input-container>
 			</div>
 		</md-dialog-content>
