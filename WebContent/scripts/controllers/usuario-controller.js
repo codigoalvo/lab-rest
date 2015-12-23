@@ -4,7 +4,6 @@ angular.module('alvoApp').controller('UsuarioController',
 	$scope.usuarios = [];
 	$scope.usuario = {};
 	$scope.tiposUsuario = [];
-	$scope.hoje = new Date();
 
 	$scope.carregarTipos = function() {
 		return $q(function(resolve, reject) {
@@ -12,7 +11,7 @@ angular.module('alvoApp').controller('UsuarioController',
 				cDialogs.delayedLoading(1000);
 				cadastroUsuario.tipos()
 				.then(function(resp) {
-					console.log('UsuarioController.tiposUsuario', resp);
+					//console.log('UsuarioController.tiposUsuario', resp);
 					$scope.tiposUsuario = resp;
 					cDialogs.hide();
 					resolve(true);
@@ -64,7 +63,7 @@ angular.module('alvoApp').controller('UsuarioController',
 	};
 
 	$scope.gravar = function(usuario) {
-		console.log('UsuarioController.gravar.usuario: '+angular.toJson(usuario));
+		//console.log('UsuarioController.gravar.usuario: '+angular.toJson(usuario));
 		cDialogs.loading();
 		cadastroUsuario.gravar(usuario)
 		.then(function(resp) {
@@ -90,9 +89,8 @@ angular.module('alvoApp').controller('UsuarioController',
 			var locals = {
 					usuario : {},
 					tiposUsuario : $scope.tiposUsuario,
-					hoje : $scope.hoje,
 			}
-			console.log("locals.tiposUsuario: "+locals.tiposUsuario);
+			//console.log("locals.tiposUsuario: "+locals.tiposUsuario);
 			cDialogs.custom('dialogs/usuario.html', locals).then(function(resp){
 				$scope.gravar(resp);
 			}).catch(function(erro) {
@@ -108,7 +106,6 @@ angular.module('alvoApp').controller('UsuarioController',
 			var locals = {
 					usuario : angular.copy(usuario),
 					tiposUsuario : $scope.tiposUsuario,
-					hoje : $scope.hoje,
 			}
 			cDialogs.custom('dialogs/usuario.html', locals).then(function(resp){
 				$scope.gravar(resp);

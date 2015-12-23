@@ -17,11 +17,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
+
+import codigoalvo.rest.util.HalfDuplexXmlAdapter;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -44,7 +46,7 @@ public class Usuario implements Serializable {
 	@Email
 	private String email;
 
-	@XmlTransient
+	@XmlJavaTypeAdapter(HalfDuplexXmlAdapter.class)
 	@NotNull
 	@Length(min = 4, max = 30)
 	private String senha;

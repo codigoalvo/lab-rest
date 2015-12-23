@@ -6,7 +6,6 @@ angular.module('alvoApp').controller('CategoriaController',
 	$scope.exibirInativos = false;
 	$scope.usuarioLogado = servicosLogin.pegarUsuarioDoToken();
 	$scope.isAdmin = ($scope.usuarioLogado.tipo === 'ADMIN');
-	$scope.hoje = new Date();
 
 	$scope.listarCategorias = function() {
 		cDialogs.delayedLoading();
