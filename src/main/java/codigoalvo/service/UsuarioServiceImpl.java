@@ -30,7 +30,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public Usuario gravar(Usuario usuario) throws SQLException {
 
 		String senhaText = usuario.getSenha();
-		if (!this.segurancaUtil.criptografado(usuario.getSenha())) {
+		if (usuario.getId() != null  &&  (usuario.getSenha() == null  ||  usuario.getSenha().isEmpty())) {
+			LOG.debug("Recuperando a senha do usuário :"+usuario.getId()+" - "+usuario.getApelido());
+			String senha = dao.buscarSenhaDoUsuario(usuario.getId());
+			//LOG.debug("Senha recuperada: "+senha);
+			usuario.setSenha(senha);
+		} else if (!this.segurancaUtil.criptografado(usuario.getSenha())) {
 			usuario.setSenha(this.segurancaUtil.criptografar(senhaText));
 		}
 		try {

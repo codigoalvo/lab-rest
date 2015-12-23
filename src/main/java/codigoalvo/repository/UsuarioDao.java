@@ -6,5 +6,6 @@ import codigoalvo.genericdao.GenericDao;
 public interface UsuarioDao extends GenericDao<Usuario> {
 
 	public Usuario buscarPorEmail(String email);
+	public String buscarSenhaDoUsuario(Integer id);
 
 }

@@ -14,6 +14,7 @@ angular.module('usuarioService', ['ngResource'])
 		var service = {};
 		service.gravar = function(usuario) {
 			return $q(function(resolve, reject) {
+				console.log('UsuarioService.gravar.usuario: '+angular.toJson(usuario));
 				if(usuario.id) {
 					recursoUsuario.update({usuarioId: usuario.id}, usuario, function(resp) {
 						resolve({

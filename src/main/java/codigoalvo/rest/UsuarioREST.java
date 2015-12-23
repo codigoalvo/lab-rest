@@ -14,6 +14,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+
 import org.apache.log4j.Logger;
 
 import codigoalvo.entity.Usuario;
@@ -94,6 +95,13 @@ public class UsuarioREST {
 	public Response update(@Context HttpHeaders headers, Usuario usuario, @PathParam("id") int id) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
 		try {
+			//LOG.debug("usuarioStr: "+usuarioStr);
+			//Necessário fazer o parse manualmente por causa do XmlTransient anotado na senha.
+			//Map<String, String> jsonMap = JsonUtil.fromJson(usuarioStr);
+			//String senha = jsonMap.get("senha");
+			//LOG.debug("Senha: "+senha);
+			//Usuario usuario = new Usuario();
+			//usuario.setSenha(senha);
 			ResponseBuilderHelper.verificarAutenticacao(token, true);
 			Usuario entidade = this.service.gravar(usuario);
 			ResponseBuilder resposta = Response.ok().entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));

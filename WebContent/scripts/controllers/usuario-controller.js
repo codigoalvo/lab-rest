@@ -64,6 +64,7 @@ angular.module('alvoApp').controller('UsuarioController',
 	};
 
 	$scope.gravar = function(usuario) {
+		console.log('UsuarioController.gravar.usuario: '+angular.toJson(usuario));
 		cDialogs.loading();
 		cadastroUsuario.gravar(usuario)
 		.then(function(resp) {
