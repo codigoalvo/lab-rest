@@ -1,14 +1,16 @@
 angular.module('alvoApp').controller('CategoriaController',
-		function($scope, $routeParams, $location, $window, growl, cDialogs, servicosLogin, recursoCategoria, cadastroCategoria) {
+		function($scope, $timeout, growl, cDialogs, servicosLogin, recursoCategoria, cadastroCategoria) {
 
 	$scope.categorias = [];
 	$scope.categoria = {};
+	$scope.exibirInativos = false;
 	$scope.usuarioLogado = servicosLogin.pegarUsuarioDoToken();
 	$scope.isAdmin = ($scope.usuarioLogado.tipo === 'ADMIN');
+	$scope.hoje = new Date();
 
-	$scope.listarCategorias = function(categorias) {
+	$scope.listarCategorias = function() {
 		cDialogs.delayedLoading();
-		recursoCategoria.query({usuarioId: $scope.usuarioLogado.id},function(resp) {
+		recursoCategoria.query({usuarioId: $scope.usuarioLogado.id, exibirInativos : $scope.exibirInativos},function(resp) {
 			cDialogs.hide();
 			$scope.categorias = resp;
 		}, function(erro) {
@@ -17,6 +19,18 @@ angular.module('alvoApp').controller('CategoriaController',
 			console.log(erro);
 		});
 	};
+
+	$scope.listarDelay = function(){
+		$timeout(function() {
+			$scope.listarCategorias();
+		}, 50)
+	};
+
+	$scope.ativaDesativa = function(categoria) {
+		//categoria.dataInativo = categoria.ativo ? null : $scope.hoje;
+		$scope.gravar(categoria);
+		//growl.success('Teste: '+categoria.ativo);
+	}
 
 	$scope.removerCategoriaDireto = function(categoria) {
 		cDialogs.loading();

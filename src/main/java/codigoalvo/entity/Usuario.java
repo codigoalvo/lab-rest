@@ -12,10 +12,16 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Index;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 @Table(indexes = {	@Index(name = "idx_usuario_email_unique", columnList = "email", unique = true),
 					@Index(name = "idx_usuario_senha", columnList = "senha", unique = false),
@@ -164,10 +170,12 @@ public class Usuario implements Serializable {
 		this.imagem = imagem;
 	}
 
+	@XmlElement
 	public Boolean getAtivo() {
 		return this.dataInativo == null || this.dataInativo.after(new Date());
 	}
 
+	@XmlElement
 	public void setAtivo(Boolean ativo) {
 		if (ativo) {
 			this.dataInativo = null;

@@ -27,8 +27,12 @@ public class CategoriaDaoJpa extends GenericDaoJpa<Categoria> implements Categor
 	}
 
 	@Override
-	public List<Categoria> categoriasDoUsuario(int usuarioId) {
-		TypedQuery<Categoria> query = getEntityManager().createQuery("FROM Categoria c WHERE c.usuario.id = :usuarioId", Categoria.class);
+	public List<Categoria> categoriasDoUsuario(int usuarioId, boolean exibirInativos) {
+		String jpql = "FROM Categoria c WHERE c.usuario.id = :usuarioId";
+		if (!exibirInativos) {
+			jpql += " and c.dataInativo = null";
+		}
+		TypedQuery<Categoria> query = getEntityManager().createQuery(jpql, Categoria.class);
 		query.setParameter("usuarioId", usuarioId);
 		return query.getResultList();
 	}

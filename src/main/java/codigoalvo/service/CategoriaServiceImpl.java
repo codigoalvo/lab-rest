@@ -74,8 +74,8 @@ public class CategoriaServiceImpl implements CategoriaService {
 	}
 
 	@Override
-	public List<Categoria> listar(Integer usuarioId) {
-		List<Categoria> response = this.dao.categoriasDoUsuario(usuarioId);
+	public List<Categoria> listar(Integer usuarioId, Boolean exibirInativos) {
+		List<Categoria> response = this.dao.categoriasDoUsuario(usuarioId, exibirInativos);
 		//LOG.debug(response);
 		return response;
 	}

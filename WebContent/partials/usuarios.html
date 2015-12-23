@@ -36,9 +36,10 @@
 				<td >{{usuario.tipo}}</td>
 				<td >{{usuario.ativo?'Sim':'Não'}}</td>
 				<td class="col-md-2 text-center" style="white-space:nowrap;">
-					<button md-button type="button" class="md-raised md-primary md-button-icon" ng-click="dialogAlterar(usuario)" title="Editar">
+					<md-switch ng-model="usuario.ativo" aria-label="Ativar/Desativar"  value="true" ng-change="gravar(usuario)" title="Ativar/Desativar"></md-switch>
+					<md-button type="button" class="md-raised md-primary md-button-icon" ng-click="dialogAlterar(usuario)" title="Editar">
 						<md-icon>create</md-icon>
-					</button>
+					</md-button>
 					<md-menu>
 						<md-button aria-label="Open demo menu" class="md-raised md-warn md-button-icon" ng-click="$mdOpenMenu($event)">
 							<md-icon>delete</md-icon>

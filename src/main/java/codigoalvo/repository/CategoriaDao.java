@@ -8,7 +8,7 @@ import codigoalvo.genericdao.GenericDao;
 public interface CategoriaDao extends GenericDao<Categoria> {
 
 	public Categoria buscarPorNome(String nome);
-	public List<Categoria> categoriasDoUsuario(int usuarioId);
+	public List<Categoria> categoriasDoUsuario(int usuarioId, boolean exibirInativos);
 	public Categoria categoriaDoUsuario(Integer usuarioId, Integer categoriaId);
 
 }

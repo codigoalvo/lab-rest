@@ -54,6 +54,17 @@ md-input-container [ng-message] {
 	font-size: 10px;
 }
 
+md-checkbox {
+	margin-bottom: 0;
+}
+
+md-switch, md-switch:last-of-type {
+	margin: 0;
+	padding: 0;
+	height: 16px;
+	display: inline-block;
+}
+
 .panel-title { /* bootstrap */
 	font-size: 20px;
 	color: #777;

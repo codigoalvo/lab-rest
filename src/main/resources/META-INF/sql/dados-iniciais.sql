@@ -12,7 +12,7 @@ ALTER TABLE categoria ALTER COLUMN id SET DEFAULT NEXTVAL('categoria_id_seq'); /
 insert into categoria(nome, usuario_id) values ('Diversos', (select id from usuario where email = 'admin@email.com'));
 insert into categoria(nome, usuario_id) values ('Moradia', (select id from usuario where email = 'admin@email.com'));
 insert into categoria(nome, usuario_id) values ('Alimentação', (select id from usuario where email = 'admin@email.com'));
-insert into categoria(nome, usuario_id) values ('Transporte', (select id from usuario where email = 'admin@email.com'));
+insert into categoria(nome, data_inativo, usuario_id) values ('Transporte', '2015-12-20 00:00:00.000', (select id from usuario where email = 'admin@email.com'));
 insert into categoria(nome, usuario_id) values ('Saúde', (select id from usuario where email = 'teste@email.com'));
 insert into categoria(nome, usuario_id) values ('Investimentos', (select id from usuario where email = 'teste@email.com'));
 insert into categoria(nome, usuario_id) values ('Hobbies', (select id from usuario where email = 'teste@email.com'));
