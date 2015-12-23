@@ -57,11 +57,11 @@ public class ValidadorEmailREST {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
 	@Consumes(MediaType.TEXT_PLAIN + UTF8)
-	public Response enviarEmail(String email, @PathParam("tipo") Character tipo, @Context HttpServletRequest req) {
+	public Response enviarEmail(String email, @PathParam("tipo") String tipo, @Context HttpServletRequest req) {
 		limparRegistrosExpirados();
 		try {
 			ResponseBuilder response = null;
-			ValidadorEmailTipo emailTipo = ValidadorEmailTipo.getTipo(tipo);
+			ValidadorEmailTipo emailTipo = ValidadorEmailTipo.getTipo(tipo.charAt(0));
 			if (emailTipo == ValidadorEmailTipo.REGISTRO) {
 				response = validarEmailRegistro(email);
 			}
