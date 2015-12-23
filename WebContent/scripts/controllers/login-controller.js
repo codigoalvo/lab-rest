@@ -1,6 +1,6 @@
 angular.module('alvoApp').controller('LoginController',	function($scope, $location, growl, servicosLogin, cDialogs) {
 	$scope.usuario = {
-		login : 'admin',
+		email : 'admin@email.com',
 		senha : 'admin',
 		senhaNova : '',
 		senhaConfirma : '',
@@ -25,7 +25,7 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $locati
 
 	$scope.initLogin = function() {
 		servicosLogin.efetuarLogout();
-		$scope.usuario.login = 'admin';
+		$scope.usuario.email = 'admin@email.com';
 		$scope.usuario.senha = 'admin';
 		$scope.usuario.senhaNova = '';
 	}

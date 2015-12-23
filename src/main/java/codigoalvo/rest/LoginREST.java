@@ -49,7 +49,7 @@ public class LoginREST {
 			Map<String, String> jsonMap = JsonUtil.fromJson(usuarioLoginStr);
 			System.out.println("efetuarLogin.usuarioLoginStr: "+usuarioLoginStr);
 			System.out.println("efetuarLogin.jsonMap: "+jsonMap);
-			Usuario usuario = this.service.efetuarLogin(jsonMap.get("login"),jsonMap.get("senha"));
+			Usuario usuario = this.service.efetuarLogin(jsonMap.get("email"),jsonMap.get("senha"));
 			LoginToken login = UsuarioUtil.usuarioToToken(usuario, origem);
 			String token = JsonWebTokenUtil.criarJWT(login);
 			LOG.debug("efetuarLogin.token: "+token);
@@ -72,7 +72,7 @@ public class LoginREST {
 			Map<String, String> jsonMap = JsonUtil.fromJson(usuarioLoginStr);
 			System.out.println("alterarSenha.usuarioLoginStr: "+usuarioLoginStr);
 			System.out.println("alterarSenha.jsonMap: "+jsonMap);
-			Usuario usuario = this.service.buscarUsuarioPorLoginSenha(jsonMap.get("login"), jsonMap.get("senha"));
+			Usuario usuario = this.service.buscarUsuarioPorEmailSenha(jsonMap.get("email"), jsonMap.get("senha"));
 			JsonWebTokenUtil.validarUsuario(usuario, token);
 			usuario = this.service.alterarSenha(usuario, jsonMap.get("senhaNova"));
 			if (usuario == null  || usuario.getId() == null) {

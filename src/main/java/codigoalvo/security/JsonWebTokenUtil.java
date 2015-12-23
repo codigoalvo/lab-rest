@@ -54,7 +54,7 @@ public class JsonWebTokenUtil {
 				.setIssuer(Globals.getIssuer())
 				.setId(usuario.getId().toString())
 				.setIssuedAt(dataAgora)
-				.setSubject(usuario.getLogin())
+				.setSubject(usuario.getEmail())
 				.setAudience(usuario.getOrigem())
 				.claim("usuario", usuarioJson)
 				.signWith(algoritmo, obterChaveAssinatura(algoritmo));
@@ -144,10 +144,10 @@ public class JsonWebTokenUtil {
 			if (subject == null || id == null  ||  login == null) {
 				throw new LoginException("Dados invalidos no token! null");
 			}
-			if (!usuario.getLogin().equalsIgnoreCase(subject)  || !usuario.getLogin().equalsIgnoreCase(login.getLogin())) {
+			if (!usuario.getEmail().equalsIgnoreCase(subject)  ||  !usuario.getEmail().equalsIgnoreCase(login.getEmail())) {
 				throw new LoginException("Dados invalidos no token! login");
 			}
-			if (!usuario.getId().equals(id) || !usuario.getId().equals(login.getId())) {
+			if (!usuario.getId().equals(id)  ||  !usuario.getId().equals(login.getId())) {
 				throw new LoginException("Dados invalidos no token! id");
 			}
 			if (usuario.getTipo() != UsuarioUtil.decodeTipoFromHash(login)) {

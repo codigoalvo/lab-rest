@@ -6,7 +6,7 @@ angular.module('headerDirective', [])
 
 		var templateLogado =	"<li ng-show='usuarioLogado' class='dropdown'>" +
 									"<a href='' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>" +
-										"<span class='glyphicon glyphicon-user'></span> {{usuarioLogado.login}} <span class='caret'></span>" +
+										"<span class='glyphicon glyphicon-user'></span> {{usuarioLogado.apelido}} <span class='caret'></span>" +
 									"</a>" +
 									"<ul class='dropdown-menu'>" +
 										"<li><a href='#senha/alterar'><span class='glyphicon glyphicon-edit'></span> senha </a></li>" +

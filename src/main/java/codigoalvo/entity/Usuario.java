@@ -17,8 +17,10 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-@Table(indexes = { @Index(name = "idx_usuario_login_unique", columnList = "login", unique = true),
-		@Index(name = "idx_usuario_email_unique", columnList = "email", unique = true) })
+@Table(indexes = {	@Index(name = "idx_usuario_email_unique", columnList = "email", unique = true),
+					@Index(name = "idx_usuario_senha", columnList = "senha", unique = false),
+					@Index(name = "idx_usuario_apelido", columnList = "apelido", unique = false)
+				})
 public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 4860641136563274996L;
@@ -28,8 +30,10 @@ public class Usuario implements Serializable {
 	private Integer id;
 
 	@NotNull
-	@Length(min = 3, max = 50)
-	private String login;
+	@NotBlank
+	@Length(max = 250)
+	@Email
+	private String email;
 
 	@NotNull
 	@Length(min = 4, max = 30)
@@ -42,9 +46,8 @@ public class Usuario implements Serializable {
 
 	@NotNull
 	@NotBlank
-	@Length(max = 250)
-	@Email
-	private String email;
+	@Length(max = 10)
+	private String apelido;
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
@@ -69,7 +72,7 @@ public class Usuario implements Serializable {
 	public Usuario(Integer id, String login, String nome, String email, UsuarioTipo tipo) {
 		super();
 		this.id = id;
-		this.login = login;
+		this.apelido = login;
 		this.nome = nome;
 		this.email = email;
 		this.tipo = tipo;
@@ -77,7 +80,7 @@ public class Usuario implements Serializable {
 
 	@Override
 	public String toString() {
-		return this.login;
+		return this.apelido;
 	}
 
 	@Override
@@ -113,12 +116,12 @@ public class Usuario implements Serializable {
 		this.id = id;
 	}
 
-	public String getLogin() {
-		return this.login;
+	public String getEmail() {
+		return this.email;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getSenha() {
@@ -137,12 +140,12 @@ public class Usuario implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getEmail() {
-		return this.email;
+	public String getApelido() {
+		return this.apelido;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setApelido(String login) {
+		this.apelido = login;
 	}
 
 	public UsuarioTipo getTipo() {

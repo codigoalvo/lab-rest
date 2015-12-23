@@ -10,7 +10,7 @@ public class UsuarioUtil {
 	private static final SegurancaUtil segurancaUtil = new SegurancaUtilMd5();
 
 	public static LoginToken usuarioToToken(Usuario usuario, String origem) {
-		LoginToken login = new LoginToken(usuario.getId(), usuario.getLogin(), usuario.getNome(), usuario.getEmail(), usuario.getTipo(), origem);
+		LoginToken login = new LoginToken(usuario.getId(), usuario.getEmail(), usuario.getNome(), usuario.getApelido(), usuario.getTipo(), origem);
 		login.setHash(encodeHash(login.toHashKey()));
 		return login;
 	}

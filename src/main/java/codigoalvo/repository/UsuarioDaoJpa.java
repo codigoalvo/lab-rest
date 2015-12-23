@@ -22,12 +22,4 @@ public class UsuarioDaoJpa extends GenericDaoJpa<Usuario> implements UsuarioDao 
 		return buscarPor("email", email.trim());
 	}
 
-	@Override
-	public Usuario buscarPorLogin(String login) {
-		if (emptyOrNull(login)) {
-			return null;
-		}
-		return buscarPor("login", login);
-	}
-
 }

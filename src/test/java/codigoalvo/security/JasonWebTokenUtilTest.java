@@ -33,7 +33,7 @@ public class JasonWebTokenUtilTest {
 		UsuarioTipo usuarioTipo = UsuarioUtil.decodeTipoFromHash(usuario);
 		System.out.println("[testObterUsuarioJWT] usuario: "+usuario);
 		System.out.println("[testObterUsuarioJWT] usuario.tipo: "+usuarioTipo);
-		assertTrue("Login do usuario deveria ser admin", "admin".equals(usuario.getLogin()));
+		assertTrue("Login do usuario deveria ser admin", "admin".equals(usuario.getApelido()));
 		assertTrue("Tipo do usuario deveria ser ADMIN", UsuarioTipo.ADMIN == usuarioTipo  &&  usuario.getTipo() == usuarioTipo);
 	}
 

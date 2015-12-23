@@ -22,6 +22,7 @@ angular.module('alvoApp').controller('SenhaController',
 				}).catch(function(erro) {
 					cDialogs.hide();
 					console.log(erro);
+					$location.path("/home");
 					growl.error(erro.mensagem, {title: 'Atenção!'});
 				});
 			}
@@ -39,7 +40,7 @@ angular.module('alvoApp').controller('SenhaController',
 				if (erro) {
 					console.log(erro);
 				}
-				growl.warning('A operação NÃO foi concluída!', {title: 'Atenção!'});
+				//growl.warning('A operação NÃO foi concluída!', {title: 'Atenção!'});
 				$location.path("/home");
 			});
 		}

@@ -15,7 +15,7 @@
 		<thead>
 			<tr class="ca-linha-negrito ca-font-bd-linha">
 				<th class="text-right">Id</th>
-				<th>Login</th>
+				<th>Apelido</th>
 				<th>Nome</th>
 				<th>Email</th>
 				<th>Tipo</th>
@@ -30,7 +30,7 @@
 		<tbody>
 			<tr ng-repeat="usuario in usuarios | filter:filtro">
 				<td class="col-md-1 text-right">{{usuario.id}}</td>
-				<td >{{usuario.login}}</td>
+				<td >{{usuario.apelido}}</td>
 				<td >{{usuario.nome}}</td>
 				<td >{{usuario.email}}</td>
 				<td >{{usuario.tipo}}</td>

@@ -91,17 +91,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	public Usuario buscarPorLogin(String login) {
-		Usuario usuario = null;
-		try {
-			usuario = this.dao.buscarPorLogin(login);
-		} catch (NoResultException nre) {
-			LOG.debug("Usuario não encontrado (login): " + login);
-		}
-		return usuario;
-	}
-
-	@Override
 	public Usuario buscarPorEmail(String email) {
 		Usuario usuario = null;
 		try {

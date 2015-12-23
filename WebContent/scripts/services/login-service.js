@@ -13,7 +13,7 @@ angular.module('loginService', [])
 					var usuarioLogado = service.pegarUsuarioDoToken();
 					//console.log('servicosLogin.login.data', resp.data);
 					//console.log('servicosLogin.login.usuarioLogado', usuarioLogado);
-					//console.log('servicosLogin.login.usuarioLogado.login', usuarioLogado.login);
+					//console.log('servicosLogin.login.usuarioLogado.email', usuarioLogado.email);
 					resolve(usuarioLogado);
 				}, function(erro) {
 					//console.error('Error', erro.data.mensagem);

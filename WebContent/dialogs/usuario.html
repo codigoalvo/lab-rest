@@ -12,26 +12,24 @@
 		<md-dialog-content>
 			<br/>
 			<div class="ca-input-group md-subheade">
-				<div layout="row">
-					<md-input-container flex class="md-block">
-						<label for="login">Login</label>
-						<input type="text" ng-model="locals.usuario.login" id="login" maxlength="40" required
-							focus="true" autofocus md-autofocus/>
-					</md-input-container>
-					<md-input-container flex class="md-block">
-						<label for="senha">Senha</label>
-						<input type="password" ng-model="locals.usuario.senha" id="senha" maxlength="40" required/>
-					</md-input-container>
-				</div>
-				<md-input-container class="md-block">
-					<label for="nome">Nome</label>
-					<input type="text" ng-model="locals.usuario.nome" id="nome" maxlength="40" required/>
-				</md-input-container>
 				<md-input-container class="md-block">
 					<label for="email">Email</label>
-					<input type="text" ng-model="locals.usuario.email" id="email" maxlength="40" required/>
+					<input type="text" ng-model="locals.usuario.email" id="email" maxlength="250" required
+						focus="true" autofocus md-autofocus/>
+				</md-input-container>
+				<md-input-container class="md-block">
+					<label for="senha">Senha</label>
+					<input type="password" ng-model="locals.usuario.senha" id="senha" maxlength="30" required/>
+				</md-input-container>
+				<md-input-container class="md-block">
+					<label for="nome">Nome</label>
+					<input type="text" ng-model="locals.usuario.nome" id="nome" maxlength="150" required/>
 				</md-input-container>
 				<div layout="row">
+					<md-input-container flex class="md-block">
+						<label for="apelido">Apelido</label>
+						<input type="text" ng-model="locals.usuario.apelido" id="apelido" maxlength="10" required/>
+					</md-input-container>
 					<md-input-container flex class="md-block">
 						<label for="tipo">Tipo</label>
 						<md-select ng-model="locals.usuario.tipo" id="tipo">

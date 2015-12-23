@@ -30,12 +30,12 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public Usuario efetuarLogin(String login, String senha) throws LoginException {
+	public Usuario efetuarLogin(String email, String senha) throws LoginException {
 		Usuario usuario = null;
 		try {
-			usuario = this.usuarioDao.buscarPorLogin(login);
+			usuario = this.usuarioDao.buscarPorEmail(email);
 		} catch (NoResultException nre) {
-			LOG.debug("Usuario não encontrado (login): " + login);
+			LOG.debug("Usuario não encontrado (email): " + email);
 		}
 		if (usuario == null || usuario.getId() == null) {
 			LOG.debug("login.invalido");
@@ -71,10 +71,10 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public Usuario buscarUsuarioPorLoginSenha(String login, String senha) throws LoginException {
+	public Usuario buscarUsuarioPorEmailSenha(String email, String senha) throws LoginException {
 		try {
 			Usuario usuario = null;
-			usuario = this.usuarioDao.buscarPorLogin(login);
+			usuario = this.usuarioDao.buscarPorEmail(email);
 			if (usuario == null || usuario.getId() == null) {
 				throw new LoginException("login.invalido");
 			} else if (!usuario.getSenha().equals(this.segurancaUtil.criptografar(senha))) {
@@ -82,7 +82,7 @@ public class LoginServiceImpl implements LoginService {
 			}
 			return usuario;
 		} catch (NoResultException nre) {
-			LOG.debug("login.invalido" + login);
+			LOG.debug("login.invalido" + email);
 			throw new LoginException("login.invalido");
 		}
 	}
@@ -105,9 +105,9 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public Usuario alterarSenha(String login, String senhaAtual, String senhaNova) throws LoginException {
+	public Usuario alterarSenha(String email, String senhaAtual, String senhaNova) throws LoginException {
 		Usuario usuario = null;
-		usuario = buscarUsuarioPorLoginSenha(login, senhaAtual);
+		usuario = buscarUsuarioPorEmailSenha(email, senhaAtual);
 		return alterarSenha(usuario, senhaNova);
 	}
 

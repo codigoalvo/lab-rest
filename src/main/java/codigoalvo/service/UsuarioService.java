@@ -11,7 +11,6 @@ public interface UsuarioService {
 	void removerPorId(Integer id) throws SQLException;
 	Usuario buscar(Integer id);
 	List<Usuario> listar();
-	public Usuario buscarPorLogin(String login);
 	public Usuario buscarPorEmail(String email);
 
 }

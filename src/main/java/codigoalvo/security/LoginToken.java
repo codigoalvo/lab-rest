@@ -9,9 +9,9 @@ public class LoginToken implements Serializable {
 	private static final long serialVersionUID = -8107572215093548341L;
 
 	private Integer id;
-	private String login;
 	private String nome;
 	private String email;
+	private String apelido;
 	private UsuarioTipo tipo;
 	private String origem;
 	private String hash;
@@ -20,16 +20,16 @@ public class LoginToken implements Serializable {
 	}
 
 	public LoginToken(LoginToken toCopy) {
-		this(toCopy.getId(), toCopy.getLogin(), toCopy.getNome(), toCopy.getEmail(), toCopy.getTipo(), toCopy.getOrigem());
+		this(toCopy.getId(), toCopy.getEmail(), toCopy.getNome(), toCopy.getApelido(), toCopy.getTipo(), toCopy.getOrigem());
 		this.hash = toCopy.getHash();
 	}
 
-	public LoginToken(Integer id, String login, String nome, String email, UsuarioTipo tipo, String origem) {
+	public LoginToken(Integer id, String email, String nome, String apelido, UsuarioTipo tipo, String origem) {
 		super();
 		this.id = id;
-		this.login = login;
-		this.nome = nome;
 		this.email = email;
+		this.nome = nome;
+		this.apelido = apelido;
 		this.tipo = tipo;
 		this.origem = origem;
 	}
@@ -42,12 +42,12 @@ public class LoginToken implements Serializable {
 		this.id = id;
 	}
 
-	public String getLogin() {
-		return this.login;
+	public String getApelido() {
+		return this.apelido;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
+	public void setApelido(String apelido) {
+		this.apelido = apelido;
 	}
 
 	public String getNome() {
@@ -91,11 +91,11 @@ public class LoginToken implements Serializable {
 	}
 
 	public String toHashKey() {
-		return ""+this.id+"#"+this.login+"#"+this.tipo.name();
+		return ""+this.id+"#"+this.email+"#"+this.tipo.name();
 	}
 
 	public boolean isValid() {
-		if (this.id == null  || this.login == null  ||  this.tipo == null  ||  this.origem == null  ||  this.hash == null) {
+		if (this.id == null  || this.email == null  ||  this.tipo == null  ||  this.origem == null  ||  this.hash == null) {
 			return false;
 		}
 		return true;
@@ -103,7 +103,7 @@ public class LoginToken implements Serializable {
 
 	@Override
 	public String toString() {
-		return "LoginToken [id=" + this.id + ", login=" + this.login + ", nome=" + this.nome + ", email=" + this.email + ", tipo=" + this.tipo
+		return "LoginToken [id=" + this.id + ", email=" + this.email + ", nome=" + this.nome + ", apelido=" + this.apelido + ", tipo=" + this.tipo
 				 + ", origem=" + this.origem + ", extp=" + this.hash + "]";
 	}
 
@@ -111,7 +111,7 @@ public class LoginToken implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((this.login == null) ? 0 : this.login.hashCode());
+		result = prime * result + ((this.apelido == null) ? 0 : this.apelido.hashCode());
 		return result;
 	}
 
@@ -124,10 +124,10 @@ public class LoginToken implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		LoginToken other = (LoginToken) obj;
-		if (this.login == null) {
-			if (other.login != null)
+		if (this.email == null) {
+			if (other.email != null)
 				return false;
-		} else if (!this.login.equals(other.login))
+		} else if (!this.email.equals(other.email))
 			return false;
 		return true;
 	}

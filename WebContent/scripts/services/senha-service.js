@@ -5,7 +5,7 @@ angular.module('senhaService', [])
 		service.alterarSenha = function(senhas) {
 			var usuarioLogado = servicosLogin.pegarUsuarioDoToken();
 			var senhaRequest = {
-					login : usuarioLogado.login,
+					email : usuarioLogado.email,
 					senha : senhas.atual,
 					senhaNova : senhas.nova,
 			};

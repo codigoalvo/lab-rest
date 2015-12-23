@@ -11,13 +11,13 @@
 				</md-card-title>
 					<md-input-container class="md-block">
 						<md-icon>perm_identity</md-icon>
-						<input type="text" id="login" focus="true" ng-model="usuario.login"
-							placeholder="Usuário" title="Login do usuário" required autofocus>
+						<input type="email" id="email" ng-model="usuario.email" required
+							placeholder="Email" title="Email do usuário" focus="true" autofocus md-autofocus>
 					</md-input-container>
 					<md-input-container class="md-block">
 						<md-icon>lock_open</md-icon>
-						<input type="password" id="senha" ng-model="usuario.senha"
-							placeholder="Senha" required title="Senha do usuário">
+						<input type="password" id="senha" ng-model="usuario.senha" required
+							placeholder="Senha" title="Senha do usuário">
 					</md-input-container>
 				<md-card-actions layout="row" layout-align="center center">
 					<md-button class="md-raised md-primary ca-button-85" ng-click="efetuarLogin()" id="submit" type="submit">Enviar</md-button>
