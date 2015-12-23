@@ -28,12 +28,12 @@ angular.module('alvoApp').controller('SenhaController',
 		};
 
 		$scope.dialogSenha = function() {
-			console.log('dialogSenha');
+			//console.log('dialogSenha');
 			var locals = {
 				informarAtual : true,
 			}
 			cDialogs.custom('dialogs/senha.html', locals).then(function(resp){
-				console.log('dialogSenha.resp.senhas: '+angular.toJson(resp.senhas));
+				//console.log('dialogSenha.resp.senhas: '+angular.toJson(resp.senhas));
 				$scope.alterarSenha(resp.senhas);
 			}).catch(function(erro) {
 				if (erro) {
