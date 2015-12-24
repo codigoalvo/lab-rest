@@ -27,8 +27,12 @@ public class ContaDaoJpa extends GenericDaoJpa<Conta> implements ContaDao {
 	}
 
 	@Override
-	public List<Conta> contasDoUsuario(int usuarioId) {
-		TypedQuery<Conta> query = getEntityManager().createQuery("FROM Conta c WHERE c.usuario.id = :usuarioId", Conta.class);
+	public List<Conta> contasDoUsuario(int usuarioId, boolean exibirInativos) {
+		String jpql = "FROM Conta c WHERE c.usuario.id = :usuarioId";
+		if (!exibirInativos) {
+			jpql += " and c.dataInativo = null";
+		}
+		TypedQuery<Conta> query = getEntityManager().createQuery(jpql, Conta.class);
 		query.setParameter("usuarioId", usuarioId);
 		return query.getResultList();
 	}

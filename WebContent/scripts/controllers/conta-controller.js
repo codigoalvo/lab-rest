@@ -1,8 +1,9 @@
 angular.module('alvoApp').controller('ContaController',
-		function($scope, $routeParams, $q, growl, cDialogs, servicosLogin, recursoConta, cadastroConta) {
+		function($scope, $timeout, $q, growl, cDialogs, servicosLogin, recursoConta, cadastroConta) {
 
 	$scope.contas = [];
 	$scope.conta = {};
+	$scope.exibirInativos = false;
 	$scope.tiposConta = [];
 	$scope.usuarioLogado = servicosLogin.pegarUsuarioDoToken();
 	$scope.isAdmin = ($scope.usuarioLogado.tipo === 'ADMIN');
@@ -46,9 +47,15 @@ angular.module('alvoApp').controller('ContaController',
 		return 'UNDEF';
 	}
 
+	$scope.listarDelay = function(){
+		$timeout(function() {
+			$scope.listarContas();
+		}, 50)
+	};
+
 	$scope.listarContas = function(contas) {
 		cDialogs.delayedLoading();
-		recursoConta.query({usuarioId: $scope.usuarioLogado.id}, function(resp) {
+		recursoConta.query({usuarioId: $scope.usuarioLogado.id, exibirInativos : $scope.exibirInativos}, function(resp) {
 			cDialogs.hide();
 			$scope.contas = resp;
 			$scope.carregarTipos().then(function() {
@@ -82,7 +89,7 @@ angular.module('alvoApp').controller('ContaController',
 			growl.error(erro.mensagem, {title: 'Atenção!'});
 		});
 	}
-	
+
 	$scope.removerContaConfirmar = function(conta) {
 		cDialogs.confirm('Atenção!', 'Confirma a exclusão da conta: <br>"'+conta.nome+'" ?', 'Sim', 'Não')
 		.then(function(btn){
@@ -138,5 +145,11 @@ angular.module('alvoApp').controller('ContaController',
 			}
 		});
 	}
-	
+
+	$scope.rowClass = function(entidade) {
+		if (!entidade.ativo) {
+			return 'ca-linha-inativo';
+		}
+	}
+
 });

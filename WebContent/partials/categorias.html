@@ -25,10 +25,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="categoria in categorias | filter:filtro">
+			<tr ng-repeat="categoria in categorias | filter:filtro" ng-class="rowClass(categoria)">
 				<td class="col-md-1 text-right" ng-show="isAdmin">{{categoria.id}}</td>
-				<td class="col-md-8"><span editable-text="categoria.nome" e-name="name" e-form="rowform" e-class="ca-md-input ca-md-input-categoria" e-maxlength="40" onbeforesave="gravar(categoria)">{{categoria.nome || '&nbsp;'}}</span></td>
-				<td class="col-md-3 text-center" style="white-space:nowrap;">
+				<td class="col-md-9"><span editable-text="categoria.nome" e-name="name" e-form="rowform" e-class="ca-md-input ca-md-input-categoria" e-maxlength="40" onbeforesave="gravar(categoria)">{{categoria.nome || '&nbsp;'}}</span></td>
+				<td class="col-md-2 text-center" style="white-space:nowrap;">
 					<md-switch ng-model="categoria.ativo" aria-label="Ativo"  value="true" ng-change="gravar(categoria)" title="Ativar/Desativar"></md-switch>
 					<md-button type="button" class="md-raised md-primary md-button-icon" ng-click="rowform.$show()" title="Editar">
 						<md-icon>create</md-icon>

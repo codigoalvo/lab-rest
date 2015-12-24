@@ -1,6 +1,7 @@
 package codigoalvo.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -52,6 +54,8 @@ public class Conta implements Serializable {
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_conta_usuario"))
 	@OnDelete(action=OnDeleteAction.CASCADE)
 	private	Usuario usuario;
+
+	private Date dataInativo;
 
 	public Conta() {}
 
@@ -141,6 +145,28 @@ public class Conta implements Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	@XmlElement
+	public Boolean getAtivo() {
+		return this.dataInativo == null || this.dataInativo.after(new Date());
+	}
+
+	@XmlElement
+	public void setAtivo(Boolean ativo) {
+		if (ativo) {
+			this.dataInativo = null;
+		} else {
+			this.dataInativo = new Date();
+		}
+	}
+
+	public Date getDataInativo() {
+		return dataInativo;
+	}
+
+	public void setDataInativo(Date dataInativo) {
+		this.dataInativo = dataInativo;
 	}
 
 }

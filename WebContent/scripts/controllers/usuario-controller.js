@@ -117,4 +117,10 @@ angular.module('alvoApp').controller('UsuarioController',
 		});
 	}
 
+	$scope.rowClass = function(entidade) {
+		if (!entidade.ativo) {
+			return 'ca-linha-inativo';
+		}
+	}
+
 });

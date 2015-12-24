@@ -11,6 +11,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -73,12 +74,12 @@ public class ContaREST {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + UTF8)
-	public Response list(@Context HttpHeaders headers, @PathParam("usuarioId") int usuarioId) {
+	public Response list(@Context HttpHeaders headers, @PathParam("usuarioId") int usuarioId, @QueryParam("exibirInativos") boolean exibirInativos) {
 		String token = ResponseBuilderHelper.obterTokenDoCabecalhoHttp(headers);
 		try {
 			ResponseBuilderHelper.verificarAutenticacao(token);
 			validaUsuarioId(usuarioId, token);
-			Conta[] entidades = this.contaService.listar(usuarioId).toArray(new Conta[0]);
+			Conta[] entidades = this.contaService.listar(usuarioId, exibirInativos).toArray(new Conta[0]);
 			ResponseBuilder resposta = Response.ok().entity(entidades);
 			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			return resposta.build();

@@ -70,6 +70,11 @@ md-switch, md-switch:last-of-type {
 	color: #777;
 }
 
+.ca-linha-inativo td {
+	color: #999;
+	font-style: italic;
+}
+
 .ca-linha-negrito th {
 	font-weight: bold;
 	color: #555;

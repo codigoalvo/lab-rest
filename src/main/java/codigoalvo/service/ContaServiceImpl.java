@@ -80,8 +80,8 @@ public class ContaServiceImpl implements ContaService {
 	}
 
 	@Override
-	public List<Conta> listar(Integer usuarioId) {
-		return this.dao.contasDoUsuario(usuarioId);
+	public List<Conta> listar(Integer usuarioId, Boolean exibirInativos) {
+		return this.dao.contasDoUsuario(usuarioId, exibirInativos);
 	}
 
 	@Override

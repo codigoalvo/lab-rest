@@ -8,7 +8,7 @@ import codigoalvo.genericdao.GenericDao;
 public interface ContaDao extends GenericDao<Conta> {
 
 	public Conta buscarPorNome(String nome);
-	public List<Conta> contasDoUsuario(int usuarioId);
+	public List<Conta> contasDoUsuario(int usuarioId, boolean exibirInativos);
 	public Conta contaDoUsuario(Integer usuarioId, Integer contaId);
 
 }

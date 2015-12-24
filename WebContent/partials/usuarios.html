@@ -19,7 +19,6 @@
 				<th>Nome</th>
 				<th>Email</th>
 				<th>Tipo</th>
-				<th>Ativo</th>
 				<th class="text-center" style="font-family:">
 					<a md-button type="button" class="md-raised md-button-icon md-accent" title="Incluir"  ng-click="dialogIncluir()">
 						<md-icon style="color: white;">insert_drive_file</md-icon>
@@ -28,13 +27,12 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="usuario in usuarios | filter:filtro">
+			<tr ng-repeat="usuario in usuarios | filter:filtro" ng-class="rowClass(usuario)">
 				<td class="col-md-1 text-right">{{usuario.id}}</td>
 				<td >{{usuario.apelido}}</td>
 				<td >{{usuario.nome}}</td>
 				<td >{{usuario.email}}</td>
 				<td >{{usuario.tipo}}</td>
-				<td >{{usuario.ativo?'Sim':'Não'}}</td>
 				<td class="col-md-2 text-center" style="white-space:nowrap;">
 					<md-switch ng-model="usuario.ativo" aria-label="Ativar/Desativar"  value="true" ng-change="gravar(usuario)" title="Ativar/Desativar"></md-switch>
 					<md-button type="button" class="md-raised md-primary md-button-icon" ng-click="dialogAlterar(usuario)" title="Editar">
