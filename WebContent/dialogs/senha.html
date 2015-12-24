@@ -1,5 +1,5 @@
 <md-dialog aria-label="Dialog" ng-cloak style="min-width: 400px;min-height:120px;">
-	<form name="senhaForm" role="form" ng-submit="answer(locals)">
+	<form name="form" role="form" ng-submit="answer(locals)">
 		<md-toolbar>
 			<div class="md-toolbar-tools">
 				<h2>Alteração de senha</h2>
@@ -23,12 +23,12 @@
 				<md-input-container class="md-block">
 					<input type="password" id="senhaConfirma" name="senhaConfirma" ng-model="locals.senhas.confirma" equals="{{locals.senhas.nova}}" required"
 						placeholder="Senha confirma" title="Confirmação da senha" >
-					<div ng-message="senhaForm.senhaConfirma.$error.equals" role="alert" ng-if="senhaForm.senhaConfirma.$error.equals">Senha nova e confirmação estão diferentes</div>
+					<div ng-message="form.senhaConfirma.$error.equals" role="alert" ng-if="form.senhaConfirma.$error.equals">Senha nova e confirmação estão diferentes</div>
 				</md-input-container>
 			</div>
 		</md-dialog-content>
 		<md-dialog-actions layout="row">
-			<button md-button type="submit" class="md-raised md-primary" ng-disabled="senhaForm.$invalid">Confirmar</button>
+			<button md-button type="submit" class="md-raised md-primary" ng-disabled="form.$invalid">Confirmar</button>
 			<button md-button class="md-raised" ng-click="cancel()">Voltar</button>
 		</md-dialog-actions>
 	</form>

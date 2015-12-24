@@ -1,5 +1,5 @@
 <md-dialog aria-label="Dialog" ng-cloak style="min-width: 400px;min-height:120px;">
-	<form role="form" ng-submit="answer(locals.categoria)">
+	<form name="form" role="form" ng-submit="answer(locals.categoria)">
 		<md-toolbar>
 			<div class="md-toolbar-tools">
 				<h2>Inclusão de categoria</h2>
@@ -15,12 +15,12 @@
 				<md-input-container class="md-block">
 					<label for="nome">Nome/descrição da categoria</label>
 					<input type="text" ng-model="locals.categoria.nome" id="nome" maxlength="40" required 
-						focus="true" autofocus md-autofocus/>
+						focus="true" autofocus md-autofocus ng-pattern="/^[a-zA-Z0-9\u00C0-\u00FF-._ ]*$/"/>
 				</md-input-container>
 			</div>
 		</md-dialog-content>
 		<md-dialog-actions layout="row">
-			<button md-button type="submit" class="md-raised md-primary">Salvar</button>
+			<button md-button type="submit" class="md-raised md-primary" ng-disabled="form.$invalid">Salvar</button>
 			<button md-button class="md-raised" ng-click="cancel()">Voltar</button>
 		<md-dialog-actions layout="row">
 	</form>

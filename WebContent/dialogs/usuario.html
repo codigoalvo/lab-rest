@@ -1,5 +1,5 @@
 <md-dialog aria-label="Dialog" ng-cloak style="min-width: 400px;min-height:120px;">
-	<form role="form" ng-submit="answer(locals.usuario)">
+	<form name="form" role="form" ng-submit="answer(locals.usuario)">
 		<md-toolbar>
 			<div class="md-toolbar-tools">
 				<h2>Edição de usuário</h2>
@@ -14,7 +14,7 @@
 			<div class="ca-input-group md-subheade">
 				<md-input-container class="md-block">
 					<label for="email">Email</label>
-					<input type="text" ng-model="locals.usuario.email" id="email" maxlength="250" required
+					<input type="email" ng-model="locals.usuario.email" id="email" maxlength="250" required
 						focus="true" autofocus md-autofocus/>
 				</md-input-container>
 				<md-input-container class="md-block">
@@ -23,12 +23,14 @@
 				</md-input-container>
 				<md-input-container class="md-block">
 					<label for="nome">Nome</label>
-					<input type="text" ng-model="locals.usuario.nome" id="nome" maxlength="150" required/>
+					<input type="text" ng-model="locals.usuario.nome" id="nome" maxlength="150" required
+						ng-pattern="/^[a-zA-Z0-9\u00C0-\u00FF. ]*$/"/>
 				</md-input-container>
 				<div layout="row">
 					<md-input-container flex class="md-block">
 						<label for="apelido">Apelido</label>
-						<input type="text" ng-model="locals.usuario.apelido" id="apelido" maxlength="10" required/>
+						<input type="text" ng-model="locals.usuario.apelido" id="apelido" maxlength="10" required
+							ng-pattern="/^[a-zA-Z0-9-._]*$/"/>
 					</md-input-container>
 					<md-input-container flex class="md-block">
 						<label for="tipo">Tipo</label>
@@ -45,7 +47,7 @@
 			</div>
 		</md-dialog-content>
 		<md-dialog-actions layout="row">
-			<button md-button type="submit" class="md-raised md-primary">Salvar</button>
+			<button md-button type="submit" class="md-raised md-primary" ng-disabled="form.$invalid">Salvar</button>
 			<button md-button class="md-raised" ng-click="cancel()">Voltar</button>
 		<md-dialog-actions layout="row">
 	</form>

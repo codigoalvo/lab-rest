@@ -17,7 +17,8 @@ angular.module('alvoApp',	['ngRoute', 'ngResource', 'ngAnimate', 'ngMaterial', '
 
 		//editableOptions.theme = 'bs3'; // xeditable - bootstrap3 theme. Can be also 'bs2', 'default'
 		editableOptions.theme = 'default'; // set `default` theme
-		editableThemes['default'].submitTpl = '<button md-button type="submit" class="md-raised md-button-icon"><md-icon>save</md-icon></button>';
+		editableThemes['default'].formTpl = '<form class="editable-wrap" name="rowform"></form>';
+		editableThemes['default'].submitTpl = '<button md-button type="submit" class="md-raised md-button-icon" ng-disabled="rowform.$invalid"><md-icon>save</md-icon></button>';
 		editableThemes['default'].cancelTpl = '<button md-button type="button" class="md-raised md-button-icon" ng-click="$form.$cancel()"><md-icon>reply</md-icon></button>';
 
 	});
