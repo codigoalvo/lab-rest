@@ -1,18 +1,18 @@
 angular.module('alvoApp').controller('LoginController',	function($scope, $location, growl, servicosLogin, cDialogs) {
-	$scope.usuario = {
-		email : 'admin@email.com',
-		senha : 'admin',
-		senhaNova : '',
-		senhaConfirma : '',
-	};
-	$scope.usuarioLogado = '';
+	$scope.usuario = {};
+
+	$scope.loginTeste = function() {
+		$scope.usuario.email = 'admin@email.com';
+		$scope.usuario.senha = 'admin';
+	}
+
+	$scope.loginTeste();
 
 	$scope.efetuarLogin = function() {
 		cDialogs.delayedLoading(500);
 		servicosLogin.efetuarLogin($scope.usuario)
 		.then( function(resp) {
 			cDialogs.hide();
-			$scope.usuarioLogado = resp;
 			$location.path("/home");
 			growl.success('Login realizado com sucesso!');
 		}).catch(function(erro) {
@@ -25,9 +25,7 @@ angular.module('alvoApp').controller('LoginController',	function($scope, $locati
 
 	$scope.initLogin = function() {
 		servicosLogin.efetuarLogout();
-		$scope.usuario.email = 'admin@email.com';
-		$scope.usuario.senha = 'admin';
-		$scope.usuario.senhaNova = '';
+		$scope.loginTeste();
 	}
 
 })
