@@ -6,6 +6,7 @@ public enum ContaTipo {
 	DEBITO('B', "Débito"),
 	CARTAO('C', "Crédito"),
 	CHEQUE('Q', "Cheque"),
+	INVESTIMENTO('I', "Investimento"),
 	OUTROS('O',	"Outros");
 
 	private char id;
