@@ -46,7 +46,6 @@ public class Planejamento implements Serializable {
 	@OnDelete(action=OnDeleteAction.CASCADE)
 	private	Usuario usuario;
 
-	@XmlTransient
 	@NotNull
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_planejamento_categoria"))

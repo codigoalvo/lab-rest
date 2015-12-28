@@ -70,6 +70,16 @@ md-switch, md-switch:last-of-type {
 	color: #777;
 }
 
+.ca-planejamento-coluna {
+	margin: 10px;
+	padding: 5px;
+	min-height: 150px;
+}
+
+.ca-planejamento-coluna p {
+	font-size: 150%;
+}
+
 .ca-linha-inativo td {
 	color: #999;
 	font-style: italic;

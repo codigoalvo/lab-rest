@@ -4,32 +4,53 @@ angular.module('alvoApp').controller('PlanejamentoController',
 	$scope.planejamentos = [];
 	$scope.planejamento = {};
 	$scope.hoje = new Date();
-	$scope.mes = $scope.hoje.getMonth()+1;
-	$scope.ano = $scope.hoje.getYear()+1900;
+	$scope.mesSelecionado = $scope.hoje.getMonth()+1;
+	$scope.anoSelecionado = $scope.hoje.getYear()+1900;
 	$scope.usuarioLogado = servicosLogin.pegarUsuarioDoToken();
 	$scope.isAdmin = ($scope.usuarioLogado.tipo === 'ADMIN');
 	$scope.meses = [{key: 1, value:'Janeiro'}, {key: 2, value:'Fevereiro'}, {key: 3, value:'Março'}, {key: 4, value:'Abril'},
 									{key: 5, value:'Maio'}, {key: 6, value:'Junho'}, {key: 7, value:'julho'}, {key: 8, value:'Agosto'},
 									{key: 9, value:'Setembro'}, {key: 10, value:'Outubro'}, {key: 11, value:'Novembro'}, {key: 12, value:'Dezembro'}];
 	$scope.anos = [2012, 2013, 2014, 2015, 2016, 2017];
-	
-	console.log('mes: '+$scope.mes);
-	console.log('ano: '+$scope.ano);
+
+	$scope.fixMes = function(mes) {
+		var response = mes;
+		if (mes > 12) {
+			response = mes - 12;
+		} else if (mes < 1) {
+			response = 12 - mes;
+		}
+		return response;
+	}
+
+	$scope.labelMes = function(mesNum) {
+		var mesFix = $scope.fixMes(eval(mesNum));
+		var mesPos = eval(mesFix)-1;
+		return ($scope.meses[mesPos]).value;
+	}
+
+	$scope.periodoChanged = function() {
+		$scope.labelMesSelecionado = $scope.labelMes(eval($scope.mesSelecionado));
+		$scope.labelMesAnterior = $scope.labelMes(eval($scope.mesSelecionado)-1);
+		$scope.labelMesSeguinte = $scope.labelMes(eval($scope.mesSelecionado)+1);
+	}
 
 	$scope.listarPlanejamentosPeriodo = function(mes, ano) {
 		cDialogs.delayedLoading();
 		recursoPlanejamento.query({usuarioId: $scope.usuarioLogado.id, mes : mes, ano : ano},function(resp) {
 			cDialogs.hide();
 			$scope.planejamentos = resp;
+			console.log('PlanejamentoController.listarPlanejamentosPeriodo.resp'+angular.toJson(resp));
 		}, function(erro) {
 			cDialogs.hide();
 			$scope.planejamentos = [];
 			console.log(erro);
 		});
 	};
-	
+
 	$scope.listarPlanejamentos = function() {
-		$scope.listarPlanejamentosPeriodo($scope.mes, $scope.ano);
+		$scope.periodoChanged();
+		$scope.listarPlanejamentosPeriodo($scope.mesSelecionado, $scope.anoSelecionado);
 	}
 
 	$scope.removerPlanejamentoDireto = function(planejamento) {
