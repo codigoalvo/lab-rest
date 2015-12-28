@@ -37,20 +37,38 @@ angular.module('alvoApp').controller('PlanejamentoController',
 
 	$scope.listarPlanejamentosPeriodo = function(mes, ano) {
 		cDialogs.delayedLoading();
-		recursoPlanejamento.query({usuarioId: $scope.usuarioLogado.id, mes : mes, ano : ano},function(resp) {
+		return recursoPlanejamento.query({usuarioId: $scope.usuarioLogado.id, mes : mes, ano : ano},function(resp) {
 			cDialogs.hide();
-			$scope.planejamentos = resp;
 			console.log('PlanejamentoController.listarPlanejamentosPeriodo.resp'+angular.toJson(resp));
+			return resp;
 		}, function(erro) {
 			cDialogs.hide();
-			$scope.planejamentos = [];
 			console.log(erro);
+			return [];
 		});
 	};
 
 	$scope.listarPlanejamentos = function() {
 		$scope.periodoChanged();
-		$scope.listarPlanejamentosPeriodo($scope.mesSelecionado, $scope.anoSelecionado);
+		$scope.planejamentos = $scope.listarPlanejamentosPeriodo($scope.mesSelecionado, $scope.anoSelecionado);
+	}
+
+	$scope.mesAnterior = function() {
+		$scope.mesSelecionado--;
+		if ($scope.mesSelecionado < 1) {
+			$scope.mesSelecionado = eval(12) - eval($scope.mesSelecionado);
+			$scope.anoSelecionado--;
+		}
+		$scope.listarPlanejamentos();
+	}
+
+	$scope.mesProximo = function() {
+		$scope.mesSelecionado++;
+		if ($scope.mesSelecionado > 12) {
+			$scope.mesSelecionado = eval($scope.mesSelecionado) - eval(12);
+			$scope.anoSelecionado++;
+		}
+		$scope.listarPlanejamentos();
 	}
 
 	$scope.removerPlanejamentoDireto = function(planejamento) {

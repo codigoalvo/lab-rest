@@ -11,7 +11,8 @@ CREATE SEQUENCE categoria_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 922337203685477
 ALTER TABLE categoria ALTER COLUMN id SET DEFAULT NEXTVAL('categoria_id_seq'); /*COMPATIBILIDADE COM H2 MODO POSTGREE*/
 insert into categoria(nome, usuario_id) values ('Diversos', (select id from usuario where email = 'admin@email.com'));
 insert into categoria(nome, usuario_id) values ('Moradia', (select id from usuario where email = 'admin@email.com'));
-insert into categoria(nome, usuario_id) values ('Alimentação', (select id from usuario where email = 'admin@email.com'));
+insert into categoria(nome, usuario_id) values ('Mercado', (select id from usuario where email = 'admin@email.com'));
+insert into categoria(nome, usuario_id) values ('Refeição', (select id from usuario where email = 'admin@email.com'));
 insert into categoria(nome, data_inativo, usuario_id) values ('Transporte', '2015-12-20 00:00:00.000', (select id from usuario where email = 'admin@email.com'));
 insert into categoria(nome, usuario_id) values ('Saúde', (select id from usuario where email = 'teste@email.com'));
 insert into categoria(nome, usuario_id) values ('Investimentos', (select id from usuario where email = 'teste@email.com'));
@@ -28,5 +29,11 @@ insert into conta(nome, tipo, dia_fechamento, dia_pagamento, usuario_id) values 
 /*alter sequence CONTA_ID_SEQ restart with 5;*/
 /*insert into validador_email(id, email, data, origem, tipo) values ('3789a92c818241a7833a26ba0a29f232', 'fulano@email.com', '2015-12-20 16:00:00.000', '127.0.0.1', 'R');*/ /*3789a92c-8182-41a7-833a-26ba0a29f232*/
 /*insert into validador_email(id, email, data, origem, tipo, usuario_id) values ('323df6a5a3df4052b43b0111e4c69e6d', 'teste@email.com', '2015-12-20 16:00:00.000', '127.0.0.1', 'S', (select id from usuario where email = 'teste@email.com'));*/ /*323df6a5-a3df-4052-b43b-0111e4c69e6d*/
+insert into planejamento(valor, periodo, usuario_id, categoria_id) values (650, '2015-11-01', (select id from usuario where email = 'admin@email.com'), (select id from categoria where nome = 'Diversos'))
+insert into planejamento(valor, periodo, usuario_id, categoria_id) values (350, '2015-11-01', (select id from usuario where email = 'admin@email.com'), (select id from categoria where nome = 'Mercado'))
 insert into planejamento(valor, periodo, usuario_id, categoria_id) values (500, '2015-12-01', (select id from usuario where email = 'admin@email.com'), (select id from categoria where nome = 'Diversos'));
+insert into planejamento(valor, periodo, usuario_id, categoria_id) values (500, '2015-12-01', (select id from usuario where email = 'admin@email.com'), (select id from categoria where nome = 'Mercado'))
+insert into planejamento(valor, periodo, usuario_id, categoria_id) values (450, '2015-12-01', (select id from usuario where email = 'admin@email.com'), (select id from categoria where nome = 'Moradia'));
+insert into planejamento(valor, periodo, usuario_id, categoria_id) values (450, '2015-12-01', (select id from usuario where email = 'admin@email.com'), (select id from categoria where nome = 'Refeição'));
 insert into planejamento(valor, periodo, usuario_id, categoria_id) values (350, '2016-01-01', (select id from usuario where email = 'admin@email.com'), (select id from categoria where nome = 'Moradia'));
+insert into planejamento(valor, periodo, usuario_id, categoria_id) values (350, '2016-01-01', (select id from usuario where email = 'admin@email.com'), (select id from categoria where nome = 'Refeição'));

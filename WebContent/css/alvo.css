@@ -152,6 +152,10 @@ main {
 	z-index: 200 !important;
 }
 
+md-select {
+	margin: 3px;
+}
+
 .md-select-menu-container {
 	z-index: 210 !important;
 }
