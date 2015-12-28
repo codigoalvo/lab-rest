@@ -50,6 +50,7 @@ public class Conta implements Serializable {
 	private Integer diaPagamento;
 
 	@XmlTransient
+	@NotNull
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_conta_usuario"))
 	@OnDelete(action=OnDeleteAction.CASCADE)

@@ -43,6 +43,7 @@ public class Categoria implements Serializable {
 	private String nome;
 
 	@XmlTransient
+	@NotNull
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_categoria_usuario"))
 	@OnDelete(action=OnDeleteAction.CASCADE)

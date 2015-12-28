@@ -14,14 +14,19 @@ angular.module('alvoRotas', []).config(function($routeProvider){
 		controller: 'UsuarioController'
 	});
 	
+	$routeProvider.when('/contas', {
+		templateUrl: 'partials/contas.html',
+		controller: 'ContaController'
+	});
+	
 	$routeProvider.when('/categorias', {
 		templateUrl: 'partials/categorias.html',
 		controller: 'CategoriaController'
 	});
-
-	$routeProvider.when('/contas', {
-		templateUrl: 'partials/contas.html',
-		controller: 'ContaController'
+	
+	$routeProvider.when('/planejamento', {
+		templateUrl: 'partials/planejamento.html',
+		controller: 'PlanejamentoController'
 	});
 
 	$routeProvider.when('/negado', {

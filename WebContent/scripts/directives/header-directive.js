@@ -39,6 +39,8 @@ angular.module('headerDirective', [])
 		var templateHome = "<li><a href='#home'><span class='glyphicon glyphicon-home'></span></a></li>";
 
 		var templateResumo = "<li><a href='#resumo'>Resumo</a></li>";
+		
+		var templatePlanejamento = "<li><a href='#planejamento'>Planejamento</a></li>";
 
 		var menuCadastros =	"<li ng-show='usuarioLogado' class='dropdown'>" +
 								"<a href='' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>" +
@@ -47,16 +49,6 @@ angular.module('headerDirective', [])
 								"<ul class='dropdown-menu'>" +
 									"<li><a href='#categorias'>Categorias</a></li>" +
 									"<li><a href='#contas'>Contas</a></li>" +
-								"</ul>" +
-							"</li>";
-
-		var menuTemp =	"<li ng-show='usuarioLogado' class='dropdown'>" +
-								"<a href='' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>" +
-									"Temp <span class='caret'></span>" +
-								"</a>" +
-								"<ul class='dropdown-menu'>" +
-									"<li><a href='ws/usuarios/1/categorias/1'>Categoria (1) - REST</a></li>" +
-									"<li><a href='ws/usuarios/1/categorias'>Categorias - REST</a></li>" +
 								"</ul>" +
 							"</li>";
 
@@ -91,10 +83,10 @@ angular.module('headerDirective', [])
 					templateHtml += templateHome;
 					if ($scope.usuarioLogado) {
 						templateHtml += templateResumo;
+						templateHtml += templatePlanejamento;
 						templateHtml += menuCadastros;
 					}
 					if ($scope.usuarioAdmin) {
-						templateHtml += menuTemp;
 						templateHtml += menuAdmin;
 					}
 					templateHtml += opcoesFecha;
