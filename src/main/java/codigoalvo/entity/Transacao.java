@@ -10,10 +10,8 @@ import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -24,16 +22,15 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
-import codigoalvo.util.DateUtil;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-@Table(indexes = {	@Index(name = "idx_planejamento_unique", columnList = "usuario_id, categoria_id, periodo", unique = true) })
-public class Planejamento implements Serializable {
+public class Transacao implements Serializable {
 
-	private static final long serialVersionUID = -5030476348119403866L;
+	private static final long serialVersionUID = 9078636796732067248L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,31 +39,52 @@ public class Planejamento implements Serializable {
 	@XmlTransient
 	@NotNull
 	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(foreignKey = @ForeignKey(name = "fk_planejamento_usuario"))
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_transacao_usuario"))
 	@OnDelete(action=OnDeleteAction.CASCADE)
 	private	Usuario usuario;
 
 	@NotNull
 	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(foreignKey = @ForeignKey(name = "fk_planejamento_categoria"))
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_transacao_conta"))
+	@OnDelete(action=OnDeleteAction.CASCADE)
+	private	Conta conta;
+
+	@NotNull
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_transacao_categoria"))
 	@OnDelete(action=OnDeleteAction.CASCADE)
 	private	Categoria categoria;
 
 	@NotNull
 	@Temporal(TemporalType.DATE)
-	private Date periodo;
+	private Date dataTransacao;
+
+	@NotNull
+	@Temporal(TemporalType.DATE)
+	private Date dataPagamento;
+
+	@NotNull
+	private Character tipo;
+
+	@NotNull
+	@NotBlank
+	@Length(max = 80)
+	private	String descricao;
+
+	@Length(max = 250)
+	private	String detalhes;
 
 	@NotNull
 	private BigDecimal valor;
 
-	public Planejamento() {
+	public Transacao() {
 		super();
 	}
 
 	@Override
 	public String toString() {
-		return "Planejamento [id=" + id + ", usuario=" + usuario + ", categoria=" + categoria + ", periodo=" + periodo
-				+ ", valor=" + valor + "]";
+		return "Transacao [id=" + id + ", dataTransacao=" + dataTransacao + ", dataPagamento=" + dataPagamento
+				+ ", tipo=" + tipo + ", descricao=" + descricao + ", valor=" + valor + "]";
 	}
 
 	@Override
@@ -85,7 +103,7 @@ public class Planejamento implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Planejamento other = (Planejamento) obj;
+		Transacao other = (Transacao) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -110,6 +128,14 @@ public class Planejamento implements Serializable {
 		this.usuario = usuario;
 	}
 
+	public Conta getConta() {
+		return conta;
+	}
+
+	public void setConta(Conta conta) {
+		this.conta = conta;
+	}
+
 	public Categoria getCategoria() {
 		return categoria;
 	}
@@ -118,32 +144,48 @@ public class Planejamento implements Serializable {
 		this.categoria = categoria;
 	}
 
-	public Date getPeriodo() {
-		return periodo;
+	public Date getDataTransacao() {
+		return dataTransacao;
 	}
 
-	public void setPeriodo(Date periodo) {
-		this.periodo = periodo;
+	public void setDataTransacao(Date dataTransacao) {
+		this.dataTransacao = dataTransacao;
 	}
 
-	public void setPeriodo(int mes, int ano) {
-		this.periodo = DateUtil.primeiroDiaDoMes(mes, ano).getTime();
+	public Date getDataPagamento() {
+		return dataPagamento;
 	}
 
-	@SuppressWarnings("deprecation")
-	public Integer getPeriodoMes() {
-		if (periodo == null) {
-			return null;
+	public void setDataPagamento(Date dataPagamento) {
+		this.dataPagamento = dataPagamento;
+	}
+
+	public TransacaoTipo getTipo() {
+		return TransacaoTipo.getTipo(this.tipo);
+	}
+
+	public void setTipo(TransacaoTipo tipo) {
+		if (tipo == null) {
+			this.tipo = null;
+		} else {
+			this.tipo = tipo.getId();
 		}
-		return this.periodo.getMonth();
 	}
 
-	@SuppressWarnings("deprecation")
-	public Integer getPeriodoAno() {
-		if (periodo == null) {
-			return null;
-		}
-		return this.periodo.getYear();
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public String getDetalhes() {
+		return detalhes;
+	}
+
+	public void setDetalhes(String detalhes) {
+		this.detalhes = detalhes;
 	}
 
 	public BigDecimal getValor() {
@@ -152,17 +194,6 @@ public class Planejamento implements Serializable {
 
 	public void setValor(BigDecimal valor) {
 		this.valor = valor;
-	}
-
-	public void setValor(double valor) {
-		this.valor = BigDecimal.valueOf(valor);
-	}
-
-	public Double getValorDouble() {
-		if (this.valor == null) {
-			return null;
-		}
-		return this.valor.doubleValue();
 	}
 
 }
