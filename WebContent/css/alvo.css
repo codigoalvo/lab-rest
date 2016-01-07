@@ -154,6 +154,15 @@ main {
 	width: 100%;
 }
 
+.ca-md-input-label {
+	font-size: 80%;
+	color: #777;
+}
+
+.ca-md-input-group {
+	margin: 5px; 
+}
+
 .ca-checkbox {
 	width: 0;
 }
@@ -180,6 +189,18 @@ md-select {
 
 .md-select-menu-container {
 	z-index: 210 !important;
+}
+
+.md-datepicker-calendar-pane {
+	z-index: 211 !important;
+}
+
+.md-datepicker-button {
+	display: none;
+}
+
+.md-datepicker-input-container {
+	margin-left: 0;
 }
 
 .md-button-icon {

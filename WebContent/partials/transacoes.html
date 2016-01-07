@@ -22,7 +22,7 @@
 				<th>Categoria</th>
 				<th>Conta</th>
 				<th class="text-center">
-					<a md-button type="button" class="md-raised md-button-icon md-accent" title="Incluir"  ng-click="dialogIncluir()">
+					<a md-button type="button" class="md-raised md-button-icon md-accent" title="Incluir"  ng-click="dialogEditar({})">
 						<md-icon style="color: white;">insert_drive_file</md-icon>
 					</a>
 				</th>
@@ -38,7 +38,7 @@
 				<td>{{transacao.categoria.nome}}</td>
 				<td>{{transacao.conta.nome}}</td>
 				<td class="col-md-1 text-center" style="white-space:nowrap;">
-					<md-button type="button" class="md-raised md-primary md-button-icon" ng-click="dialogAlterar(transacao)" title="Editar">
+					<md-button type="button" class="md-raised md-primary md-button-icon" ng-click="dialogEditar(transacao)" title="Editar">
 						<md-icon>create</md-icon>
 					</md-button>
 					<md-menu>

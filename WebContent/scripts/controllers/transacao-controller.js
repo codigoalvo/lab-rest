@@ -1,6 +1,8 @@
 angular.module('alvoApp').controller('TransacaoController',
-		function($scope, $timeout, growl, cDialogs, servicosLogin, recursoTransacao, cadastroTransacao) {
+		function($scope, $timeout, $q, growl, cDialogs, servicosLogin, recursoTransacao, cadastroTransacao, recursoConta, recursoCategoria) {
 
+	$scope.contas = [];
+	$scope.categorias = [];
 	$scope.transacoes = [];
 	$scope.transacao = {};
 	$scope.hoje = new Date();
@@ -8,6 +10,46 @@ angular.module('alvoApp').controller('TransacaoController',
 	$scope.anoSelecionado = $scope.hoje.getYear()+1900;
 	$scope.usuarioLogado = servicosLogin.pegarUsuarioDoToken();
 	$scope.isAdmin = ($scope.usuarioLogado.tipo === 'ADMIN');
+
+	$scope.listarContas = function() {
+		return $q(function(resolve, reject) {
+			if ($scope.contas == undefined ||  $scope.contas == null  ||  $scope.contas.length == 0) {
+				cDialogs.delayedLoading(1000);
+				recursoConta.query({usuarioId: $scope.usuarioLogado.id, exibirInativos : false}, function(resp) {
+					cDialogs.hide();
+					$scope.contas = resp;
+					resolve(true);
+				}, function(erro) {
+					cDialogs.hide();
+					$scope.contas = [];
+					console.log(erro);
+					reject(false);
+				});
+			} else {
+				resolve(true);
+			}
+		});
+	};
+
+	$scope.listarCategorias = function() {
+		return $q(function(resolve, reject) {
+			if ($scope.categorias == undefined ||  $scope.categorias == null  ||  $scope.categorias.length == 0) {
+				cDialogs.delayedLoading();
+				recursoCategoria.query({usuarioId: $scope.usuarioLogado.id, exibirInativos : false},function(resp) {
+					cDialogs.hide();
+					$scope.categorias = resp;
+					resolve(true);
+				}, function(erro) {
+					cDialogs.hide();
+					$scope.categorias = [];
+					console.log(erro);
+					reject(false);
+				});
+			} else {
+				resolve(true);
+			}
+		});
+	};
 
 	$scope.listarTransacoes = function() {
 		$scope.transacoes = $scope.listarTransacoesPeriodo($scope.mesSelecionado, $scope.anoSelecionado);
@@ -48,6 +90,10 @@ angular.module('alvoApp').controller('TransacaoController',
 	};
 
 	$scope.gravar = function(transacao) {
+		//console.log('Transacao.gravar 1: '+angular.toJson(transacao));
+		transacao.conta = angular.fromJson(transacao.conta);
+		transacao.categoria = angular.fromJson(transacao.categoria);
+		//console.log('Transacao.gravar 2: '+angular.toJson(transacao));
 		cDialogs.delayedLoading(150);
 		cadastroTransacao.gravar($scope.usuarioLogado.id, transacao)
 		.then(function(resp) {
@@ -68,16 +114,43 @@ angular.module('alvoApp').controller('TransacaoController',
 		$scope.gravar($scope.transacao);
 	}
 
-	$scope.dialogIncluir = function() {
-		var locals = {
-				transacao : {},
-		};
-		cDialogs.custom('dialogs/transacao.html', locals).then(function(resp){
-			$scope.gravar(resp);
-		}).catch(function(erro) {
-			if (erro) {
-				console.log(erro);
-			}
+	$scope.dialogEditar = function(transacao) {
+		var transacaoAlterar = angular.copy(transacao);
+		if (transacaoAlterar.dataTransacao) {
+			transacaoAlterar.dataTransacao = new Date(transacaoAlterar.dataTransacao);
+		} else {
+			transacaoAlterar.dataTransacao = new Date();
+		}
+		if (transacaoAlterar.dataPagamento) {
+			transacaoAlterar.dataPagamento = new Date(transacaoAlterar.dataPagamento);
+		} else {
+			transacaoAlterar.dataPagamento = new Date();
+		}
+		if (transacao.conta) {
+			transacaoAlterar.conta = {id : transacao.conta.id};
+		}
+		if (transacao.categoria) {
+			transacaoAlterar.categoria = {id : transacao.categoria.id};
+		}
+		console.log('Transacao.dialogEditar.transacaoAlterar: '+angular.toJson(transacaoAlterar));
+		$scope.listarContas().then(function(resp) {
+			$scope.listarCategorias().then(function(resp) {
+
+				var locals = {
+					transacao : transacaoAlterar,
+					tiposTransacao : [{key:'D', value:'Despesa'},{key:'R', value:'Receita'}],
+					contas : $scope.contas,
+					categorias : $scope.categorias,
+				};
+				cDialogs.custom('dialogs/transacao.html', locals).then(function(resp){
+					$scope.gravar(resp);
+				}).catch(function(erro) {
+					if (erro) {
+						console.log(erro);
+					}
+				});
+
+			});
 		});
 	}
 

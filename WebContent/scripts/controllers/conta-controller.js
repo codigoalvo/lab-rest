@@ -53,13 +53,12 @@ angular.module('alvoApp').controller('ContaController',
 		}, 50)
 	};
 
-	$scope.listarContas = function(contas) {
+	$scope.listarContas = function() {
 		cDialogs.delayedLoading();
 		recursoConta.query({usuarioId: $scope.usuarioLogado.id, exibirInativos : $scope.exibirInativos}, function(resp) {
 			cDialogs.hide();
 			$scope.contas = resp;
 			$scope.carregarTipos().then(function() {
-				console.log('listarContas.tiposCarregados');
 				$scope.contas.forEach(function(conta) {
 					//console.log('conta = '+conta.tipo);
 					var tipoValue = $scope.getTipo(conta.tipo);
