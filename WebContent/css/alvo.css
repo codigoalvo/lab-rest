@@ -85,6 +85,14 @@ md-switch, md-switch:last-of-type {
 	font-style: italic;
 }
 
+.ca-transacao-receita {
+	color: green;
+}
+
+.ca-transacao-despesa {
+	color: red;
+}
+
 .ca-linha-negrito th {
 	font-weight: bold;
 	color: #555;

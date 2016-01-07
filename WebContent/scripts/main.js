@@ -3,7 +3,7 @@ angular.module('alvoApp',	['ngRoute', 'ngResource', 'ngAnimate', 'ngMaterial', '
  							'angular-growl', 'google-chart', 'xeditable', 'alvoTheme',
 							'alvoRotas', 'authInterceptor', 'miscDirectives', 'headerDirective', 'dialogsService',
 							'loginService', 'usuarioService', 'contaService', 'categoriaService', 'planejamentoService',
-							'emailService', 'senhaService'])
+							'transacaoService', 'emailService', 'senhaService'])
 	.config(function($httpProvider, $locationProvider, growlProvider) {
 		//$locationProvider.html5Mode(true);
 		//$httpProvider.interceptors.push('AuthInterceptor');

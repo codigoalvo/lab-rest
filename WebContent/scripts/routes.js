@@ -58,6 +58,11 @@ angular.module('alvoRotas', []).config(function($routeProvider){
 		controller: 'EmailController'
 	});
 
+	$routeProvider.when('/extrato', {
+		templateUrl: 'partials/transacoes.html',
+		controller: 'TransacaoController'
+	});
+
 	$routeProvider.when('/resumo', {
 		templateUrl: 'partials/resumo.html',
 		controller: 'ResumoController'

@@ -39,7 +39,7 @@ angular.module('headerDirective', [])
 		var templateHome = "<li><a href='#home'><span class='glyphicon glyphicon-home'></span></a></li>";
 
 		var templateResumo = "<li><a href='#resumo'>Resumo</a></li>";
-		
+		var templateExtrato = "<li><a href='#extrato'>Extrato</a></li>";
 		var templatePlanejamento = "<li><a href='#planejamento'>Planejamento</a></li>";
 
 		var menuCadastros =	"<li ng-show='usuarioLogado' class='dropdown'>" +
@@ -83,6 +83,7 @@ angular.module('headerDirective', [])
 					templateHtml += templateHome;
 					if ($scope.usuarioLogado) {
 						templateHtml += templateResumo;
+						templateHtml += templateExtrato;
 						templateHtml += templatePlanejamento;
 						templateHtml += menuCadastros;
 					}

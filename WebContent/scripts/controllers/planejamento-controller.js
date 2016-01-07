@@ -86,7 +86,7 @@ angular.module('alvoApp').controller('PlanejamentoController',
 	}
 
 	$scope.removerPlanejamentoConfirmar = function(planejamento) {
-		cDialogs.confirm('Atenção!', 'Confirma a exclusão da planejamento: <br>"'+planejamento.nome+'" ?', 'Sim', 'Não')
+		cDialogs.confirm('Atenção!', 'Confirma a exclusão do planejamento: <br>"'+planejamento.nome+'" ?', 'Sim', 'Não')
 		.then(function(btn){
 			$scope.removerPlanejamentoDireto(planejamento);
 		});
