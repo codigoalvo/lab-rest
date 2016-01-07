@@ -86,16 +86,30 @@ md-switch, md-switch:last-of-type {
 }
 
 .ca-transacao-receita {
-	color: green;
+	color: #264d00;
 }
 
 .ca-transacao-despesa {
+	color: #600;
+}
+
+.ca-transacao-receita-valor {
+	text-align: right;
+	color: green;
+}
+
+.ca-transacao-despesa-valor {
+	text-align: right;
 	color: red;
 }
 
 .ca-linha-negrito th {
 	font-weight: bold;
 	color: #555;
+}
+
+.ca-header-tabela * {
+	text-align: center;
 }
 
 .ca-div-filtro {

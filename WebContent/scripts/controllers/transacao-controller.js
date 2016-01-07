@@ -17,7 +17,7 @@ angular.module('alvoApp').controller('TransacaoController',
 		cDialogs.delayedLoading();
 		return recursoTransacao.query({usuarioId: $scope.usuarioLogado.id, mes : mes, ano : ano},function(resp) {
 			cDialogs.hide();
-			console.log('PlanejamentoController.listarPlanejamentosPeriodo.resp'+angular.toJson(resp));
+			//console.log('PlanejamentoController.listarPlanejamentosPeriodo.resp'+angular.toJson(resp));
 			return resp;
 		}, function(erro) {
 			cDialogs.hide();
@@ -81,11 +81,22 @@ angular.module('alvoApp').controller('TransacaoController',
 		});
 	}
 
-	$scope.formatDate = function(dataStr) {
+	$scope.formatarData = function(dataStr) {
 		var data = new Date(dataStr);
-		//var dateString = data.getDate()  + "-" + (data.getMonth()+1) + "-" + data.getFullYear();
-		var dateString = ("0" + data.getDate()).slice(-2) + "/" + ("0"+(data.getMonth()+1)).slice(-2) + "/" + data.getFullYear();
-		return dateString;
+		return formatDate(data);
+	}
+
+	$scope.valorTransacao = function(transacao) {
+		var formatado = '';
+		if (transacao.tipo === 'D') {
+			formatado += '- ';
+		}
+		formatado += $scope.formatNumberMoney(transacao.valor);
+		return formatado;
+	}
+
+	$scope.formatNumberMoney = function(number) {
+		return formatMoney(number, 2, ',', '.');
 	}
 
 	$scope.rowClass = function(entidade) {
@@ -93,6 +104,14 @@ angular.module('alvoApp').controller('TransacaoController',
 			return 'ca-transacao-receita';
 		} else if (entidade.tipo == 'D') {
 			return 'ca-transacao-despesa';
+		}
+	}
+
+	$scope.valorClass = function(entidade) {
+		if (entidade.tipo == 'R') {
+			return 'ca-transacao-receita-valor';
+		} else if (entidade.tipo == 'D') {
+			return 'ca-transacao-despesa-valor';
 		}
 	}
 
