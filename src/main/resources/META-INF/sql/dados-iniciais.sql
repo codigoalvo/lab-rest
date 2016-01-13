@@ -32,6 +32,7 @@ insert into conta(nome, tipo, dia_fechamento, dia_pagamento, usuario_id) values 
 /*insert into validador_email(id, email, data, origem, tipo, usuario_id) values ('323df6a5a3df4052b43b0111e4c69e6d', 'teste@email.com', '2015-12-20 16:00:00.000', '127.0.0.1', 'S', (select id from usuario where email = 'teste@email.com'));*/ /*323df6a5-a3df-4052-b43b-0111e4c69e6d*/
 DROP SEQUENCE planejamento_id_seq IF EXISTS;
 CREATE SEQUENCE planejamento_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1; /*COMPATIBILIDADE COM H2 MODO POSTGREE*/
+ALTER TABLE planejamento ALTER COLUMN id SET DEFAULT NEXTVAL('planejamento_id_seq'); /*COMPATIBILIDADE COM H2 MODO POSTGREE*/
 insert into planejamento(valor, periodo, usuario_id, categoria_id) values (650, '2015-11-01', (select id from usuario where email = 'admin@email.com'), (select id from categoria where nome = 'Diversos'))
 insert into planejamento(valor, periodo, usuario_id, categoria_id) values (350, '2015-11-01', (select id from usuario where email = 'admin@email.com'), (select id from categoria where nome = 'Mercado'))
 insert into planejamento(valor, periodo, usuario_id, categoria_id) values (500, '2015-12-01', (select id from usuario where email = 'admin@email.com'), (select id from categoria where nome = 'Diversos'));
@@ -43,6 +44,7 @@ insert into planejamento(valor, periodo, usuario_id, categoria_id) values (350, 
 /*alter sequence planejamento_id_seq restart with 9;*/
 DROP SEQUENCE transacao_id_seq IF EXISTS;
 CREATE SEQUENCE transacao_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1; /*COMPATIBILIDADE COM H2 MODO POSTGREE*/
+ALTER TABLE transacao ALTER COLUMN id SET DEFAULT NEXTVAL('transacao_id_seq'); /*COMPATIBILIDADE COM H2 MODO POSTGREE*/
 insert into transacao(valor, descricao, tipo, data_transacao, data_pagamento, usuario_id, categoria_id, conta_id) values (1500, 'Salário','R','2016-01-02', '2016-01-06', (select id from usuario where email = 'admin@email.com'), (select id from categoria where nome = 'Remuneração'), (select id from conta where nome = 'Dinheiro'));
 insert into transacao(valor, descricao, tipo, data_transacao, data_pagamento, usuario_id, categoria_id, conta_id) values (250, 'Água, Luz, Telefone','D','2016-01-06', '2016-01-06', (select id from usuario where email = 'admin@email.com'), (select id from categoria where nome = 'Moradia'), (select id from conta where nome = 'Dinheiro'));
 insert into transacao(valor, descricao, tipo, data_transacao, data_pagamento, usuario_id, categoria_id, conta_id) values (150, 'Russi','D','2016-01-05', '2016-02-05', (select id from usuario where email = 'admin@email.com'), (select id from categoria where nome = 'Mercado'), (select id from conta where nome = 'Cartão Master Banco'));

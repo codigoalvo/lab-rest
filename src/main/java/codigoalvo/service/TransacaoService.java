@@ -12,6 +12,6 @@ public interface TransacaoService {
 	void remover(Transacao entity) throws SQLException;
 	void removerPorId(Integer id) throws SQLException;
 	Transacao buscar(Integer usuarioId, Integer transacaoId);
-	List<Transacao> listarDoPeriodo(Integer usuarioId, Integer mes, Integer ano, boolean considerarDataPagamento, TransacaoTipo tipo);
+	List<Transacao> listarDoPeriodo(Integer usuarioId, Integer mes, Integer ano, boolean considerarDataPagamento, boolean mesesAnteriorProximo, TransacaoTipo tipo);
 
 }

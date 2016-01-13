@@ -77,7 +77,7 @@ public class TransacaoREST {
 		try {
 			ResponseBuilderHelper.verificarAutenticacao(token);
 			validaUsuarioId(usuarioId, token);
-			Transacao[] entidades = this.transacaoService.listarDoPeriodo(usuarioId, mes, ano, false, null).toArray(new Transacao[0]);
+			Transacao[] entidades = this.transacaoService.listarDoPeriodo(usuarioId, mes, ano, false, true, null).toArray(new Transacao[0]);
 			ResponseBuilder resposta = Response.ok().entity(entidades);
 			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
 			return resposta.build();

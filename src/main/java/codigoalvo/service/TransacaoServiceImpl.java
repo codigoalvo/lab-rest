@@ -78,12 +78,19 @@ public class TransacaoServiceImpl implements TransacaoService {
 	}
 
 	@Override
-	public List<Transacao> listarDoPeriodo(Integer usuarioId, Integer mes, Integer ano, boolean considerarDataPagamento, TransacaoTipo tipo) {
-
-		Calendar periodo = DateUtil.primeiroDiaDoMes(mes, ano);
-		Date dataInicial = periodo.getTime();
-		periodo.add(Calendar.MONTH, 1);
-		Date dataFinal = periodo.getTime();
+	public List<Transacao> listarDoPeriodo(Integer usuarioId, Integer mes, Integer ano, boolean considerarDataPagamento, boolean mesesAnteriorProximo, TransacaoTipo tipo) {
+		Calendar periodoInicial = DateUtil.primeiroDiaDoMes(mes, ano);
+		if (mesesAnteriorProximo) {
+			periodoInicial.add(Calendar.MONTH, -1);
+		}
+		Calendar periodoFinal = DateUtil.primeiroDiaDoMes(mes, ano);
+		if (mesesAnteriorProximo) {
+			periodoFinal.add(Calendar.MONTH, 2);
+		} else {
+			periodoFinal.add(Calendar.MONTH, 1);
+		}
+		Date dataInicial = periodoInicial.getTime();
+		Date dataFinal = periodoFinal.getTime();
 		Logger.getLogger(PlanejamentoDaoJpa.class).debug("dataInicial: "+dataInicial);
 		Logger.getLogger(PlanejamentoDaoJpa.class).debug("dataFinal: "+dataFinal);
 		List<Transacao> response = this.dao.transacoesDoUsuarioNoPeriodo(usuarioId, dataInicial, dataFinal, considerarDataPagamento, tipo);
