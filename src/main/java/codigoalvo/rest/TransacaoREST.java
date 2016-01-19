@@ -21,12 +21,18 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
 
+import codigoalvo.entity.Categoria;
+import codigoalvo.entity.Conta;
 import codigoalvo.entity.Transacao;
 import codigoalvo.entity.Usuario;
 import codigoalvo.exceptions.RestException;
-import codigoalvo.rest.util.Resposta;
 import codigoalvo.rest.util.ResponseBuilderHelper;
+import codigoalvo.rest.util.Resposta;
 import codigoalvo.security.JsonWebTokenUtil;
+import codigoalvo.service.CategoriaService;
+import codigoalvo.service.CategoriaServiceImpl;
+import codigoalvo.service.ContaService;
+import codigoalvo.service.ContaServiceImpl;
 import codigoalvo.service.TransacaoService;
 import codigoalvo.service.TransacaoServiceImpl;
 import codigoalvo.service.UsuarioService;
@@ -42,6 +48,8 @@ public class TransacaoREST {
 
 	TransacaoService transacaoService = new TransacaoServiceImpl();
 	UsuarioService usuarioService = new UsuarioServiceImpl();
+	CategoriaService categoriaService = new CategoriaServiceImpl();
+	ContaService contaService = new ContaServiceImpl();
 
 	public TransacaoREST() {
 		LOG.debug("####################  construct  ####################");
@@ -95,8 +103,9 @@ public class TransacaoREST {
 		try {
 			ResponseBuilderHelper.verificarAutenticacao(token);
 			LOG.debug("gravar.transacao.usuario: "+transacao.getUsuario());
-			Usuario usuario = validaUsuarioId(usuarioId, token);
-			transacao.setUsuario(usuario);
+			transacao.setUsuario(validaUsuarioId(usuarioId, token));
+			transacao.setCategoria(validarCategoria(transacao.getCategoria(), usuarioId));
+			transacao.setConta(validarConta(transacao.getConta(), usuarioId));
 			Transacao entidade = this.transacaoService.gravar(transacao);
 			ResponseBuilder resposta = Response.created(new URI("transacoes/"+entidade.getId())).entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
 			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
@@ -116,8 +125,9 @@ public class TransacaoREST {
 		try {
 			ResponseBuilderHelper.verificarAutenticacao(token);
 			LOG.debug("gravar.transacao.usuario: "+transacao.getUsuario());
-			Usuario usuario = validaUsuarioId(usuarioId, token);
-			transacao.setUsuario(usuario);
+			transacao.setUsuario(validaUsuarioId(usuarioId, token));
+			transacao.setCategoria(validarCategoria(transacao.getCategoria(), usuarioId));
+			transacao.setConta(validarConta(transacao.getConta(), usuarioId));
 			Transacao entidade = this.transacaoService.gravar(transacao);
 			ResponseBuilder resposta = Response.ok().entity(new Resposta(I18NUtil.getMessage("gravar.sucesso"),entidade));
 			ResponseBuilderHelper.atualizarTokenNaRespostaSeNecessario(resposta, token);
@@ -150,5 +160,21 @@ public class TransacaoREST {
 		Usuario usuario = this.usuarioService.buscar(usuarioId);
 		JsonWebTokenUtil.validarUsuario(usuario, token);
 		return usuario;
+	}
+
+	private Categoria validarCategoria(final Categoria categoria, int usuarioId) {
+		if (categoria == null  || categoria.getId() == null) {
+			return null;
+		}
+		Categoria categoriaDb = this.categoriaService.buscar(usuarioId, categoria.getId());
+		return categoriaDb;
+	}
+
+	private Conta validarConta(final Conta conta, int usuarioId) {
+		if (conta == null  || conta.getId() == null) {
+			return null;
+		}
+		Conta contaDb = this.contaService.buscar(usuarioId, conta.getId());
+		return contaDb;
 	}
 }

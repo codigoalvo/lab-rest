@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -37,19 +38,19 @@ public class Transacao implements Serializable {
 
 	@XmlTransient
 	@NotNull
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_transacao_usuario"))
 	@OnDelete(action=OnDeleteAction.CASCADE)
 	private	Usuario usuario;
 
 	@NotNull
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_transacao_conta"))
 	@OnDelete(action=OnDeleteAction.CASCADE)
 	private	Conta conta;
 
 	@NotNull
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_transacao_categoria"))
 	@OnDelete(action=OnDeleteAction.CASCADE)
 	private	Categoria categoria;
@@ -83,7 +84,11 @@ public class Transacao implements Serializable {
 	@Override
 	public String toString() {
 		return "Transacao [id=" + id + ", dataTransacao=" + dataTransacao + ", dataPagamento=" + dataPagamento
-				+ ", tipo=" + tipo + ", descricao=" + descricao + ", valor=" + valor + "]";
+				+ ", tipo=" + tipo + ", descricao=" + descricao + ", valor=" + valor
+				+ ", categoriaId=" + (categoria==null?"null":categoria.getId())
+				+ ", contaId=" + (conta==null?"null":conta.getId())
+				+ ", usuarioId=" + (usuario==null?"null":usuario.getId())
+				+ "]";
 	}
 
 	@Override

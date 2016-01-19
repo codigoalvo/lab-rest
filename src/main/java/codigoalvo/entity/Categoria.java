@@ -61,7 +61,7 @@ public class Categoria implements Serializable {
 
 	@Override
 	public String toString() {
-		return this.nome;
+		return "Categoria [id=" + id + ", nome=" + nome + ", usuarioId=" + (usuario==null?"null":usuario.getId()) + ", dataInativo=" + dataInativo + "]";
 	}
 
 	@Override

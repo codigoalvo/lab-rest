@@ -68,7 +68,9 @@ public class Conta implements Serializable {
 
 	@Override
 	public String toString() {
-		return this.nome;
+		return "Conta [id=" + id + ", nome=" + nome + ", tipo=" + tipo + ", diaFechamento=" + diaFechamento
+				+ ", diaPagamento=" + diaPagamento + ", usuarioId=" + (usuario==null?"null":usuario.getId())
+				+ ", dataInativo=" + dataInativo + "]";
 	}
 
 	@Override

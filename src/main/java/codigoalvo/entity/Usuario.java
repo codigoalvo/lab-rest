@@ -92,7 +92,10 @@ public class Usuario implements Serializable {
 
 	@Override
 	public String toString() {
-		return this.apelido;
+		return "Usuario [id=" + id + ", email=" + email + ", nome=" + nome + ", apelido=" + apelido + ", tipo=" + tipo
+				+ ", dataInativo=" + dataInativo + ", dataUltimaAlteracaoSenha=" + dataUltimaAlteracaoSenha
+				+ ", dataUltimoLogin=" + dataUltimoLogin + ", dataUltimaFalhaLogin=" + dataUltimaFalhaLogin
+				+ ", tentativasLoginInvalido=" + tentativasLoginInvalido + "]";
 	}
 
 	@Override
