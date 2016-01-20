@@ -4,6 +4,7 @@ angular.module('alvoApp').controller('TransacaoController',
 	$scope.contas = [];
 	$scope.categorias = [];
 	$scope.transacoes = [];
+	$scope.periodos = [];
 	$scope.transacao = {};
 	$scope.hoje = new Date();
 	$scope.mesSelecionado = $scope.hoje.getMonth()+1;
@@ -51,8 +52,37 @@ angular.module('alvoApp').controller('TransacaoController',
 		});
 	};
 
+	$scope.separarPeriodos = function(transacoes, considerarDataPagamento) {
+		//console.log('separarPeriodos.transacoes'+transacoes);
+		var periodos = [];
+		transacoes.forEach(function(transacao) {
+			var data = new Date(transacao.dataTransacao);
+			if (considerarDataPagamento) {
+				data = new Date(transacao.dataPagamento);
+			}
+			//console.log('separarPeriodos.data: '+data);
+			var mes = data.getMonth()+1;
+			var ano = data.getYear()+1900;
+			var chave = ''+ano+'-'+("0" + mes).slice(-2);
+			console.log('separarPeriodos.chave: '+chave);
+			var periodo = $.grep(periodos, function(obj) { return obj.chave == chave })[0];
+			if (periodo == undefined || periodo == null) {
+				//console.log('separarPeriodos.undefined');
+				periodos.push({'chave' : chave, 'mes': mes, 'mesLabel' : labelMes(mes), 'ano' : ano, 'transacoes' : []});
+				periodo = $.grep(periodos, function(obj) { return obj.chave == chave })[0];
+			}
+			//console.log('separarPeriodos.periodos: '+angular.toJson(periodos));
+			//console.log('separarPeriodos.periodo: '+angular.toJson(periodo));
+			periodo.transacoes.push(transacao);
+		});
+		//console.log('separarPeriodos: '+angular.toJson(periodos));
+		$scope.periodos = periodos;
+		console.log('$scope.periodos: '+angular.toJson($scope.periodos));
+	}
+
 	$scope.listarTransacoes = function() {
 		$scope.transacoes = $scope.listarTransacoesPeriodo($scope.mesSelecionado, $scope.anoSelecionado);
+		//console.log('listarTransacoes.transacoes: '+angular.toJson($scope.transacoes));
 	}
 
 	$scope.listarTransacoesPeriodo = function(mes, ano) {
@@ -60,6 +90,7 @@ angular.module('alvoApp').controller('TransacaoController',
 		return recursoTransacao.query({usuarioId: $scope.usuarioLogado.id, mes : mes, ano : ano},function(resp) {
 			cDialogs.hide();
 			//console.log('PlanejamentoController.listarPlanejamentosPeriodo.resp'+angular.toJson(resp));
+			$scope.separarPeriodos(resp, false);
 			return resp;
 		}, function(erro) {
 			cDialogs.hide();
