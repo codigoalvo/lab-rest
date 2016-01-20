@@ -164,7 +164,7 @@ angular.module('alvoApp').controller('TransacaoController',
 		if (transacao.categoria) {
 			transacaoAlterar.categoria = {id : transacao.categoria.id};
 		}
-		console.log('Transacao.dialogEditar.transacaoAlterar: '+angular.toJson(transacaoAlterar));
+		//console.log('Transacao.dialogEditar.transacaoAlterar: '+angular.toJson(transacaoAlterar));
 		$scope.listarContas().then(function(resp) {
 			$scope.listarCategorias().then(function(resp) {
 
