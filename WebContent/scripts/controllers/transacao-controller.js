@@ -52,6 +52,7 @@ angular.module('alvoApp').controller('TransacaoController',
 		});
 	};
 
+	/*
 	$scope.separarPeriodos = function(transacoes, considerarDataPagamento) {
 		//console.log('separarPeriodos.transacoes'+transacoes);
 		var periodos = [];
@@ -79,7 +80,7 @@ angular.module('alvoApp').controller('TransacaoController',
 		$scope.periodos = periodos;
 		console.log('$scope.periodos: '+angular.toJson($scope.periodos));
 	}
-
+*/
 	$scope.listarTransacoes = function() {
 		$scope.transacoes = $scope.listarTransacoesPeriodo($scope.mesSelecionado, $scope.anoSelecionado);
 		//console.log('listarTransacoes.transacoes: '+angular.toJson($scope.transacoes));
@@ -90,7 +91,7 @@ angular.module('alvoApp').controller('TransacaoController',
 		return recursoTransacao.query({usuarioId: $scope.usuarioLogado.id, mes : mes, ano : ano},function(resp) {
 			cDialogs.hide();
 			//console.log('PlanejamentoController.listarPlanejamentosPeriodo.resp'+angular.toJson(resp));
-			$scope.separarPeriodos(resp, false);
+//			$scope.separarPeriodos(resp, false);
 			return resp;
 		}, function(erro) {
 			cDialogs.hide();
@@ -173,11 +174,11 @@ angular.module('alvoApp').controller('TransacaoController',
 					contas : $scope.contas,
 					categorias : $scope.categorias,
 				};
-				cDialogs.custom('dialogs/transacao.html', locals).then(function(resp){
+				cDialogs.custom('dialogs/transacao.html', locals).then(function(resp) {
 					$scope.gravar(resp);
 				}).catch(function(erro) {
 					if (erro) {
-						console.log(erro);
+						console.log('Erro: '+erro);
 					}
 				});
 

@@ -1,4 +1,5 @@
 google.load('visualization', '1', {packages: ['corechart']});
+
 angular.module('alvoApp',	['ngRoute', 'ngResource', 'ngAnimate', 'ngMaterial', 'ngSanitize',
  							'angular-growl', 'google-chart', 'xeditable', 'alvoTheme',
 							'alvoRotas', 'authInterceptor', 'miscDirectives', 'headerDirective', 'dialogsService',

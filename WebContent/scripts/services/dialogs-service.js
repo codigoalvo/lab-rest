@@ -9,7 +9,7 @@ angular.module('dialogsService', [])
 				milisegundos = 800;
 			}
 			recurso.loadTimer = $timeout(function() {
-				console.log('dialog.loading');
+				//console.log('dialog.delayedLoading');
 				recurso.stopTimer();
 				recurso.loading();
 			}, milisegundos);

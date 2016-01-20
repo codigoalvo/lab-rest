@@ -26,7 +26,7 @@ angular.module('authInterceptor', []).config(function($httpProvider){
 
 			// Revoke client authentication if 401 is received
 			responseError: function(rejection) {
-				console.log('Rejection response: '+rejection);
+				console.log('Rejection response: '+angular.toJson(rejection));
 				if (rejection != null && rejection.status === 401) {
 					if ($window.sessionStorage.token) {
 						console.log('Removendo token da sessão!')
