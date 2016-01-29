@@ -52,7 +52,6 @@ angular.module('alvoApp').controller('TransacaoController',
 		});
 	};
 
-	/*
 	$scope.separarPeriodos = function(transacoes, considerarDataPagamento) {
 		//console.log('separarPeriodos.transacoes'+transacoes);
 		var periodos = [];
@@ -64,7 +63,7 @@ angular.module('alvoApp').controller('TransacaoController',
 			//console.log('separarPeriodos.data: '+data);
 			var mes = data.getMonth()+1;
 			var ano = data.getYear()+1900;
-			var chave = ''+ano+'-'+("0" + mes).slice(-2);
+			var chave = ''+ano+("0" + mes).slice(-2);
 			console.log('separarPeriodos.chave: '+chave);
 			var periodo = $.grep(periodos, function(obj) { return obj.chave == chave })[0];
 			if (periodo == undefined || periodo == null) {
@@ -77,10 +76,24 @@ angular.module('alvoApp').controller('TransacaoController',
 			periodo.transacoes.push(transacao);
 		});
 		//console.log('separarPeriodos: '+angular.toJson(periodos));
+		periodos.sort(function(p1, p2) {
+			return eval(p2.chave) - eval(p1.chave);
+		});
+		periodos.forEach(function(periodo){
+			periodo.transacoes.sort(function(t1, t2) {
+				var data1 = new Date(t1.dataTransacao);
+				var data2 = new Date(t2.dataTransacao);
+				var result = 1;
+				if (data2 < data1) {
+					result = -1
+				}
+				return result;
+			});
+		});
 		$scope.periodos = periodos;
-		console.log('$scope.periodos: '+angular.toJson($scope.periodos));
+		//console.log('$scope.periodos: '+angular.toJson($scope.periodos));
 	}
-*/
+
 	$scope.listarTransacoes = function() {
 		$scope.transacoes = $scope.listarTransacoesPeriodo($scope.mesSelecionado, $scope.anoSelecionado);
 		//console.log('listarTransacoes.transacoes: '+angular.toJson($scope.transacoes));
@@ -91,7 +104,7 @@ angular.module('alvoApp').controller('TransacaoController',
 		return recursoTransacao.query({usuarioId: $scope.usuarioLogado.id, mes : mes, ano : ano},function(resp) {
 			cDialogs.hide();
 			//console.log('PlanejamentoController.listarPlanejamentosPeriodo.resp'+angular.toJson(resp));
-//			$scope.separarPeriodos(resp, false);
+			$scope.separarPeriodos(resp, false);
 			return resp;
 		}, function(erro) {
 			cDialogs.hide();

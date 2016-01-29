@@ -32,6 +32,19 @@ body {
 	width: 90%;
 }
 
+.mainbody {
+	position: absolute;
+	top: 95px; /* Header Height */
+	bottom: 0; /* Footer Height */
+	width: 100%;
+}
+
+.ca-botao-add {
+	position:fixed;
+	right: 30px;
+	bottom: 20px;
+}
+
 md-toolbar:not(.md-menu-toolbar) {
 	background-color: #EEE;
 	color: #555;
@@ -68,6 +81,16 @@ md-switch, md-switch:last-of-type {
 .panel-title { /* bootstrap */
 	font-size: 20px;
 	color: #777;
+}
+
+.ca-titulo-painel {
+	font-size: 20px;
+	color: #777;
+	background-color: #DDD;
+}
+
+.ca-titulo-painel .md-subheader-inner {
+	padding: 8px;
 }
 
 .ca-planejamento-coluna {
