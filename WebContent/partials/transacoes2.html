@@ -1,0 +1,39 @@
+<header bs-nav-header></header>
+
+<main class="transacaoiner">
+<div ng-controller="TransacaoController" data-ng-init="listarTransacoes()" layout="column" flex layout-fill ng-cloak>
+	<div align="center" layout="row" layout-align="center center">
+		<h2 class="ca-font-md" style="margin-top: 5px">Transações</h2>
+	</div>
+	<md-content class="mainbody">
+		<div ng-repeat="periodo in periodos">
+			<section>
+				<md-subheader class="ca-font-bd ca-titulo-painel">{{periodo.mesLabel}} / {{periodo.ano}}</md-subheader>
+				<md-list layout-padding>
+					<md-list-item  ng-repeat="transacao in periodo.transacoes">
+						<div class="md-list-item-text" flex layout-fill>
+							<div layout="column" flex layout-fill>
+								<div layout="row">
+									<h4 style="margin-top: 15px;margin-bottom: 0px;font-weight: bold;">{{transacao.descricao}}</h4>
+								</div>
+								<div layout="row" layout-fill>
+									<span flex="20">Categoria: {{transacao.categoria.nome}}</span>
+									<span flex="20">Conta: {{transacao.conta.nome}}</span>
+									<span flex="20">Transação: {{formatarData(transacao.dataTransacao)}}</span>
+									<span flex="20">Pagamento: {{formatarData(transacao.dataPagamento)}}</span>
+									<span flex="15" ng-class="valorClass(transacao)">R$ {{valorTransacao(transacao)}}</span>
+								</div>
+							</div>
+						</div>
+					</md-list-item>
+				</md-list>
+			</section>
+		</div>
+	</md-content>
+	<div class="ca-botao-add">
+		<a md-button type="button" class="md-fab md-mini md-accent" title="Incluir"  ng-click="dialogEditar({})">
+			<md-icon style="color: white;">insert_drive_file</md-icon>
+		</a>
+	</div>
+</div>
+</main>
