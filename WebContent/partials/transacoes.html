@@ -1,68 +1,60 @@
 <header bs-nav-header></header>
 
 <main class="transacaoiner">
-<div class="row">
-<div class="col-md-10 col-md-offset-1">
-<div class="panel panel-default row spacing-top" ng-controller="TransacaoController" data-ng-init="listarTransacoes()">
-	<div class="panel-heading">
-		<h3 class="panel-title text-center ca-font-bd">Transações</h3>
+<div ng-controller="TransacaoController" data-ng-init="listarTransacoes()" layout="column" flex layout-fill ng-cloak>
+	<div align="center" layout="row" layout-align="center center">
+		<h2 class="ca-font-md" style="margin-top: 5px">Transações</h2>
 	</div>
-	<div class="panel panel-body text-center ca-div-filtro" layout="row" layout-align="center center">
-		<label class="ca-font-md" for="filtro">Filtrar: </label>
-		<input type="text" id="filtro" ng-model="filtro" value="" class="ca-md-input" focus="true" autofocus md-autofocus/>
+	<md-content class="mainbody">
+		<div ng-repeat="periodo in periodos">
+			<section>
+				<md-subheader class="ca-font-bd ca-titulo-painel">{{periodo.mesLabel}} / {{periodo.ano}}</md-subheader>
+				<md-list layout-padding>
+					<md-list-item  ng-repeat="transacao in periodo.transacoes">
+						<div class="md-list-item ca-list-item" layout="row" flex layout-fill ng-click="dialogEditar(transacao)">
+							<div layout="column" flex layout-fill>
+								<div layout="row">
+									<h4 style="margin-top: 15px;margin-bottom: 0px;font-weight: bold;">{{transacao.descricao}}</h4>
+								</div>
+								<div layout="row" layout-fill>
+									<span flex="20">Categoria: {{transacao.categoria.nome}}</span>
+									<span flex="20">Conta: {{transacao.conta.nome}}</span>
+									<span flex="20">Transação: {{formatarData(transacao.dataTransacao)}}</span>
+									<span flex="20">Pagamento: {{formatarData(transacao.dataPagamento)}}</span>
+									<span flex="15" ng-class="valorClass(transacao)">R$ {{valorTransacao(transacao)}}</span>
+								</div>
+							</div>
+							<div layout="row" layout-align="center center" flex="5" layout-fill>
+								<span flex="5" style="text-align: center;">
+									<md-menu>
+										<md-button aria-label="Menu excluir" class="md-button-icon" ng-click="$mdOpenMenu($event)">
+											<md-icon>delete</md-icon>
+										</md-button>
+										<md-menu-content width="1" style="padding:1px;">
+											<md-menu-item>
+												<button md-button type="button" class="md-raised md-button-icon" ng-click="removerTransacaoDireto(transacao)" title="Excluir">
+													<md-icon class="md-warn">delete</md-icon>Sim
+												</button>
+											</md-menu-item>
+											<md-menu-item>
+												<button md-button type="button" class="md-raised md-button-icon" title="Voltar">
+													<md-icon>reply</md-icon>Não
+												</button>
+											</md-menu-item>
+										</md-menu-content>
+									</md-menu>
+								</span>
+							</div>
+						</div>
+					</md-list-item>
+				</md-list>
+			</section>
+		</div>
+	</md-content>
+	<div class="ca-botao-add">
+		<a md-button type="button" class="md-fab md-mini md-accent" title="Incluir"  ng-click="dialogEditar({})">
+			<md-icon style="color: white;">insert_drive_file</md-icon>
+		</a>
 	</div>
-	<table class="table table-striped table-bordered" >
-		<thead>
-			<tr class="ca-linha-negrito ca-font-bd-linha ca-header-tabela">
-				<th ng-show="isAdmin">Id</th>
-				<th>Descrição</th>
-				<th>Valor</th>
-				<th>Transação</th>
-				<th>Pagamento</th>
-				<th>Categoria</th>
-				<th>Conta</th>
-				<th class="text-center">
-					<a md-button type="button" class="md-raised md-button-icon md-accent" title="Incluir"  ng-click="dialogEditar({})">
-						<md-icon style="color: white;">insert_drive_file</md-icon>
-					</a>
-				</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="transacao in transacoes | filter:filtro" ng-class="rowClass(transacao)">
-				<td class="col-md-1 text-right" ng-show="isAdmin">{{transacao.id}}</td>
-				<td>{{transacao.descricao}}</td>
-				<td ng-class="valorClass(transacao)">{{valorTransacao(transacao)}}</td>
-				<td style="text-align: center;">{{formatarData(transacao.dataTransacao)}}</td>
-				<td style="text-align: center;">{{formatarData(transacao.dataPagamento)}}</td>
-				<td>{{transacao.categoria.nome}}</td>
-				<td>{{transacao.conta.nome}}</td>
-				<td class="col-md-1 text-center" style="white-space:nowrap;">
-					<md-button type="button" class="md-raised md-primary md-button-icon" ng-click="dialogEditar(transacao)" title="Editar">
-						<md-icon>create</md-icon>
-					</md-button>
-					<md-menu>
-						<md-button aria-label="Open demo menu" class="md-raised md-warn md-button-icon" ng-click="$mdOpenMenu($event)">
-							<md-icon>delete</md-icon>
-						</md-button>
-						<md-menu-content width="1" style="padding:1px;">
-							<md-menu-item>
-								<button md-button type="button" class="md-raised md-button-icon" ng-click="removerTransacaoDireto(transacao)" title="Excluir">
-									<md-icon class="md-warn">delete</md-icon>Sim
-								</button>
-							</md-menu-item>
-							<md-menu-item>
-								<button md-button type="button" class="md-raised md-button-icon" title="Voltar">
-									<md-icon>reply</md-icon>Não
-								</button>
-							</md-menu-item>
-						</md-menu-content>
-					</md-menu>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-</div>
 </div>
 </main>
