@@ -1,0 +1,93 @@
+
+/* bootstrap */
+.panel-title { 
+	font-size: 20px;
+	color: #777;
+}
+
+/* Angular Material */
+md-toolbar:not(.md-menu-toolbar) {
+	background-color: #EEE;
+	color: #555;
+	border-bottom: 2px solid #DDD;
+	min-height: 42px;
+}
+md-toolbar:not(.md-menu-toolbar) .md-button:not(.md-raised) {
+	line-height: 0;
+}
+
+md-toolbar:not(.md-menu-toolbar) .md-button:not(.md-raised) md-icon {
+	color: #555;
+}
+
+.md-toolbar-tools {
+	height: unset;
+}
+
+md-input-container [ng-message] {
+	font-size: 10px;
+}
+
+md-checkbox {
+	margin-bottom: 0;
+}
+
+md-switch, md-switch:last-of-type {
+	margin: 0;
+	padding: 0;
+	height: 16px;
+	display: inline-block;
+}
+
+.md-dialog-container, md-backdrop.md-dialog-backdrop {
+	z-index: 200 !important;
+}
+
+md-select {
+	margin: 3px;
+}
+
+.md-select-menu-container {
+	z-index: 210 !important;
+}
+
+.md-datepicker-calendar-pane {
+	z-index: 211 !important;
+}
+
+.md-datepicker-button {
+	display: none;
+}
+
+.md-datepicker-input-container {
+	margin-left: 0;
+}
+
+.md-button-icon {
+	min-width: 24px;
+	min-height: 24px;
+	padding: 1px;
+	margin: 0px;
+	line-height: 0;
+}
+
+md-card md-card-title {
+	padding: 16px;
+}
+
+md-input-container .md-errors-spacer {
+	min-height: 0;
+}
+
+md-input-container {
+	margin: 5px;
+	margin-top: 20px;
+}
+
+md-input-container label {
+	margin-bottom: 0px;
+}
+
+md-dialog md-dialog-content:not([layout="row"]) > :first-child:not(.md-subheader) {
+	margin-top: 0;
+}

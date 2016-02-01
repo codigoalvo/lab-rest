@@ -11,18 +11,16 @@
 				<md-subheader class="ca-font-bd ca-titulo-painel">{{periodo.mesLabel}} / {{periodo.ano}}</md-subheader>
 				<md-list layout-padding>
 					<md-list-item  ng-repeat="transacao in periodo.transacoes">
-						<div class="md-list-item-text" flex layout-fill>
-							<div layout="column" flex layout-fill>
-								<div layout="row">
-									<h4 style="margin-top: 15px;margin-bottom: 0px;font-weight: bold;">{{transacao.descricao}}</h4>
-								</div>
-								<div layout="row" layout-fill>
-									<span flex="20">Categoria: {{transacao.categoria.nome}}</span>
-									<span flex="20">Conta: {{transacao.conta.nome}}</span>
-									<span flex="20">Transação: {{formatarData(transacao.dataTransacao)}}</span>
-									<span flex="20">Pagamento: {{formatarData(transacao.dataPagamento)}}</span>
-									<span flex="15" ng-class="valorClass(transacao)">R$ {{valorTransacao(transacao)}}</span>
-								</div>
+						<div class="md-list-item ca-list-item" layout="column" flex layout-fill>
+							<div layout="row">
+								<h4 style="margin-top: 15px;margin-bottom: 0px;font-weight: bold;">{{transacao.descricao}}</h4>
+							</div>
+							<div layout="row" layout-fill>
+								<span flex="20">Categoria: {{transacao.categoria.nome}}</span>
+								<span flex="20">Conta: {{transacao.conta.nome}}</span>
+								<span flex="20">Transação: {{formatarData(transacao.dataTransacao)}}</span>
+								<span flex="20">Pagamento: {{formatarData(transacao.dataPagamento)}}</span>
+								<span flex="15" ng-class="valorClass(transacao)">R$ {{valorTransacao(transacao)}}</span>
 							</div>
 						</div>
 					</md-list-item>
