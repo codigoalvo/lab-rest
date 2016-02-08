@@ -38,19 +38,19 @@ public class Transacao implements Serializable {
 
 	@XmlTransient
 	@NotNull
-	@ManyToOne(cascade=CascadeType.ALL, optional = false)
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_transacao_usuario"))
 	@OnDelete(action=OnDeleteAction.CASCADE)
 	private	Usuario usuario;
 
 	@NotNull
-	@ManyToOne(cascade=CascadeType.ALL, optional = false)
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_transacao_conta"))
 	@OnDelete(action=OnDeleteAction.CASCADE)
 	private	Conta conta;
 
 	@NotNull
-	@ManyToOne(cascade=CascadeType.ALL, optional = false)
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_transacao_categoria"))
 	@OnDelete(action=OnDeleteAction.CASCADE)
 	private	Categoria categoria;
