@@ -66,7 +66,7 @@ public class TransacaoServiceImpl implements TransacaoService {
 		try {
 			Transacao transacaoBanco = this.dao.buscar(id);
 			this.dao.beginTransaction();
-			this.dao.remover(transacaoBanco);
+			this.dao.removerPorId(id);
 			this.dao.commit();
 		} catch (Throwable exc) {
 			this.dao.rollback();

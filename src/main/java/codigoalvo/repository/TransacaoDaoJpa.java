@@ -25,9 +25,8 @@ public class TransacaoDaoJpa extends GenericDaoJpa<Transacao> implements Transac
 	@Override
 	public void removerPorId(Object id) {
 		Query query = getEntityManager().createQuery("delete Transacao where id = :id");
-		query.executeUpdate();
 		query.setParameter("id", id);
-		super.removerPorId(id);
+		query.executeUpdate();
 	}
 
 	@Override
