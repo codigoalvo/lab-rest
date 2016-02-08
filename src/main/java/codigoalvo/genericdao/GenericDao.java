@@ -7,7 +7,8 @@ import javax.persistence.EntityManager;
 public interface GenericDao<T> {
 
 	T criar(T entity);
-	void remover(Object id);
+	void remover(final T entity);
+	void removerPorId(Object id);
 	T buscar(Object id);
 	T atualizar(T entity);
 	List<T> listar();

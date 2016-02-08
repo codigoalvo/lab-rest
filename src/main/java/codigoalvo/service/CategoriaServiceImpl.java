@@ -47,7 +47,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 	public void remover(Categoria categoria) throws SQLException {
 		try {
 			this.dao.beginTransaction();
-			this.dao.remover(categoria.getId());
+			this.dao.removerPorId(categoria.getId());
 			this.dao.commit();
 		} catch (Throwable exc) {
 			this.dao.rollback();
@@ -60,7 +60,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 	public void removerPorId(Integer id) throws SQLException {
 		try {
 			this.dao.beginTransaction();
-			this.dao.remover(id);
+			this.dao.removerPorId(id);
 			this.dao.commit();
 		} catch (Throwable exc) {
 			this.dao.rollback();

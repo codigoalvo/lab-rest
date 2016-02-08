@@ -46,7 +46,7 @@ public class PlanejamentoServiceImpl implements PlanejamentoService {
 	public void remover(Planejamento planejamento) throws SQLException {
 		try {
 			this.dao.beginTransaction();
-			this.dao.remover(planejamento.getId());
+			this.dao.removerPorId(planejamento.getId());
 			this.dao.commit();
 		} catch (Throwable exc) {
 			this.dao.rollback();
@@ -59,7 +59,7 @@ public class PlanejamentoServiceImpl implements PlanejamentoService {
 	public void removerPorId(Integer id) throws SQLException {
 		try {
 			this.dao.beginTransaction();
-			this.dao.remover(id);
+			this.dao.removerPorId(id);
 			this.dao.commit();
 		} catch (Throwable exc) {
 			this.dao.rollback();

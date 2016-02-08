@@ -50,8 +50,9 @@ public class TransacaoServiceImpl implements TransacaoService {
 	@Override
 	public void remover(Transacao transacao) throws SQLException {
 		try {
+			Transacao transacaoBanco = this.dao.buscar(transacao.getId());
 			this.dao.beginTransaction();
-			this.dao.remover(transacao.getId());
+			this.dao.remover(transacaoBanco);
 			this.dao.commit();
 		} catch (Throwable exc) {
 			this.dao.rollback();
@@ -63,8 +64,9 @@ public class TransacaoServiceImpl implements TransacaoService {
 	@Override
 	public void removerPorId(Integer id) throws SQLException {
 		try {
+			Transacao transacaoBanco = this.dao.buscar(id);
 			this.dao.beginTransaction();
-			this.dao.remover(id);
+			this.dao.remover(transacaoBanco);
 			this.dao.commit();
 		} catch (Throwable exc) {
 			this.dao.rollback();

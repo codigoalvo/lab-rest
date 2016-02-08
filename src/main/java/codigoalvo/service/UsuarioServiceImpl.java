@@ -64,7 +64,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public void remover(Usuario usuario) throws SQLException {
 		try {
 			this.dao.beginTransaction();
-			this.dao.remover(usuario.getId());
+			this.dao.removerPorId(usuario.getId());
 			this.dao.commit();
 		} catch (Throwable exc) {
 			this.dao.rollback();
@@ -77,7 +77,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public void removerPorId(Integer id) throws SQLException {
 		try {
 			this.dao.beginTransaction();
-			this.dao.remover(id);
+			this.dao.removerPorId(id);
 			this.dao.commit();
 		} catch (Throwable exc) {
 			this.dao.rollback();

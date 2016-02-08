@@ -53,7 +53,7 @@ public class ContaServiceImpl implements ContaService {
 	public void remover(Conta conta) throws SQLException {
 		try {
 			this.dao.beginTransaction();
-			this.dao.remover(conta.getId());
+			this.dao.removerPorId(conta.getId());
 			this.dao.commit();
 		} catch (Throwable exc) {
 			this.dao.rollback();
@@ -66,7 +66,7 @@ public class ContaServiceImpl implements ContaService {
 	public void removerPorId(Integer id) throws SQLException {
 		try {
 			this.dao.beginTransaction();
-			this.dao.remover(id);
+			this.dao.removerPorId(id);
 			this.dao.commit();
 		} catch (Throwable exc) {
 			this.dao.rollback();

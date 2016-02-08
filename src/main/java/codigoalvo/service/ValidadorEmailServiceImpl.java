@@ -65,7 +65,7 @@ public class ValidadorEmailServiceImpl implements ValidadorEmailService {
 	public void remover(ValidadorEmail validadorEmail) throws SQLException {
 		try {
 			this.validadorEmailDao.beginTransaction();
-			this.validadorEmailDao.remover(validadorEmail.getId());
+			this.validadorEmailDao.removerPorId(validadorEmail.getId());
 			this.validadorEmailDao.commit();
 		} catch (Throwable exc) {
 			this.validadorEmailDao.rollback();
@@ -146,7 +146,7 @@ public class ValidadorEmailServiceImpl implements ValidadorEmailService {
 			usuario.setTipo(UsuarioTipo.USER);
 			usuarioGravado = usuarioDao.criar(usuario);
 			LOG.debug("Usuário criado com sucesso! "+usuarioGravado.getId());
-			this.validadorEmailDao.remover(validadorEmail.getId());
+			this.validadorEmailDao.removerPorId(validadorEmail.getId());
 			LOG.debug("Token validador de registro de email removido com sucesso!");
 			transaction.commit();
 			return usuarioGravado;
@@ -171,7 +171,7 @@ public class ValidadorEmailServiceImpl implements ValidadorEmailService {
 			usuario.setSenha(this.segurancaUtil.criptografar(novaSenha));
 			usuarioGravado = usuarioDao.atualizar(usuario);
 			LOG.debug("Usuário criado com sucesso! "+usuarioGravado.getId());
-			this.validadorEmailDao.remover(validadorEmail.getId());
+			this.validadorEmailDao.removerPorId(validadorEmail.getId());
 			LOG.debug("Token validador de registro de email removido com sucesso!");
 			transaction.commit();
 			return usuarioGravado;

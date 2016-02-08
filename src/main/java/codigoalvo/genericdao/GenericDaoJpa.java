@@ -24,7 +24,12 @@ public abstract class GenericDaoJpa<T> implements GenericDao<T> {
 	}
 
 	@Override
-	public void remover(final Object id) {
+	public void remover(final T entity) {
+		this.entityManager.remove(entity);
+	}
+
+	@Override
+	public void removerPorId(final Object id) {
 		this.entityManager.remove(this.getEntityManager().getReference(getTypeClass(), id));
 	}
 

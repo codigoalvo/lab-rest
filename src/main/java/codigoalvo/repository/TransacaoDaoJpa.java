@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
@@ -19,6 +20,14 @@ public class TransacaoDaoJpa extends GenericDaoJpa<Transacao> implements Transac
 	public TransacaoDaoJpa(EntityManager entityManager) {
 		setEntityManager(entityManager);
 		Logger.getLogger(TransacaoDaoJpa.class).debug("####################  construct  ####################");
+	}
+
+	@Override
+	public void removerPorId(Object id) {
+		Query query = getEntityManager().createQuery("delete Transacao where id = :id");
+		query.executeUpdate();
+		query.setParameter("id", id);
+		super.removerPorId(id);
 	}
 
 	@Override
