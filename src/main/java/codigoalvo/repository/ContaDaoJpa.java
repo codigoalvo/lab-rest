@@ -15,7 +15,7 @@ public class ContaDaoJpa extends GenericDaoJpa<Conta> implements ContaDao {
 
 	public ContaDaoJpa(EntityManager entityManager) {
 		setEntityManager(entityManager);
-		Logger.getLogger(ContaDaoJpa.class).debug("####################  construct  ####################");
+		Logger.getLogger(ContaDaoJpa.class).trace("####################  construct  ####################");
 	}
 
 	@Override

@@ -12,7 +12,7 @@ public class UsuarioDaoJpa extends GenericDaoJpa<Usuario> implements UsuarioDao 
 
 	public UsuarioDaoJpa(EntityManager entityManager) {
 		setEntityManager(entityManager);
-		Logger.getLogger(UsuarioDaoJpa.class).debug("####################  construct  ####################");
+		Logger.getLogger(UsuarioDaoJpa.class).trace("####################  construct  ####################");
 	}
 
 	@Override

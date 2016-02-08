@@ -24,7 +24,7 @@ public class LoginServiceImpl implements LoginService {
 	SegurancaUtil segurancaUtil;
 
 	public LoginServiceImpl() {
-		LOG.debug("####################  construct  ####################");
+		LOG.trace("####################  construct  ####################");
 		this.usuarioDao = new UsuarioDaoJpa(EntityManagerUtil.getEntityManager());
 		this.segurancaUtil = new SegurancaUtilMd5();
 	}

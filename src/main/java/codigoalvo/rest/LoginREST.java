@@ -36,7 +36,7 @@ public class LoginREST {
 	LoginService service = new LoginServiceImpl();
 
 	public LoginREST() {
-		LOG.debug("####################  construct  ####################");
+		LOG.trace("####################  construct  ####################");
 	}
 
 	@Path("/login")

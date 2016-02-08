@@ -21,7 +21,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	private static final Logger LOG = Logger.getLogger(UsuarioServiceImpl.class);
 
 	public UsuarioServiceImpl() {
-		LOG.debug("####################  construct  ####################");
+		LOG.trace("####################  construct  ####################");
 		this.dao = new UsuarioDaoJpa(EntityManagerUtil.getEntityManager());
 		this.segurancaUtil = new SegurancaUtilMd5();
 	}

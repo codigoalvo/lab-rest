@@ -52,7 +52,7 @@ public class TransacaoREST {
 	ContaService contaService = new ContaServiceImpl();
 
 	public TransacaoREST() {
-		LOG.debug("####################  construct  ####################");
+		LOG.trace("####################  construct  ####################");
 	}
 
 	@Path("{transacaoId}")

@@ -50,7 +50,7 @@ public class ValidadorEmailREST {
 	ValidadorEmailService emailService = new ValidadorEmailServiceImpl();
 
 	public ValidadorEmailREST() {
-		LOG.debug("####################  construct  ####################");
+		LOG.trace("####################  construct  ####################");
 	}
 
 	@Path("/{tipo}/enviar")

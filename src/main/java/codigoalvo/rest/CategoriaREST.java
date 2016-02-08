@@ -44,7 +44,7 @@ public class CategoriaREST {
 	UsuarioService usuarioService = new UsuarioServiceImpl();
 
 	public CategoriaREST() {
-		LOG.debug("####################  construct  ####################");
+		LOG.trace("####################  construct  ####################");
 	}
 
 	@Path("{categoriaId}")

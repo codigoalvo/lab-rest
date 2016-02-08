@@ -44,7 +44,7 @@ public class PlanejamentoREST {
 	UsuarioService usuarioService = new UsuarioServiceImpl();
 
 	public PlanejamentoREST() {
-		LOG.debug("####################  construct  ####################");
+		LOG.trace("####################  construct  ####################");
 	}
 
 	@Path("{planejamentoId}")

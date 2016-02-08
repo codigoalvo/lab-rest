@@ -19,7 +19,7 @@ public class ContaServiceImpl implements ContaService {
 	private static final Logger LOG = Logger.getLogger(ContaServiceImpl.class);
 
 	public ContaServiceImpl() {
-		LOG.debug("####################  construct  ####################");
+		LOG.trace("####################  construct  ####################");
 		this.dao = new ContaDaoJpa(EntityManagerUtil.getEntityManager());
 	}
 

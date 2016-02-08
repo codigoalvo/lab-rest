@@ -45,7 +45,7 @@ public class ContaREST {
 	UsuarioService usuarioService = new UsuarioServiceImpl();
 
 	public ContaREST() {
-		LOG.debug("####################  construct  ####################");
+		LOG.trace("####################  construct  ####################");
 	}
 
 	@Path("{contaId}")

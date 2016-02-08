@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 public class SegurancaUtilMd5 implements SegurancaUtil {
 
 	public SegurancaUtilMd5() {
-		Logger.getLogger(SegurancaUtilMd5.class).debug("####################  construct  ####################");
+		Logger.getLogger(SegurancaUtilMd5.class).trace("####################  construct  ####################");
 	}
 
 	@Override

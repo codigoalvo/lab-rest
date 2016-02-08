@@ -19,7 +19,7 @@ public class TransacaoDaoJpa extends GenericDaoJpa<Transacao> implements Transac
 
 	public TransacaoDaoJpa(EntityManager entityManager) {
 		setEntityManager(entityManager);
-		Logger.getLogger(TransacaoDaoJpa.class).debug("####################  construct  ####################");
+		Logger.getLogger(TransacaoDaoJpa.class).trace("####################  construct  ####################");
 	}
 
 	@Override

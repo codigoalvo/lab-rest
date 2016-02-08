@@ -31,7 +31,7 @@ public class ValidadorEmailServiceImpl implements ValidadorEmailService {
 	private static final Logger LOG = Logger.getLogger(ValidadorEmailServiceImpl.class);
 
 	public ValidadorEmailServiceImpl() {
-		LOG.debug("####################  construct  ####################");
+		LOG.trace("####################  construct  ####################");
 		this.validadorEmailDao = new ValidadorEmailDaoJpa(EntityManagerUtil.getEntityManager());
 		//Ambos os DAO's devem ter o mesmo EntityMaganer para poderem ter ações dentro da mesma transaction;
 		this.usuarioDao = new UsuarioDaoJpa(this.validadorEmailDao.getEntityManager());

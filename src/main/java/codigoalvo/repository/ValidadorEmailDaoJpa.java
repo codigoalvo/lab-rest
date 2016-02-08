@@ -17,7 +17,7 @@ public class ValidadorEmailDaoJpa extends GenericDaoJpa<ValidadorEmail> implemen
 
 	public ValidadorEmailDaoJpa(EntityManager entityManager) {
 		setEntityManager(entityManager);
-		Logger.getLogger(ValidadorEmailDaoJpa.class).debug("####################  construct  ####################");
+		Logger.getLogger(ValidadorEmailDaoJpa.class).trace("####################  construct  ####################");
 	}
 
 	@Override

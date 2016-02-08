@@ -35,7 +35,7 @@ public class UsuarioREST {
 	UsuarioService service = new UsuarioServiceImpl();
 
 	public UsuarioREST() {
-		LOG.debug("####################  construct  ####################");
+		LOG.trace("####################  construct  ####################");
 	}
 
 	@Path("{id}")

@@ -19,7 +19,7 @@ public class PlanejamentoDaoJpa extends GenericDaoJpa<Planejamento> implements P
 
 	public PlanejamentoDaoJpa(EntityManager entityManager) {
 		setEntityManager(entityManager);
-		Logger.getLogger(PlanejamentoDaoJpa.class).debug("####################  construct  ####################");
+		Logger.getLogger(PlanejamentoDaoJpa.class).trace("####################  construct  ####################");
 	}
 
 	@Override

@@ -15,7 +15,7 @@ public class CategoriaDaoJpa extends GenericDaoJpa<Categoria> implements Categor
 
 	public CategoriaDaoJpa(EntityManager entityManager) {
 		setEntityManager(entityManager);
-		Logger.getLogger(CategoriaDaoJpa.class).debug("####################  construct  ####################");
+		Logger.getLogger(CategoriaDaoJpa.class).trace("####################  construct  ####################");
 	}
 
 	@Override

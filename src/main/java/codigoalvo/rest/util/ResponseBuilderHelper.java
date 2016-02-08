@@ -24,7 +24,7 @@ public class ResponseBuilderHelper {
 	private static final Logger LOG = Logger.getLogger(ResponseBuilderHelper.class);
 
 	public ResponseBuilderHelper() {
-		LOG.debug("####################  construct  ####################");
+		LOG.trace("####################  construct  ####################");
 	}
 
 	public static String obterOrigemHostDoRequest(HttpServletRequest httpServletRequest) {

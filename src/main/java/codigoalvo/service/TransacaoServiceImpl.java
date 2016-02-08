@@ -21,7 +21,7 @@ public class TransacaoServiceImpl implements TransacaoService {
 	private static final Logger LOG = Logger.getLogger(TransacaoServiceImpl.class);
 
 	public TransacaoServiceImpl() {
-		LOG.debug("####################  construct  ####################");
+		LOG.trace("####################  construct  ####################");
 		this.dao = new TransacaoDaoJpa(EntityManagerUtil.getEntityManager());
 	}
 

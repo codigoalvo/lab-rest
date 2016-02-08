@@ -17,7 +17,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 	private static final Logger LOG = Logger.getLogger(CategoriaServiceImpl.class);
 
 	public CategoriaServiceImpl() {
-		LOG.debug("####################  construct  ####################");
+		LOG.trace("####################  construct  ####################");
 		this.dao = new CategoriaDaoJpa(EntityManagerUtil.getEntityManager());
 	}
 

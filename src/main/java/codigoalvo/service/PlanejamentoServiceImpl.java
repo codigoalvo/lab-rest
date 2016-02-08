@@ -16,7 +16,7 @@ public class PlanejamentoServiceImpl implements PlanejamentoService {
 	private static final Logger LOG = Logger.getLogger(PlanejamentoServiceImpl.class);
 
 	public PlanejamentoServiceImpl() {
-		LOG.debug("####################  construct  ####################");
+		LOG.trace("####################  construct  ####################");
 		this.dao = new PlanejamentoDaoJpa(EntityManagerUtil.getEntityManager());
 	}
 
