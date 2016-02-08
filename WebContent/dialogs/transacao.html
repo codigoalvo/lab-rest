@@ -1,37 +1,63 @@
-<header bs-nav-header></header>
-
-<main class="transacaoiner">
-<div ng-controller="TransacaoController" data-ng-init="listarTransacoes()" layout="column" flex layout-fill ng-cloak>
-	<div align="center" layout="row" layout-align="center center">
-		<h2 class="ca-font-md" style="margin-top: 5px">Transações</h2>
-	</div>
-	<md-content class="mainbody">
-		<div ng-repeat="periodo in periodos">
-			<section>
-				<md-subheader class="ca-font-bd ca-titulo-painel">{{periodo.mesLabel}} / {{periodo.ano}}</md-subheader>
-				<md-list layout-padding>
-					<md-list-item  ng-repeat="transacao in periodo.transacoes">
-						<div class="md-list-item ca-list-item" layout="column" flex layout-fill ng-click="dialogEditar(transacao)">
-							<div layout="row">
-								<h4 style="margin-top: 15px;margin-bottom: 0px;font-weight: bold;">{{transacao.descricao}}</h4>
-							</div>
-							<div layout="row" layout-fill>
-								<span flex="20">Categoria: {{transacao.categoria.nome}}</span>
-								<span flex="20">Conta: {{transacao.conta.nome}}</span>
-								<span flex="20">Transação: {{formatarData(transacao.dataTransacao)}}</span>
-								<span flex="20">Pagamento: {{formatarData(transacao.dataPagamento)}}</span>
-								<span flex="15" ng-class="valorClass(transacao)">R$ {{valorTransacao(transacao)}}</span>
-							</div>
-						</div>
-					</md-list-item>
-				</md-list>
-			</section>
-		</div>
-	</md-content>
-	<div class="ca-botao-add">
-		<a md-button type="button" class="md-fab md-mini md-accent" title="Incluir"  ng-click="dialogEditar({})">
-			<md-icon style="color: white;">insert_drive_file</md-icon>
-		</a>
-	</div>
-</div>
-</main>
+<md-dialog aria-label="Dialog" ng-cloak style="min-width: 400px;min-height:120px;">
+	<form name="form" role="form" ng-submit="answer(locals.transacao)">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Transação</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="cancel()">
+					<md-icon>close</md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+		<md-dialog-content>
+			<br/>
+			<div class="ca-input-group md-subheade">
+				<md-input-container class="md-block">
+					<label for="descricao">Descrição</label>
+					<input type="text" ng-model="locals.transacao.descricao" id="descricao" maxlength="80" required
+						focus="true" autofocus md-autofocus/>
+				</md-input-container>
+				<div layout="row">
+					<md-input-container flex class="md-block">
+						<label for="valor">Valor</label>
+						<input type="number" ng-model="locals.transacao.valor" id="valor" maxlength="15"/>
+					</md-input-container>
+					<md-input-container flex class="md-block">
+						<label for="tipo">Tipo</label>
+						<md-select ng-model="locals.transacao.tipo" class="md-block" id="tipo" required>
+							<md-option ng-repeat="tipo in locals.tiposTransacao" value="{{tipo.key}}">{{tipo.value}}</md-option>
+						</md-select>
+					</md-input-container>
+				</div>
+				<div layout="row">
+					<div layout="column" flex class="ca-md-input-group">
+						<label class="ca-md-input-label" for="dataTransacao">Data da Transação</label>
+						<md-datepicker ng-model="locals.transacao.dataTransacao" md-placeholder="Selecione" id="dataTransacao" required></md-datepicker>
+					</div>
+					<div layout="column" flex class="ca-md-input-group">
+						<label class="ca-md-input-label" for="dataPagamento">Data do Pagamento</label>
+						<md-datepicker ng-model="locals.transacao.dataPagamento" md-placeholder="Selecione" id="dataPagamento" required></md-datepicker>
+					</div>
+				</div>
+				<div layout="row">
+					<md-input-container flex class="md-block">
+						<label for="conta">Conta</label>
+						<md-select ng-model="locals.transacao.conta.id" id="conta">
+							<md-option ng-repeat="conta in locals.contas" value="{{conta.id}}">{{conta.nome}}</md-option>
+						</md-select>
+					</md-input-container>
+					<md-input-container flex class="md-block">
+						<label for="categoria">Categoria</label>
+						<md-select ng-model="locals.transacao.categoria.id" id="categoria">
+							<md-option ng-repeat="categoria in locals.categorias" value="{{categoria.id}}">{{categoria.nome}}</md-option>
+						</md-select>
+					</md-input-container>
+				</div>
+			</div>
+		</md-dialog-content>
+		<md-dialog-actions layout="row">
+			<button md-button type="submit" class="md-raised md-primary" ng-disabled="form.$invalid">Salvar</button>
+			<button md-button class="md-raised" ng-click="cancel()">Voltar</button>
+		<md-dialog-actions layout="row">
+	</form>
+</md-dialog>
