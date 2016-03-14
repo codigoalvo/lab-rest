@@ -172,9 +172,6 @@ main {
 	width: 80%;
 }
 
-.loading-dialog {
-	min-width: 0 !important;
-}
 
 .navbar-fixed-bottom, .navbar-fixed-top {
 	z-index: 190 !important;

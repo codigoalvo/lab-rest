@@ -91,3 +91,7 @@ md-input-container label {
 md-dialog md-dialog-content:not([layout="row"]) > :first-child:not(.md-subheader) {
 	margin-top: 0;
 }
+
+.loading-dialog {
+	min-width: 0 !important;
+}
