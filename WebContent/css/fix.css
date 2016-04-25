@@ -1,17 +1,20 @@
-
 /* bootstrap */
-.panel-title { 
+
+.panel-title {
 	font-size: 20px;
 	color: #777;
 }
 
+
 /* Angular Material */
+
 md-toolbar:not(.md-menu-toolbar) {
 	background-color: #EEE;
 	color: #555;
 	border-bottom: 2px solid #DDD;
 	min-height: 42px;
 }
+
 md-toolbar:not(.md-menu-toolbar) .md-button:not(.md-raised) {
 	line-height: 0;
 }
@@ -32,14 +35,16 @@ md-checkbox {
 	margin-bottom: 0;
 }
 
-md-switch, md-switch:last-of-type {
+md-switch,
+md-switch:last-of-type {
 	margin: 0;
 	padding: 0;
 	height: 16px;
 	display: inline-block;
 }
 
-.md-dialog-container, md-backdrop.md-dialog-backdrop {
+.md-dialog-container,
+md-backdrop.md-dialog-backdrop {
 	z-index: 200 !important;
 }
 
@@ -88,7 +93,7 @@ md-input-container label {
 	margin-bottom: 0px;
 }
 
-md-dialog md-dialog-content:not([layout="row"]) > :first-child:not(.md-subheader) {
+md-dialog md-dialog-content:not([layout="row"]) >:first-child:not(.md-subheader) {
 	margin-top: 0;
 }
 

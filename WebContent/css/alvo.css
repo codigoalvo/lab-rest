@@ -6,21 +6,40 @@ body {
 	background-image: linear-gradient(to bottom, #337AB7 0px, #2E6DA4 100%);
 	background-repeat: repeat-x;
 }
-.bigGraph {width:70%;height:500px;float:left;}
-.mediumGraph {width:350px;height:300px;float:left;}
-.smallGraph {width:20%;height:300px;float:left;}
+
+.bigGraph {
+	width: 70%;
+	height: 500px;
+	float: left;
+}
+
+.mediumGraph {
+	width: 350px;
+	height: 300px;
+	float: left;
+}
+
+.smallGraph {
+	width: 20%;
+	height: 300px;
+	float: left;
+}
 
 .flexDiv {
-	min-height: 80%;  /* Fallback for browsers do NOT support vh unit */
-	min-height: 80vh; /* These two lines are counted as one :-)       */
+	min-height: 80%;
+	/* Fallback for browsers do NOT support vh unit */
+	min-height: 80vh;
+	/* These two lines are counted as one :-)       */
 	display: flex;
 	align-items: center;
 	vertical-align: middle;
 }
 
 .flexDiv90 {
-	min-height: 90%;  /* Fallback for browsers do NOT support vh unit */
-	min-height: 90vh; /* These two lines are counted as one :-)       */
+	min-height: 90%;
+	/* Fallback for browsers do NOT support vh unit */
+	min-height: 90vh;
+	/* These two lines are counted as one :-)       */
 	display: flex;
 	align-items: center;
 	vertical-align: middle;
@@ -34,13 +53,15 @@ body {
 
 .mainbody {
 	position: absolute;
-	top: 95px; /* Header Height */
-	bottom: 0; /* Footer Height */
+	top: 95px;
+	/* Header Height */
+	bottom: 0;
+	/* Footer Height */
 	width: 100%;
 }
 
 .ca-botao-add {
-	position:fixed;
+	position: fixed;
 	right: 30px;
 	bottom: 20px;
 }
@@ -51,12 +72,14 @@ body {
 	border-style: solid;
 	border-color: transparent;
 }
+
 .ca-list-item:HOVER {
 	background-color: #EEE;
 	border-color: #CCC;
 }
 
-.ca-list-item:ACTIVE, .ca-list-item:FOCUS {
+.ca-list-item:ACTIVE,
+.ca-list-item:FOCUS {
 	background-color: #E7FFE7;
 	border-color: #3ac2cf;
 }
@@ -124,7 +147,7 @@ body {
 }
 
 .ca-menu-button {
-	min-width : 0;
+	min-width: 0;
 }
 
 main {
@@ -146,11 +169,13 @@ main {
 	border-width: 0 0 1px 0;
 	padding-bottom: 3px;
 }
+
 .ca-md-input:focus {
 	border-color: #2196F3;
 	border-width: 0 0 2px 0;
 	font-style: italic;
 }
+
 .ca-md-input-categoria {
 	width: 100%;
 }
@@ -161,28 +186,31 @@ main {
 }
 
 .ca-md-input-group {
-	margin: 5px; 
+	margin: 5px;
 }
 
 .ca-checkbox {
 	width: 0;
 }
 
-.editable-wrap { /*angular-xeditable*/
+.editable-wrap {
+	/*angular-xeditable*/
 	width: 80%;
 }
 
-
-.navbar-fixed-bottom, .navbar-fixed-top {
+.navbar-fixed-bottom,
+.navbar-fixed-top {
 	z-index: 190 !important;
 }
 
 .card-signin {
 	width: 330px;
 }
+
 .card-senha {
 	width: 330px;
 }
+
 .card-register {
 	width: 390px;
 }

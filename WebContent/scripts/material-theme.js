@@ -12,7 +12,7 @@ angular.module('alvoTheme', []).config(function($mdThemingProvider) {
 	});
 	$mdThemingProvider.definePalette('codigoalvoGreenPalette', alvoGreen);
 
-  $mdThemingProvider.theme('default')
+	$mdThemingProvider.theme('default')
 		.primaryPalette('codigoalvoBluePalette', {
 			'default': '500',
 			'hue-1': '200'

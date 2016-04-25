@@ -1,4 +1,4 @@
-angular.module('alvoRotas', []).config(function($routeProvider){
+angular.module('alvoRotas', []).config(function($routeProvider) {
 	$routeProvider.when('/usuarios', {
 		templateUrl: 'partials/usuarios.html',
 		controller: 'UsuarioController'
@@ -13,17 +13,17 @@ angular.module('alvoRotas', []).config(function($routeProvider){
 		templateUrl: 'partials/usuario.html',
 		controller: 'UsuarioController'
 	});
-	
+
 	$routeProvider.when('/contas', {
 		templateUrl: 'partials/contas.html',
 		controller: 'ContaController'
 	});
-	
+
 	$routeProvider.when('/categorias', {
 		templateUrl: 'partials/categorias.html',
 		controller: 'CategoriaController'
 	});
-	
+
 	$routeProvider.when('/planejamento', {
 		templateUrl: 'partials/planejamento.html',
 		controller: 'PlanejamentoController'
@@ -72,5 +72,5 @@ angular.module('alvoRotas', []).config(function($routeProvider){
 		templateUrl: 'partials/home.html'
 	});
 
-	$routeProvider.otherwise({redirectTo: '/home'});
+	$routeProvider.otherwise({ redirectTo: '/home' });
 });

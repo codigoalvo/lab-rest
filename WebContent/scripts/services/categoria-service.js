@@ -1,14 +1,13 @@
 angular.module('categoriaService', ['ngResource'])
 	.factory('recursoCategoria', function($resource) {
-		return $resource('ws/usuarios/:usuarioId/categorias/:categoriaId', {},
-			{
-				'update' : {
-					method: 'PUT'
-				},
-				'remove' : {
-					method: 'DELETE' 
-				}
-			})
+		return $resource('ws/usuarios/:usuarioId/categorias/:categoriaId', {}, {
+			'update': {
+				method: 'PUT'
+			},
+			'remove': {
+				method: 'DELETE'
+			}
+		})
 	})
 	.factory("cadastroCategoria", function(recursoCategoria, $q) {
 		var service = {};
@@ -17,8 +16,8 @@ angular.module('categoriaService', ['ngResource'])
 				//console.log('cadastroCategoria.categoria.id: '+categoria.id);
 				//console.log('cadastroCategoria.categoria.nome: '+categoria.nome);
 				//console.log('cadastroCategoria.usuarioId: ' + usuarioId)
-				if(categoria.id) {
-					recursoCategoria.update({usuarioId: usuarioId, categoriaId: categoria.id}, categoria, function(resp) {
+				if (categoria.id) {
+					recursoCategoria.update({ usuarioId: usuarioId, categoriaId: categoria.id }, categoria, function(resp) {
 						resolve({
 							mensagem: resp.mensagem,
 							inclusao: false
@@ -31,7 +30,7 @@ angular.module('categoriaService', ['ngResource'])
 					});
 
 				} else {
-					recursoCategoria.save({usuarioId: usuarioId}, categoria, function(resp) {
+					recursoCategoria.save({ usuarioId: usuarioId }, categoria, function(resp) {
 						resolve({
 							mensagem: resp.mensagem,
 							inclusao: true
@@ -43,9 +42,8 @@ angular.module('categoriaService', ['ngResource'])
 						});
 					});
 				}
-			},
-			{
-			    stripTrailingSlashes: false
+			}, {
+				stripTrailingSlashes: false
 			});
 		};
 		return service;

@@ -1,65 +1,64 @@
 <header bs-nav-header></header>
 
 <main class="container">
-<div class="row">
-<div class="col-md-8 col-md-offset-2">
-<div class="panel panel-default row spacing-top" ng-controller="CategoriaController" data-ng-init="listarCategorias()">
-	<div class="panel-heading">
-		<h3 class="panel-title text-center ca-font-bd">Categorias</h3>
-	</div>
-	<div class="panel panel-body text-center ca-div-filtro" layout="row" layout-align="space-around center">
-		<label class="ca-font-md" for="filtro">Filtrar: </label>
-		<input type="text" id="filtro" ng-model="filtro" value="" class="ca-md-input" focus="true" autofocus md-autofocus/>
-		<md-checkbox class="md-primary" ng-model="exibirInativos" aria-label="Exibir inativos" ng-click="listarDelay()">Exibir inativos</md-checkbox>
-	</div>
-	<table class="table table-striped table-bordered" >
-		<thead>
-			<tr class="ca-linha-negrito ca-font-bd-linha ca-header-tabela">
-				<th ng-show="isAdmin">Id</th>
-				<th>Nome</th>
-				<th class="text-center">
-					<a md-button type="button" class="md-raised md-button-icon md-accent" title="Incluir"  ng-click="dialogIncluir()">
-						<md-icon style="color: white;">insert_drive_file</md-icon>
-					</a>
-				</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="categoria in categorias | filter:filtro" ng-class="rowClass(categoria)">
-				<td class="col-md-1 text-right" ng-show="isAdmin">{{categoria.id}}</td>
-				<td class="col-md-9">
-					<span editable-text="categoria.nome" e-name="name" e-form="rowform" e-class="ca-md-input ca-md-input-categoria"
-							e-maxlength="40" e-ng-pattern="/^[a-zA-Z0-9\u00C0-\u00FF-._ ]*$/" onbeforesave="gravar(categoria)">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="panel panel-default row spacing-top" ng-controller="CategoriaController" data-ng-init="listarCategorias()">
+				<div class="panel-heading">
+					<h3 class="panel-title text-center ca-font-bd">Categorias</h3>
+				</div>
+				<div class="panel panel-body text-center ca-div-filtro" layout="row" layout-align="space-around center">
+					<label class="ca-font-md" for="filtro">Filtrar: </label>
+					<input type="text" id="filtro" ng-model="filtro" value="" class="ca-md-input" focus="true" autofocus md-autofocus/>
+					<md-checkbox class="md-primary" ng-model="exibirInativos" aria-label="Exibir inativos" ng-click="listarDelay()">Exibir inativos</md-checkbox>
+				</div>
+				<table class="table table-striped table-bordered">
+					<thead>
+						<tr class="ca-linha-negrito ca-font-bd-linha ca-header-tabela">
+							<th ng-show="isAdmin">Id</th>
+							<th>Nome</th>
+							<th class="text-center">
+								<a md-button type="button" class="md-raised md-button-icon md-accent" title="Incluir" ng-click="dialogIncluir()">
+									<md-icon style="color: white;">insert_drive_file</md-icon>
+								</a>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="categoria in categorias | filter:filtro" ng-class="rowClass(categoria)">
+							<td class="col-md-1 text-right" ng-show="isAdmin">{{categoria.id}}</td>
+							<td class="col-md-9">
+								<span editable-text="categoria.nome" e-name="name" e-form="rowform" e-class="ca-md-input ca-md-input-categoria" e-maxlength="40" e-ng-pattern="/^[a-zA-Z0-9\u00C0-\u00FF-._ ]*$/" onbeforesave="gravar(categoria)">
 						{{categoria.nome || '&nbsp;'}}
 					</span>
-				</td>
-				<td class="col-md-2 text-center" style="white-space:nowrap;">
-					<md-switch ng-model="categoria.ativo" aria-label="Ativo"  value="true" ng-change="gravar(categoria)" title="Ativar/Desativar"></md-switch>
-					<md-button type="button" class="md-raised md-primary md-button-icon" ng-click="rowform.$show()" title="Editar">
-						<md-icon>create</md-icon>
-					</md-button>
-					<md-menu>
-						<md-button aria-label="Open demo menu" class="md-raised md-warn md-button-icon" ng-click="$mdOpenMenu($event)">
-							<md-icon>delete</md-icon>
-						</md-button>
-						<md-menu-content width="1" style="padding:1px;">
-							<md-menu-item>
-								<button md-button type="button" class="md-raised md-button-icon" ng-click="removerCategoriaDireto(categoria)" title="Excluir">
-									<md-icon class="md-warn">delete</md-icon>Sim
-								</button>
-							</md-menu-item>
-							<md-menu-item>
-								<button md-button type="button" class="md-raised md-button-icon" title="Voltar">
-									<md-icon>reply</md-icon>Não
-								</button>
-							</md-menu-item>
-						</md-menu-content>
-					</md-menu>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-</div>
-</div>
+							</td>
+							<td class="col-md-2 text-center" style="white-space:nowrap;">
+								<md-switch ng-model="categoria.ativo" aria-label="Ativo" value="true" ng-change="gravar(categoria)" title="Ativar/Desativar"></md-switch>
+								<md-button type="button" class="md-raised md-primary md-button-icon" ng-click="rowform.$show()" title="Editar">
+									<md-icon>create</md-icon>
+								</md-button>
+								<md-menu>
+									<md-button aria-label="Open demo menu" class="md-raised md-warn md-button-icon" ng-click="$mdOpenMenu($event)">
+										<md-icon>delete</md-icon>
+									</md-button>
+									<md-menu-content width="1" style="padding:1px;">
+										<md-menu-item>
+											<button md-button type="button" class="md-raised md-button-icon" ng-click="removerCategoriaDireto(categoria)" title="Excluir">
+												<md-icon class="md-warn">delete</md-icon>Sim
+											</button>
+										</md-menu-item>
+										<md-menu-item>
+											<button md-button type="button" class="md-raised md-button-icon" title="Voltar">
+												<md-icon>reply</md-icon>Não
+											</button>
+										</md-menu-item>
+									</md-menu-content>
+								</md-menu>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </main>

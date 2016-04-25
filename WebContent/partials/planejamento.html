@@ -2,42 +2,42 @@
 
 <main>
 
-<div ng-controller="PlanejamentoController" data-ng-init="listarPlanejamentos()">
-	<div layout="row" >
-		<div flex layout="row" style="padding-top: 10px;">
-			<h3 class="ca-font-bd" style="margin: 5px 5px 5px 50px; font-size: 220%; color: #BBB;">planejamento</h3>
-		</div>
-		<div flex layout="row" layout-align="center end">
-			<md-button type="button" class="md-button-icon" title="Anterior" style="margin-right: 20px;" ng-click="mesAnterior()">
-				<md-icon>chevron_left</md-icon>
-			</md-button>
+	<div ng-controller="PlanejamentoController" data-ng-init="listarPlanejamentos()">
+		<div layout="row">
+			<div flex layout="row" style="padding-top: 10px;">
+				<h3 class="ca-font-bd" style="margin: 5px 5px 5px 50px; font-size: 220%; color: #BBB;">planejamento</h3>
+			</div>
+			<div flex layout="row" layout-align="center end">
+				<md-button type="button" class="md-button-icon" title="Anterior" style="margin-right: 20px;" ng-click="mesAnterior()">
+					<md-icon>chevron_left</md-icon>
+				</md-button>
 				<md-select ng-model="mesSelecionado" class="md-block" id="mes" required ng-change="listarPlanejamentos()" aria-label="Selecione o mês">
 					<md-option ng-repeat="mes in meses" value="{{mes.key}}">{{mes.value}}</md-option>
 				</md-select>
 				<md-select ng-model="anoSelecionado" class="md-block" id="ano" required ng-change="listarPlanejamentos()" aria-label="Selecione o ano">
 					<md-option ng-repeat="ano in anos" value="{{ano}}">{{ano}}</md-option>
 				</md-select>
-			<md-button type="button" class="md-button-icon" title="Proximo" style="margin-left: 20px;" ng-click="mesProximo()">
-				<md-icon>chevron_right</md-icon>
-			</md-button>
+				<md-button type="button" class="md-button-icon" title="Proximo" style="margin-left: 20px;" ng-click="mesProximo()">
+					<md-icon>chevron_right</md-icon>
+				</md-button>
+			</div>
+			<div flex>
+			</div>
 		</div>
-		<div flex>
+		<div layout="row" style="padding: 10px;">
+			<div flex class="md-whiteframe-3dp ca-planejamento-coluna">
+				<p class="ca-font-bd" style="text-align: center;">{{labelMesAnterior}}</p>
+			</div>
+			<div flex class="md-whiteframe-3dp ca-planejamento-coluna">
+				<p class="ca-font-bd" style="text-align: center;">{{labelMesSelecionado}}</p>
+				<ul>
+					<li ng-repeat="planejamento in planejamentos">{{planejamento.categoria.nome}} - {{planejamento.valor | number : 2}}</li>
+				</ul>
+			</div>
+			<div flex class="md-whiteframe-3dp ca-planejamento-coluna">
+				<p class="ca-font-bd" style="text-align: center;">{{labelMesSeguinte}}</p>
+			</div>
 		</div>
 	</div>
-	<div layout="row" style="padding: 10px;">
-		<div flex class="md-whiteframe-3dp ca-planejamento-coluna">
-			<p class="ca-font-bd" style="text-align: center;">{{labelMesAnterior}}</p>
-		</div>
-		<div flex class="md-whiteframe-3dp ca-planejamento-coluna">
-			<p class="ca-font-bd" style="text-align: center;">{{labelMesSelecionado}}</p>
-			<ul>
-				<li ng-repeat="planejamento in planejamentos">{{planejamento.categoria.nome}} - {{planejamento.valor | number : 2}}</li>
-			</ul>
-		</div>
-		<div flex class="md-whiteframe-3dp ca-planejamento-coluna">
-			<p class="ca-font-bd" style="text-align: center;">{{labelMesSeguinte}}</p>
-		</div>
-	</div>
-</div>
 
 </main>

@@ -1,14 +1,13 @@
 angular.module('planejamentoService', ['ngResource'])
 	.factory('recursoPlanejamento', function($resource) {
-		return $resource('ws/usuarios/:usuarioId/planejamentos/:planejamentoId', {},
-			{
-				'update' : {
-					method: 'PUT'
-				},
-				'remove' : {
-					method: 'DELETE' 
-				}
-			})
+		return $resource('ws/usuarios/:usuarioId/planejamentos/:planejamentoId', {}, {
+			'update': {
+				method: 'PUT'
+			},
+			'remove': {
+				method: 'DELETE'
+			}
+		})
 	})
 	.factory("cadastroPlanejamento", function(recursoPlanejamento, $q) {
 		var service = {};
@@ -17,8 +16,8 @@ angular.module('planejamentoService', ['ngResource'])
 				//console.log('cadastroPlanejamento.planejamento.id: '+planejamento.id);
 				//console.log('cadastroPlanejamento.planejamento.nome: '+planejamento.nome);
 				//console.log('cadastroPlanejamento.usuarioId: ' + usuarioId)
-				if(planejamento.id) {
-					recursoPlanejamento.update({usuarioId: usuarioId, planejamentoId: planejamento.id}, planejamento, function(resp) {
+				if (planejamento.id) {
+					recursoPlanejamento.update({ usuarioId: usuarioId, planejamentoId: planejamento.id }, planejamento, function(resp) {
 						resolve({
 							mensagem: resp.mensagem,
 							inclusao: false
@@ -31,7 +30,7 @@ angular.module('planejamentoService', ['ngResource'])
 					});
 
 				} else {
-					recursoPlanejamento.save({usuarioId: usuarioId}, planejamento, function(resp) {
+					recursoPlanejamento.save({ usuarioId: usuarioId }, planejamento, function(resp) {
 						resolve({
 							mensagem: resp.mensagem,
 							inclusao: true
@@ -43,9 +42,8 @@ angular.module('planejamentoService', ['ngResource'])
 						});
 					});
 				}
-			},
-			{
-			    stripTrailingSlashes: false
+			}, {
+				stripTrailingSlashes: false
 			});
 		};
 		return service;

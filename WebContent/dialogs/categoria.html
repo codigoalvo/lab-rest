@@ -14,14 +14,13 @@
 			<div class="ca-input-group">
 				<md-input-container class="md-block">
 					<label for="nome">Nome/descrição da categoria</label>
-					<input type="text" ng-model="locals.categoria.nome" id="nome" maxlength="40" required 
-						focus="true" autofocus md-autofocus ng-pattern="/^[a-zA-Z0-9\u00C0-\u00FF-._ ]*$/"/>
+					<input type="text" ng-model="locals.categoria.nome" id="nome" maxlength="40" required focus="true" autofocus md-autofocus ng-pattern="/^[a-zA-Z0-9\u00C0-\u00FF-._ ]*$/" />
 				</md-input-container>
 			</div>
 		</md-dialog-content>
 		<md-dialog-actions layout="row">
 			<button md-button type="submit" class="md-raised md-primary" ng-disabled="form.$invalid">Salvar</button>
 			<button md-button class="md-raised" ng-click="cancel()">Voltar</button>
-		<md-dialog-actions layout="row">
+			<md-dialog-actions layout="row">
 	</form>
 </md-dialog>

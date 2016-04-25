@@ -1,17 +1,18 @@
-google.load('visualization', '1', {packages: ['corechart']});
+google.load('visualization', '1', { packages: ['corechart'] });
 
-angular.module('alvoApp',	['ngRoute', 'ngResource', 'ngAnimate', 'ngMaterial', 'ngSanitize',
- 							'angular-growl', 'google-chart', 'xeditable', 'alvoTheme',
-							'alvoRotas', 'authInterceptor', 'miscDirectives', 'headerDirective', 'dialogsService',
-							'loginService', 'usuarioService', 'contaService', 'categoriaService', 'planejamentoService',
-							'transacaoService', 'emailService', 'senhaService'])
+angular.module('alvoApp', ['ngRoute', 'ngResource', 'ngAnimate', 'ngMaterial', 'ngSanitize',
+		'angular-growl', 'google-chart', 'xeditable', 'alvoTheme',
+		'alvoRotas', 'authInterceptor', 'miscDirectives', 'headerDirective', 'dialogsService',
+		'loginService', 'usuarioService', 'contaService', 'categoriaService', 'planejamentoService',
+		'transacaoService', 'emailService', 'senhaService'
+	])
 	.config(function($httpProvider, $locationProvider, growlProvider) {
 		//$locationProvider.html5Mode(true);
 		//$httpProvider.interceptors.push('AuthInterceptor');
-		growlProvider.globalTimeToLive({success: 3000, error: 5000, warning: 4000, info: 3000});
+		growlProvider.globalTimeToLive({ success: 3000, error: 5000, warning: 4000, info: 3000 });
 		growlProvider.globalPosition('bottom-right');
 	}).run(function(editableOptions, editableThemes, $rootScope, $templateCache) {
-		
+
 		$rootScope.$on('$viewContentLoaded', function() {
 			$templateCache.removeAll();
 		});

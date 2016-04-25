@@ -28,13 +28,13 @@ body {
 .md-toolbar-tools h2 {
 	white-space: nowrap;
 	font-family: 'codigoalvo bd', 'Comfortaa', cursive;
-	text-transform:lowercase;
+	text-transform: lowercase;
 	font-size: 18px;
 }
 
 .md-button {
 	font-family: 'codigoalvo bd', 'Comfortaa', cursive;
-	text-transform:lowercase;
+	text-transform: lowercase;
 	font-size: 120%;
 }
 
@@ -46,24 +46,30 @@ body {
 
 header {
 	font-family: 'codigoalvo bd', 'Comfortaa', cursive;
-	text-transform:lowercase;
+	text-transform: lowercase;
 }
 
 header a {
 	font-size: 120%;
 }
 
-.ca-font-lt, .ca-font-lt-linha th, .ca-font-lt-linha td {
+.ca-font-lt,
+.ca-font-lt-linha th,
+.ca-font-lt-linha td {
 	font-family: 'codigoalvo lt', 'Comfortaa', cursive;
-	text-transform:lowercase;
+	text-transform: lowercase;
 }
 
-.ca-font-md, .ca-font-md-linha th, .ca-font-md-linha td {
+.ca-font-md,
+.ca-font-md-linha th,
+.ca-font-md-linha td {
 	font-family: 'codigoalvo md', 'Comfortaa', cursive;
-	text-transform:lowercase;
+	text-transform: lowercase;
 }
 
-.ca-font-bd, .ca-font-bd-linha th, .ca-font-bd-linha td {
+.ca-font-bd,
+.ca-font-bd-linha th,
+.ca-font-bd-linha td {
 	font-family: 'codigoalvo bd', 'Comfortaa', cursive;
-	text-transform:lowercase;
+	text-transform: lowercase;
 }

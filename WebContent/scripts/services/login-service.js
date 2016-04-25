@@ -3,25 +3,26 @@ angular.module('loginService', [])
 		var service = {};
 		service.efetuarLogin = function(usuario) {
 			return $q(function(resolve, reject) {
-			$http({
-				  method: 'POST',
-				  data: usuario,
-				  url:'ws/auth/login',
-				  headers: {'Content-Type':'application/json'}
-			}).then(
-				function(resp) {
-					var usuarioLogado = service.pegarUsuarioDoToken();
-					//console.log('servicosLogin.login.data', resp.data);
-					//console.log('servicosLogin.login.usuarioLogado', usuarioLogado);
-					//console.log('servicosLogin.login.usuarioLogado.email', usuarioLogado.email);
-					resolve(usuarioLogado);
-				}, function(erro) {
-					//console.error('Error', erro.data.mensagem);
-					service.efetuarLogout();
-					reject({
-						mensagem: erro.data.mensagem,
-					});
-				})
+				$http({
+					method: 'POST',
+					data: usuario,
+					url: 'ws/auth/login',
+					headers: { 'Content-Type': 'application/json' }
+				}).then(
+					function(resp) {
+						var usuarioLogado = service.pegarUsuarioDoToken();
+						//console.log('servicosLogin.login.data', resp.data);
+						//console.log('servicosLogin.login.usuarioLogado', usuarioLogado);
+						//console.log('servicosLogin.login.usuarioLogado.email', usuarioLogado.email);
+						resolve(usuarioLogado);
+					},
+					function(erro) {
+						//console.error('Error', erro.data.mensagem);
+						service.efetuarLogout();
+						reject({
+							mensagem: erro.data.mensagem,
+						});
+					})
 			});
 		};
 
@@ -33,16 +34,16 @@ angular.module('loginService', [])
 		service.decode = function urlBase64Decode(str) {
 			var output = str.replace('-', '+').replace('_', '/');
 			switch (output.length % 4) {
-			case 0:
-				break;
-			case 2:
-				output += '==';
-				break;
-			case 3:
-				output += '=';
-				break;
-			default:
-				throw 'Cadeia de caracteres base64url inválida!';
+				case 0:
+					break;
+				case 2:
+					output += '==';
+					break;
+				case 3:
+					output += '=';
+					break;
+				default:
+					throw 'Cadeia de caracteres base64url inválida!';
 			}
 			return window.atob(output);
 		}
@@ -65,5 +66,5 @@ angular.module('loginService', [])
 			return decodedToken;
 		}
 
-		return service; 
+		return service;
 	});

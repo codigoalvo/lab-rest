@@ -14,23 +14,20 @@
 			<div class="ca-input-group md-subheade">
 				<md-input-container class="md-block">
 					<label for="email">Email</label>
-					<input type="email" ng-model="locals.usuario.email" id="email" maxlength="250" required
-						focus="true" autofocus md-autofocus/>
+					<input type="email" ng-model="locals.usuario.email" id="email" maxlength="250" required focus="true" autofocus md-autofocus/>
 				</md-input-container>
 				<md-input-container class="md-block">
 					<label for="senha">Senha</label>
-					<input type="password" ng-model="locals.usuario.senha" id="senha" maxlength="30"/>
+					<input type="password" ng-model="locals.usuario.senha" id="senha" maxlength="30" />
 				</md-input-container>
 				<md-input-container class="md-block">
 					<label for="nome">Nome</label>
-					<input type="text" ng-model="locals.usuario.nome" id="nome" maxlength="150" required
-						ng-pattern="/^[a-zA-Z0-9\u00C0-\u00FF. ]*$/"/>
+					<input type="text" ng-model="locals.usuario.nome" id="nome" maxlength="150" required ng-pattern="/^[a-zA-Z0-9\u00C0-\u00FF. ]*$/" />
 				</md-input-container>
 				<div layout="row">
 					<md-input-container flex class="md-block">
 						<label for="apelido">Apelido</label>
-						<input type="text" ng-model="locals.usuario.apelido" id="apelido" maxlength="10" required
-							ng-pattern="/^[a-zA-Z0-9-._]*$/"/>
+						<input type="text" ng-model="locals.usuario.apelido" id="apelido" maxlength="10" required ng-pattern="/^[a-zA-Z0-9-._]*$/" />
 					</md-input-container>
 					<md-input-container flex class="md-block">
 						<label for="tipo">Tipo</label>
@@ -40,8 +37,7 @@
 					</md-input-container>
 					<md-input-container flex class="md-block">
 						<label>Ativo</label>
-						<md-checkbox ng-model="locals.usuario.ativo" class="md-primary" id="ativo" value="true"
-							 style="margin-left:4em; margin-top:6px;" aria-label="Ativo"/>
+						<md-checkbox ng-model="locals.usuario.ativo" class="md-primary" id="ativo" value="true" style="margin-left:4em; margin-top:6px;" aria-label="Ativo" />
 					</md-input-container>
 				</div>
 			</div>
@@ -49,6 +45,6 @@
 		<md-dialog-actions layout="row">
 			<button md-button type="submit" class="md-raised md-primary" ng-disabled="form.$invalid">Salvar</button>
 			<button md-button class="md-raised" ng-click="cancel()">Voltar</button>
-		<md-dialog-actions layout="row">
+			<md-dialog-actions layout="row">
 	</form>
 </md-dialog>

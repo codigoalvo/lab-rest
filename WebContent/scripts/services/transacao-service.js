@@ -1,14 +1,13 @@
 angular.module('transacaoService', ['ngResource'])
 	.factory('recursoTransacao', function($resource) {
-		return $resource('ws/usuarios/:usuarioId/transacoes/:transacaoId', {},
-			{
-				'update' : {
-					method: 'PUT'
-				},
-				'remove' : {
-					method: 'DELETE' 
-				}
-			})
+		return $resource('ws/usuarios/:usuarioId/transacoes/:transacaoId', {}, {
+			'update': {
+				method: 'PUT'
+			},
+			'remove': {
+				method: 'DELETE'
+			}
+		})
 	})
 	.factory("cadastroTransacao", function(recursoTransacao, $q) {
 		var service = {};
@@ -17,8 +16,8 @@ angular.module('transacaoService', ['ngResource'])
 				//console.log('cadastroTransacao.transacao.id: '+transacao.id);
 				//console.log('cadastroTransacao.transacao.nome: '+transacao.nome);
 				//console.log('cadastroTransacao.usuarioId: ' + usuarioId)
-				if(transacao.id) {
-					recursoTransacao.update({usuarioId: usuarioId, transacaoId: transacao.id}, transacao, function(resp) {
+				if (transacao.id) {
+					recursoTransacao.update({ usuarioId: usuarioId, transacaoId: transacao.id }, transacao, function(resp) {
 						resolve({
 							mensagem: resp.mensagem,
 							inclusao: false
@@ -31,7 +30,7 @@ angular.module('transacaoService', ['ngResource'])
 					});
 
 				} else {
-					recursoTransacao.save({usuarioId: usuarioId}, transacao, function(resp) {
+					recursoTransacao.save({ usuarioId: usuarioId }, transacao, function(resp) {
 						resolve({
 							mensagem: resp.mensagem,
 							inclusao: true
@@ -43,9 +42,8 @@ angular.module('transacaoService', ['ngResource'])
 						});
 					});
 				}
-			},
-			{
-			    stripTrailingSlashes: false
+			}, {
+				stripTrailingSlashes: false
 			});
 		};
 		return service;

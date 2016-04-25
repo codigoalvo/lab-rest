@@ -5,7 +5,7 @@ angular.module('dialogsService', [])
 		recurso.loadTimer = undefined;
 
 		recurso.delayedLoading = function(milisegundos) {
-			if (milisegundos === undefined  ||  milisegundos === null  ||  milisegundos  === '') {
+			if (milisegundos === undefined || milisegundos === null || milisegundos === '') {
 				milisegundos = 800;
 			}
 			recurso.loadTimer = $timeout(function() {
@@ -19,9 +19,9 @@ angular.module('dialogsService', [])
 			$mdDialog.show({
 				template: '<md-dialog class="loading-dialog" ng-cloak><md-progress-circular md-mode="indeterminate" md-diameter="100px"></md-progress-circular></md-dialog>',
 				parent: angular.element(document.body),
-				clickOutsideToClose:false,
-				escapeToClose:false,
-				ariaLabel:'Carregando...'
+				clickOutsideToClose: false,
+				escapeToClose: false,
+				ariaLabel: 'Carregando...'
 			});
 		}
 
@@ -35,13 +35,13 @@ angular.module('dialogsService', [])
 		recurso.inform = function(titulo, corpoHtml, textoBotao) {
 			//console.log('dialog.inform');
 			$mdDialog.show(
-				 $mdDialog.alert()
+				$mdDialog.alert()
 				.title(titulo)
 				.ariaLabel(titulo)
 				.htmlContent(corpoHtml)
 				.parent(angular.element(document.querySelector('#popupContainer')))
 				.clickOutsideToClose(true)
-				.ok(textoBotao)	 
+				.ok(textoBotao)
 			);
 		}
 
@@ -82,18 +82,19 @@ angular.module('dialogsService', [])
 					reject(error);
 				});
 			});
+
 			function DialogController($scope, $mdDialog, locals) {
 				//console.log('DialogController.locals: '+angular.toJson(locals));
 				$scope.locals = locals;
-			  $scope.hide = function() {
-			    $mdDialog.hide();
-			  };
-			  $scope.cancel = function() {
-			    $mdDialog.cancel();
-			  };
-			  $scope.answer = function(answer) {
-			    $mdDialog.hide(answer);
-			  };
+				$scope.hide = function() {
+					$mdDialog.hide();
+				};
+				$scope.cancel = function() {
+					$mdDialog.cancel();
+				};
+				$scope.answer = function(answer) {
+					$mdDialog.hide(answer);
+				};
 			}
 		}
 

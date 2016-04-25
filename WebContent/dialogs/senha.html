@@ -13,16 +13,13 @@
 			<br/>
 			<div class="ca-input-group" ng-cloak>
 				<md-input-container class="md-block" ng-if="locals.informarAtual">
-					<input type="password" id="senhaAtual" ng-model="locals.senhas.atual" required
-						placeholder="Senha atual" title="Senha atual" autofocus md-autofocus="locals.informarAtual">
+					<input type="password" id="senhaAtual" ng-model="locals.senhas.atual" required placeholder="Senha atual" title="Senha atual" autofocus md-autofocus="locals.informarAtual">
 				</md-input-container>
 				<md-input-container class="md-block">
-					<input type="password" id="senhaNova" name="senhaNova" ng-model="locals.senhas.nova" equals="{{locals.senhas.confirma}}" required
-						placeholder="Senha nova" title="Nova senha" autofocus md-autofocus="!locals.informarAtual">
+					<input type="password" id="senhaNova" name="senhaNova" ng-model="locals.senhas.nova" equals="{{locals.senhas.confirma}}" required placeholder="Senha nova" title="Nova senha" autofocus md-autofocus="!locals.informarAtual">
 				</md-input-container>
 				<md-input-container class="md-block">
-					<input type="password" id="senhaConfirma" name="senhaConfirma" ng-model="locals.senhas.confirma" equals="{{locals.senhas.nova}}" required
-						placeholder="Senha confirma" title="Confirmação da senha" >
+					<input type="password" id="senhaConfirma" name="senhaConfirma" ng-model="locals.senhas.confirma" equals="{{locals.senhas.nova}}" required placeholder="Senha confirma" title="Confirmação da senha">
 					<div ng-message="form.senhaConfirma.$error.equals" role="alert" ng-if="form.senhaConfirma.$error.equals">Senha nova e confirmação estão diferentes</div>
 				</md-input-container>
 			</div>
